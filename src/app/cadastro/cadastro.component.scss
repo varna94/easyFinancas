@@ -84,21 +84,22 @@ input::placeholder {
 
 /*# sourceMappingURL=main.css.map */
 
-#container-login {
+#container-cadastro {
     width: 100vw;
     height: 100vh;
     display: flex;
     flex-direction: row;
     justify-content: center;
     align-items: center;
-    background-color: #fafaf0;
+    background-color: #e0e0e0;
 }
 
-#content-login {
+#content-cadastro {
     width: 300px;
     height: 400px;
     padding: 24px;
     border-radius: 20px;
+    background-color: #fff;
     box-shadow: 2px 2px 12px -1px rgba(0, 0, 0, 0.1);
 }
 
@@ -239,51 +240,9 @@ input::placeholder {
     width: 35px;
 }
 
-@media (max-width: 450px) {
-    .modal {
-        width: auto;
-        height: 100vh;
-        padding-left: 24px;
-        padding-right: 24px;
-        display: flex;
-        position: absolute;
-        flex-direction: row;
-        justify-content: center;
-        align-items: center;
-        background-color: #212121a8;
-    }
-    .modal-error {
-        width: 100%;
-        min-width: auto;
-        max-width: none;
-        /* height: 200px; */
-        padding: 24px;
-        border-radius: 20px;
-        background-color: #fff;
-        box-shadow: 2px 2px 12px -1px rgba(0, 0, 0, 0.1);
-    }
-}
-
-.modal-content {
-    border-radius: 24px;
-}
-
-.modal-content hr {
-    background-color: cadetblue;
-    border: solid 0.5px cadetblue;
-    margin-block-start: 0;
-}
-
-.modal-content span {
-    color: #fff;
-    font-family: cursive;
-    margin-right: 24px;
-    cursor: pointer;
-    font-weight: bold;
-}
-
-.img-modal-header {
-    width: 35px;
+.form-cadastro {
+    display: flex;
+    flex-direction: column;
 }
 
 @media (max-width: 450px) {

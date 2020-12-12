@@ -1,17 +1,17 @@
 <div id="container-cadastro">
     <div id="content-cadastro">
         <h2>Cadastre-se</h2>
-        <div class="form-cadastro" id="form-cadastro">
+        <form class="form-cadastro" id="form-cadastro">
             <label for="name">Nome:</label>
             <input type="text" name="" placeholder="José Silva" id="name" />
             <label for="email">Email:</label>
-            <input type="email" name="" onBlur="verifyEmail(values)" placeholder="exemplo@email.com" id="email" />
+            <input type="email" name="" (blur)="verifyEmail($event)" placeholder="exemplo@email.com" id="email" />
             <label for="email-confirm">Confirme seu email:</label>
-            <input type="email" name="" onBlur="verifyEmail(values)" placeholder="exemplo@email.com" id="email-confirm" />
+            <input type="email" name="" placeholder="exemplo@email.com" id="email-confirm" />
             <span id="error-login" class="span-error hide">Digite seu email ou usuário.</span
       >
       <label for="senha">Senha</label>
       <input type="password" placeholder="Senha" id="senha" />
-    </div>
+    </form>
   </div>
 </div>
