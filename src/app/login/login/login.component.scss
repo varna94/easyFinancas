@@ -32,7 +32,7 @@ button {
 }
 
 button:active {
-    background-color: #0A7D72;
+    background-color: #0a7d72;
 }
 
 input {
@@ -91,7 +91,7 @@ input::placeholder {
     flex-direction: row;
     justify-content: center;
     align-items: center;
-    background-color: #FAFAF0;
+    background-color: #e0e0e0;
 }
 
 #content-login {
@@ -100,6 +100,7 @@ input::placeholder {
     padding: 24px;
     border-radius: 20px;
     box-shadow: 2px 2px 12px -1px rgba(0, 0, 0, 0.1);
+    background-color: #fff;
 }
 
 .input-blank {
@@ -152,7 +153,7 @@ input::placeholder {
 }
 
 .end-info-login a:active {
-    color: #0A7D72;
+    color: #0a7d72;
 }
 
 .input-password {
@@ -223,7 +224,7 @@ input::placeholder {
 
 .modal-content hr {
     background-color: cadetblue;
-    border: solid .5px cadetblue;
+    border: solid 0.5px cadetblue;
     margin-block-start: 0;
 }
 
@@ -270,7 +271,7 @@ input::placeholder {
 
 .modal-content hr {
     background-color: cadetblue;
-    border: solid .5px cadetblue;
+    border: solid 0.5px cadetblue;
     margin-block-start: 0;
 }
 

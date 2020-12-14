@@ -2,16 +2,28 @@
     <div id="content-cadastro">
         <h2>Cadastre-se</h2>
         <form class="form-cadastro" id="form-cadastro">
+            <!-- nome -->
             <label for="name">Nome:</label>
-            <input type="text" name="" placeholder="José Silva" id="name" />
+            <input type="text" name="" placeholder="José Silva" id="name" (keydown)="verifyKeydownName($event)" (blur)="verifyName($event)" [ngClass]="{'input-blank': !nomeValido, 'input-valid': nomeValido}" />
+            <span id="error-login" class="span-error hide">Digite seu nome e sobrenome!</span >
+            <span id="error-login" class="span-error " *ngIf="!nomeValido" >Não esqueça seu nome!</span>
+            <!-- email -->
             <label for="email">Email:</label>
-            <input type="email" name="" (blur)="verifyEmail($event)" placeholder="exemplo@email.com" id="email" />
+            <input type="email" name="email" ngModel email="true" (keydown)="verifyKeydownEmail($event)" (blur)="verifyEmail($event)" placeholder="exemplo@email.com" id="email" [ngClass]="{'input-blank': !emailValido, 'input-valid': emailValido}" />
+            <span id="error-login" class="span-error " *ngIf="!emailValido">Digite seu email.</span >
+            <span id="error-login" class="span-error " *ngIf="!emailValidoRegx">Email inválido!</span >
+              <!-- confirme email -->
             <label for="email-confirm">Confirme seu email:</label>
-            <input type="email" name="" placeholder="exemplo@email.com" id="email-confirm" />
-            <span id="error-login" class="span-error hide">Digite seu email ou usuário.</span
-      >
-      <label for="senha">Senha</label>
-      <input type="password" placeholder="Senha" id="senha" />
-    </form>
-  </div>
+            <input type="email" name=""  placeholder="exemplo@email.com"  id="email-confirm" (ngDisabled)="!emailValido" (keyup)="verifyKeydownConfEmail($event)" (blur)="verifyConfEmail($event)" placeholder="exemplo@email.com" id="email" [ngClass]="{'input-blank': !confEmailValido, 'input-valid': confEmailValido}"/>
+            <span id="error-login" class="span-error " *ngIf="!confEmailValido">Os email estão diferentes!</span >
+              <!-- senha -->
+            <label for="senha">Senha</label>
+            <input type="password" placeholder="Senha" id="senha" (blur)="verifySenha($event)"  [ngClass]="{'input-blank': !senhaValida, 'input-valid': senhaValida}"/>
+            <!-- botoes -->
+            <div class="align-buttons">
+              <button (click)="voltar()" class="voltar-cadastro">Voltar</button>
+              <button (click)="cadastrar()" class="salvar-cadastro">Salvar</button>
+            </div>
+          </form>
+      </div>
 </div>
