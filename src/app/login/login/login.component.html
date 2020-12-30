@@ -5,54 +5,29 @@
                 <h1>Easy</h1>
                 <p class="fin">Finanças</p>
             </div>
-            <div class="info-login">
+            <form [formGroup]="formLogin" class="info-login">
                 <div class="align-column">
                     <label for="login">Usuário:</label>
-                    <input class="input input-login" onblur="verifyEmail(value)" onkeyup="verifyEmail(value)" type="text" placeholder="Email/login" name="login" id="login" />
-                    <span id="error-login" class="span-error hide">Digite seu email ou usuário.</span
-          >
-        </div>
-        <div class="align-column input-password">
-          <label for="login-password">Senha:</label>
-          <input
-            class="input"
-            onblur="verifyPassword(value)"
-            onkeyup="verifyPassword(value)"
-            type="password"
-            placeholder="Senha"
-            name="login-password"
-            id="login-password"
-          />
-          <span id="error-password" class="span-error hide"
-            >Digite sua senha.</span
-          >
-        </div>
-      </div>
-      <div class="button-enter">
-        <button (click)="login()">Entrar</button>
-      </div>
-      <div class="end-info-login">
-        <a (click)="cadastro()">Cadastre-se</a>
-        <a>Esqueceu a senha?</a>
-      </div>
-    </div>
-  </div>
-  <!-- Spinner -->
-  <div id="spinner" class="ng-spinner hide">
-    <div class="spinner"></div>
-  </div>
-  <!-- Modal erro-->
-  <div id="modal1" class="modal hide">
-    <div class="modal-error">
-      <div class="modal-content">
-        <div class="header-modal" id="modal-header">
-          <img class="img-modal-header" id="img-status-modal" />
-          <span onClick="closeModal()">X</span>
+                    <input class="input input-login" type="text" placeholder="Email/login" name="login" id="login" formControlName="loginEmail" [ngClass]="{'input-blank': !email?.pristine && !email?.valid, 'input-valid': !email?.pristine && email?.valid}" />
+                    <span id="error-login" class="span-error" *ngIf="!email?.pristine && !email?.valid">Digite seu email ou usuário.</span>
                 </div>
-                <div class="body-modal">
-                    <p id="msg-error"></p>
+                <div class="align-column input-password">
+                    <label for="login-password">Senha:</label>
+                    <input class="input" type="password" placeholder="Senha" name="login-password" id="login-password" formControlName="senha" [ngClass]="{'input-blank': !senha?.pristine && !senha?.valid, 'input-valid': !senha?.pristine && senha?.valid}" />
+                    <span id="error-password" class="span-error" *ngIf="!senha?.pristine && !senha?.valid ">Digite sua senha.</span>
                 </div>
-            </div>
+                <div class="button-enter">
+                    <button (click)="login()">Entrar</button>
+                </div>
+                <div class="end-info-login">
+                    <a (click)="cadastro()">Cadastre-se</a>
+                    <a>Esqueceu a senha?</a>
+                </div>
+            </form>
+
         </div>
+        <p>{{senha?.valid }}</p>
+        <p>{{senha?.pristine }}</p>
+        <p>{{formLogin.valid }}</p>
     </div>
 </div>

@@ -6,6 +6,7 @@ import { CadastroComponent } from './cadastro/cadastro.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { Routes, Router, RouterModule } from '@angular/router';
 import { BoardComponent } from './board/board.component';
+import { ReactiveFormsModule } from "@angular/forms";
 
 const appRoutes: Routes = [
   { path: 'cadastro', component: CadastroComponent },
@@ -17,6 +18,6 @@ const appRoutes: Routes = [
   declarations: [AppComponent, LoginComponent, CadastroComponent, DashboardComponent, BoardComponent],
   providers: [],
   bootstrap: [AppComponent],
-  imports: [BrowserModule, RouterModule.forRoot(appRoutes)],
+  imports: [BrowserModule, RouterModule.forRoot(appRoutes), ReactiveFormsModule],
 })
 export class AppModule { }
