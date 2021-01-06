@@ -1,3 +1,4 @@
+import { ModalFeedbacksComponent } from './modal-feedbacks/modal-feedbacks.component';
 import { InicioComponent } from './inicio/inicio.component';
 import { CadastroComponent } from './cadastro/cadastro.component';
 import { LoginComponent } from './login/login/login.component';
@@ -11,6 +12,7 @@ const routes: Routes = [
   { path: 'cadastro', component: CadastroComponent },
   { path: 'login', component: LoginComponent },
   { path: 'dashboard', component: DashboardComponent },
+  { path: 'feedback', component: ModalFeedbacksComponent },
 ];
 
 @NgModule({

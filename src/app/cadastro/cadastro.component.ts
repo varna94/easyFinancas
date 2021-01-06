@@ -1,91 +1,86 @@
 import { Component, OnInit } from '@angular/core';
-import { FormControl, Validators } from '@angular/forms';
+import { FormControl, Validators, FormBuilder, FormGroup, ValidatorFn, ValidationErrors, FormArray, ControlContainer } from '@angular/forms';
 import { Router } from '@angular/router';
-
+import { Validacoes } from '../validacoes';
 @Component({
   selector: 'app-cadastro',
   templateUrl: './cadastro.component.html',
   styleUrls: ['./cadastro.component.scss'],
 })
 export class CadastroComponent implements OnInit {
+  formCadastro: FormGroup;
+  cad: FormArray;
   // public name: String = '';
-  public emailValido: boolean = true;
-  public nomeValido: boolean = true;
-  public senhaValida: boolean = true;
-  public confEmailValido: boolean = true;
-  public emailValidoRegx: boolean = true;
-  emailConf: any;
-  public confEmail: any;
-  constructor(private router: Router) { }
-  ngOnInit(): void { };
+  emailVazio: boolean;
+  confEmailVazio: boolean;
+  nomeVazio: boolean;
+  senhaVazia: boolean;
+
+  public t = [];
+  public listaCadastro: string[] = [];
+
+  constructor(private router: Router, private fg: FormBuilder) {
+
+    this.formCadastro = this.fg.group({
+      nome: [],
+      email: [],
+      confEmail: [],
+      senha: []
+    });
+
+  }
+
+  ngOnInit(): void {
+
+    this.criarFormCadastro();
+  };
+
+  criarFormCadastro() {
+    this.formCadastro = this.fg.group({
+      nome: ['', Validators.compose([Validators.required, Validators.pattern("/[A-Z][a-z]* [A-Z][a-z]*/")])],
+      email: ['', Validators.compose([Validators.required, Validators.pattern("^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$")])],
+      confEmail: ['', Validators.compose([Validators.required])],
+      senha: ['', Validators.compose([Validators.required, Validators.minLength(6)])]
+    });
+
+  }
+  lista() {
+
+    // this.formCadastro.controls['cadastro'].push(this.formCadastro);
+  }
   // Verify Name
   verifyName(name: any) {
     if (name.currentTarget.value === '') {
-      this.nomeValido = false;
+      this.nomeVazio = true;
     } else {
-      this.nomeValido = true;
+      this.nomeVazio = false;
     }
   }
-  verifyKeydownName(name: any) {
-    // this.nomeValido = true;
-    if (name.currentTarget.value === '') {
-      // this.nomeValido = false;
-    } else {
-      this.nomeValido = true;
-    }
-  }
+
   // verify email
   verifyEmail(email: any) {
-    let reg: any = new RegExp(/^[a-z0-9.]+@[a-z0-9]+\.[a-z]+\.([a-z]+)?$/i);
-    this.emailConf = email.currentTarget.value;
-    // this.emailValido = true;
-    this.confEmail = new FormControl('', [
-      Validators.required,
-      Validators.pattern('/^[a-z0-9.]+@[a-z0-9]+\.[a-z]+\.([a-z]+)?$/i')
-    ]);
-    console.log('pattern: ', this.confEmail.hasError('pattern'));
-    console.log('required: ', this.confEmail.hasError('required'));
-    console.log('Erros: ', this.confEmail.errors);
     if (email.currentTarget.value === '') {
-      this.emailValido = false;
-
+      this.emailVazio = true;
     } else {
-      if (reg.test(email.currentTarget.value)) {
-        this.emailValidoRegx = false;
-      } else {
-        this.emailValidoRegx = true;
-      }
-      //  this.emailValido = true;
+      this.emailVazio = false;
     }
 
-
   }
-  verifyKeydownEmail(email: any) {
-    // this.emailValido = true;
-    if (email.currentTarget.value === '') {
-      // this.emailValido = false;
-    } else {
-      this.emailValido = true;
-    }
+  verifyEmailKd() {
+    this.emailVazio = false;
   }
-
 
   // Verify email confirmacao
   verifyConfEmail(confEmail: any) {
     // this.confEmailValido = true;
-    if (confEmail.currentTarget.value !== this.emailConf) {
-      this.confEmailValido = false;
+    if (confEmail.currentTarget.value === '') {
+      this.confEmailVazio = true;
     } else {
-      this.confEmailValido = true;
+      this.confEmailVazio = false;
     }
   }
   verifyKeydownConfEmail(confEmail: any) {
-    // this.confEmailValido = true;
-    if (confEmail.currentTarget.value !== this.emailConf) {
-      this.confEmailValido = false;
-    } else {
-      this.confEmailValido = true;
-    }
+
   }
 
 
@@ -93,18 +88,40 @@ export class CadastroComponent implements OnInit {
   verifySenha(senha: any) {
     // this.senhaValida = true;
     if (senha.currentTarget.value === '') {
-      this.senhaValida = false;
+      this.senhaVazia = true;
     } else {
-      this.senhaValida = true;
+      this.senhaVazia = false;
     }
   }
-
   cadastrar() {
-    // console.log('name - ' + this.name);
-    // alert('Cadastrado');
+
+    console.log(this.formCadastro);
+
+    var cadastros = this.formCadastro.value;
+    console.log(cadastros);
+    this.listaCadastro.push(cadastros);
+
+    console.log(this.listaCadastro);
+    localStorage.setItem('Easy Financas Cadastro', JSON.stringify(this.listaCadastro));
   }
   voltar() {
     this.router.navigate(['login']);
     // alert('Voltar');
   }
+
+  get nome() {
+    return this.formCadastro.get('nome');
+  }
+  get email() {
+    return this.formCadastro.get('email');
+  }
+  get confEmail() {
+    return this.formCadastro.get('confEmail');
+  }
+  get senha() {
+    return this.formCadastro.get('senha');
+  }
+  // get cadastro() {
+  //   return this.formCadastro.get('cadastro');
+  // }
 }

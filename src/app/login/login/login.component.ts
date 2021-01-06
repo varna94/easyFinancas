@@ -12,6 +12,8 @@ export class LoginComponent implements OnInit {
   formLogin: FormGroup;
   loginValido: any = true;
   senhaValida: any = true;
+  emailVazio: boolean;
+  senhaVazia: boolean;
 
   constructor(private router: Router, private fb: FormBuilder) {
     this.formLogin = this.fb.group({ login: [''], senha: [''] });
@@ -36,9 +38,35 @@ export class LoginComponent implements OnInit {
   }
 
   login() {
+
     const dadosFormLogin = this.formLogin.value;
 
+    console.log(dadosFormLogin);
+    if (dadosFormLogin.loginEmail === 'teste@teste.com' && dadosFormLogin.senha === '123456') {
+      alert('Sucesso!');
+    } else {
+      alert('error!');
+      this.emailVazio = true;
+      this.senhaVazia = true;
+    }
+
   }
+  verificaEmail(email: any) {
+    console.log(email.currentTarget.value);
+    if (email.currentTarget.value === '') {
+      this.emailVazio = true;
+    } else {
+      this.emailVazio = false;
+    }
+  }
+  verificaSenha(senha: any) {
+    if (senha.currentTarget.value === '') {
+      this.senhaVazia = true;
+    } else {
+      this.senhaVazia = false;
+    }
+  }
+
   get email() {
     return this.formLogin.get('loginEmail');
   }
