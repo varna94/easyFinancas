@@ -7,15 +7,17 @@ import { DashboardComponent } from './dashboard/dashboard.component';
 import { Routes, Router, RouterModule } from '@angular/router';
 import { BoardComponent } from './board/board.component';
 import { ReactiveFormsModule } from "@angular/forms";
+import { InicioComponent } from './inicio/inicio.component';
 
 const appRoutes: Routes = [
+  { path: '', component: InicioComponent },
   { path: 'cadastro', component: CadastroComponent },
   { path: 'login', component: LoginComponent },
   { path: 'dashboard', component: DashboardComponent }
 ];
 
 @NgModule({
-  declarations: [AppComponent, LoginComponent, CadastroComponent, DashboardComponent, BoardComponent],
+  declarations: [AppComponent, LoginComponent, CadastroComponent, DashboardComponent, BoardComponent, InicioComponent],
   providers: [],
   bootstrap: [AppComponent],
   imports: [BrowserModule, RouterModule.forRoot(appRoutes), ReactiveFormsModule],
