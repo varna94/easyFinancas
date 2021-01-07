@@ -15,6 +15,7 @@ export class CadastroComponent implements OnInit {
   confEmailVazio: boolean;
   nomeVazio: boolean;
   senhaVazia: boolean;
+  listaCadastros: string[] = [];
 
   public t = [];
   public listaCadastro: string[] = [];
@@ -94,15 +95,21 @@ export class CadastroComponent implements OnInit {
     }
   }
   cadastrar() {
-
-    console.log(this.formCadastro);
-
     var cadastros = this.formCadastro.value;
-    console.log(cadastros);
-    this.listaCadastro.push(cadastros);
+    if (localStorage.hasOwnProperty('Easy Financas Cadastro')) {
+      this.listaCadastros = JSON.parse(localStorage.getItem('Easy Financas Cadastro') || '{}');
 
-    console.log(this.listaCadastro);
-    localStorage.setItem('Easy Financas Cadastro', JSON.stringify(this.listaCadastro));
+      this.listaCadastros.push(cadastros);
+
+      localStorage.setItem('Easy Financas Cadastro', JSON.stringify(this.listaCadastros));
+    } else {
+      console.log(cadastros);
+
+      this.listaCadastro.push(cadastros);
+
+      console.log(this.listaCadastro);
+      localStorage.setItem('Easy Financas Cadastro', JSON.stringify(this.listaCadastro));
+    }
   }
   voltar() {
     this.router.navigate(['login']);

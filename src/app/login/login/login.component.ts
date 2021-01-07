@@ -14,7 +14,7 @@ export class LoginComponent implements OnInit {
   senhaValida: any = true;
   emailVazio: boolean;
   senhaVazia: boolean;
-
+  loginsCadastrados: string[] = [];
   constructor(private router: Router, private fb: FormBuilder) {
     this.formLogin = this.fb.group({ login: [''], senha: [''] });
   }
@@ -40,15 +40,34 @@ export class LoginComponent implements OnInit {
   login() {
 
     const dadosFormLogin = this.formLogin.value;
+    if (localStorage.hasOwnProperty('Easy Financas Cadastro')) {
+      this.loginsCadastrados = JSON.parse(localStorage.getItem('Easy Financas Cadastro') || '{}');
+      console.log(this.loginsCadastrados);
+      console.log(dadosFormLogin);
+      this.loginsCadastrados.forEach((element) => {
+
+        console.log(element);
+      });
+
+      if (this.loginsCadastrados.indexOf(dadosFormLogin.loginEmail) > -1 && this.loginsCadastrados.indexOf(dadosFormLogin.senha) > -1) {
+        alert('SUCESSO!');
+      } else {
+        alert('ERRO!');
+      }
+
+    } else {
+      alert('CADASTRE-SE!');
+    }
+
 
     console.log(dadosFormLogin);
-    if (dadosFormLogin.loginEmail === 'teste@teste.com' && dadosFormLogin.senha === '123456') {
-      alert('Sucesso!');
-    } else {
-      alert('error!');
-      this.emailVazio = true;
-      this.senhaVazia = true;
-    }
+    // if (dadosFormLogin.loginEmail === 'teste@teste.com' && dadosFormLogin.senha === '123456') {
+    //   alert('Sucesso!');
+    // } else {
+    //   alert('error!');
+    //   this.emailVazio = true;
+    //   this.senhaVazia = true;
+    // }
 
   }
   verificaEmail(email: any) {
