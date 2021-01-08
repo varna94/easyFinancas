@@ -32,8 +32,6 @@ export const firebaseConfig = {
   appId: "1:161335320210:web:aa31a25b4ebae71394504b",
   measurementId: "G-S3E45JN2VP"
 };
-
-
 @NgModule({
   declarations: [AppComponent, LoginComponent, CadastroComponent, DashboardComponent, BoardComponent, InicioComponent, ModalFeedbacksComponent],
   providers: [AuthGuard, HttpUtilService, LoginService, AngularFireModule, AngularFireAuth],
