@@ -26,22 +26,27 @@
             <!-- botoes -->
             <div class="align-buttons">
                 <button (click)="voltar()" class="voltar-cadastro">Voltar</button>
-                <button (click)="cadastrar()" class="salvar-cadastro">Salvar</button>
+                <button (click)="authService.SignUp(email?.value,senha?.value)" class="salvar-cadastro">Salvar</button>
             </div>
         </form>
-
+        <div class="formGroup">
+            <button type="button" class="btn googleBtn" (click)="authService.GoogleAuth()">
+            <i class="fab fa-google-plus-g"></i>
+            Continue with Google
+          </button>
+        </div>
     </div>
-    <ul>
+    <!-- <ul>
 
         <b>nome</b>
         <li>{{nome?.valid}} </li>
         <b>email</b>
-        <li>{{email?.valid }} </li>
+        <li>{{email?.value }} </li>
         <b>conf email</b>
         <li>{{confEmail?.valid }} </li>
         <b>senha</b>
         <li>{{senha?.valid }} </li>
         <b>form</b>
         <li>{{formCadastro.valid }}</li>
-    </ul>
+    </ul> -->
 </div>

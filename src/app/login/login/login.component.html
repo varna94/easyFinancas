@@ -19,13 +19,19 @@
                     <span id="error-password" class="span-error" *ngIf="senhaVazia && !senha?.valid ">Digite sua senha.</span>
                 </div>
                 <div class="button-enter">
-                    <button (click)="login()">Entrar</button>
+                    <button (click)="authService.SignIn(email?.value,senha?.value)">Entrar</button>
                 </div>
                 <div class="end-info-login">
                     <a (click)="cadastro()">Cadastre-se</a>
-                    <a>Esqueceu a senha?</a>
+                    <button routerLink="/recuperarSenha">Esqueceu a senha?</button>
                 </div>
             </form>
+            <div class="formGroup">
+                <button type="button" class="btn googleBtn" (click)="authService.GoogleAuth()">
+                <i class="fab fa-google-plus-g"></i>
+                Log in with Google
+              </button>
+            </div>
 
         </div>
         <!-- <p>{{senha?.valid }}</p>

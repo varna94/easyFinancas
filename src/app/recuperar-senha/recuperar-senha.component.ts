@@ -1,11 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from "../shared/services/auth.service";
+
 @Component({
-  selector: 'app-dashboard',
-  templateUrl: './dashboard.component.html',
-  styleUrls: ['./dashboard.component.scss']
+  selector: 'app-recuperar-senha',
+  templateUrl: './recuperar-senha.component.html',
+  styleUrls: ['./recuperar-senha.component.scss']
 })
-export class DashboardComponent implements OnInit {
+export class RecuperarSenhaComponent implements OnInit {
 
   constructor(public authService: AuthService) { }
 

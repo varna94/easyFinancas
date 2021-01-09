@@ -2,7 +2,7 @@ import { Validacoes } from './../../validacoes';
 import { Component, OnInit } from '@angular/core';
 import { EmailValidator, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-
+import { AuthService } from "../../shared/services/auth.service";
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
@@ -15,7 +15,7 @@ export class LoginComponent implements OnInit {
   emailVazio: boolean;
   senhaVazia: boolean;
   loginsCadastrados: string[] = [];
-  constructor(private router: Router, private fb: FormBuilder) {
+  constructor(private router: Router, private fb: FormBuilder, public authService: AuthService) {
     this.formLogin = this.fb.group({ login: [''], senha: [''] });
   }
 

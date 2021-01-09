@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { FormControl, Validators, FormBuilder, FormGroup, ValidatorFn, ValidationErrors, FormArray, ControlContainer } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Validacoes } from '../validacoes';
+import { AuthService } from "../shared/services/auth.service";
+
 @Component({
   selector: 'app-cadastro',
   templateUrl: './cadastro.component.html',
@@ -20,7 +22,7 @@ export class CadastroComponent implements OnInit {
   public t = [];
   public listaCadastro: string[] = [];
 
-  constructor(private router: Router, private fg: FormBuilder) {
+  constructor(private router: Router, private fg: FormBuilder, public authService: AuthService) {
 
     this.formCadastro = this.fg.group({
       nome: [],
