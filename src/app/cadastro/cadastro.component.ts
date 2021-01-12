@@ -1,3 +1,4 @@
+import { emailVazioCad, nomeVazio, confEmailVazio, senhaVaziaCad } from './../shared/services/auth.service';
 import { Component, OnInit } from '@angular/core';
 import { FormControl, Validators, FormBuilder, FormGroup, ValidatorFn, ValidationErrors, FormArray, ControlContainer } from '@angular/forms';
 import { Router } from '@angular/router';
@@ -13,10 +14,10 @@ export class CadastroComponent implements OnInit {
   formCadastro: FormGroup;
   cad: FormArray;
   // public name: String = '';
-  emailVazio: boolean;
+  emailVazioCad: boolean;
   confEmailVazio: boolean;
   nomeVazio: boolean;
-  senhaVazia: boolean;
+  senhaVaziaCad: boolean;
   listaCadastros: string[] = [];
 
   public t = [];
@@ -34,7 +35,10 @@ export class CadastroComponent implements OnInit {
   }
 
   ngOnInit(): void {
-
+    this.nomeVazio = nomeVazio;
+    this.emailVazioCad = emailVazioCad;
+    this.senhaVaziaCad = senhaVaziaCad;
+    this.confEmailVazio = confEmailVazio;
     this.criarFormCadastro();
   };
 
@@ -63,14 +67,14 @@ export class CadastroComponent implements OnInit {
   // verify email
   verifyEmail(email: any) {
     if (email.currentTarget.value === '') {
-      this.emailVazio = true;
+      this.emailVazioCad = true;
     } else {
-      this.emailVazio = false;
+      this.emailVazioCad = false;
     }
 
   }
   verifyEmailKd() {
-    this.emailVazio = false;
+    this.emailVazioCad = false;
   }
 
   // Verify email confirmacao
@@ -91,9 +95,9 @@ export class CadastroComponent implements OnInit {
   verifySenha(senha: any) {
     // this.senhaValida = true;
     if (senha.currentTarget.value === '') {
-      this.senhaVazia = true;
+      this.senhaVaziaCad = true;
     } else {
-      this.senhaVazia = false;
+      this.senhaVaziaCad = false;
     }
   }
   cadastrar() {

@@ -1,8 +1,12 @@
+import { senhaVazia, emailVazio } from './../../shared/services/auth.service';
 import { Validacoes } from './../../validacoes';
 import { Component, OnInit } from '@angular/core';
 import { EmailValidator, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AuthService } from "../../shared/services/auth.service";
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { Platform } from '@angular/cdk/platform';
+
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
@@ -10,16 +14,21 @@ import { AuthService } from "../../shared/services/auth.service";
 })
 export class LoginComponent implements OnInit {
   formLogin: FormGroup;
-  loginValido: any = true;
-  senhaValida: any = true;
+  loginValido: any;
+  senhaValida: any;
   emailVazio: boolean;
   senhaVazia: boolean;
   loginsCadastrados: string[] = [];
-  constructor(private router: Router, private fb: FormBuilder, public authService: AuthService) {
+  constructor(private router: Router, private fb: FormBuilder, public authService: AuthService, public spinner: MatProgressSpinnerModule) {
     this.formLogin = this.fb.group({ login: [''], senha: [''] });
   }
 
   ngOnInit(): void {
+    this.senhaVazia = senhaVazia;
+    this.emailVazio = emailVazio;
+
+    console.log(senhaVazia);
+    console.log(emailVazio);
     this.criarFormLogin();
 
   }
@@ -58,16 +67,7 @@ export class LoginComponent implements OnInit {
     } else {
       alert('CADASTRE-SE!');
     }
-
-
     console.log(dadosFormLogin);
-    // if (dadosFormLogin.loginEmail === 'teste@teste.com' && dadosFormLogin.senha === '123456') {
-    //   alert('Sucesso!');
-    // } else {
-    //   alert('error!');
-    //   this.emailVazio = true;
-    //   this.senhaVazia = true;
-    // }
 
   }
   verificaEmail(email: any) {

@@ -17,6 +17,12 @@ import { environment } from '../environments/environment';
 
 import { AuthService } from "./shared/services/auth.service";
 import { RecuperarSenhaComponent } from './recuperar-senha/recuperar-senha.component';
+import { ConfirmaEmailComponent } from './confirma-email/confirma-email.component';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { Platform } from '@angular/cdk/platform';
+import { SpinnerComponent } from './spinner/spinner.component';
+import { animate } from '@angular/animations';
+
 const appRoutes: Routes = [
   { path: '', component: InicioComponent },
   { path: 'cadastro', component: CadastroComponent },
@@ -24,14 +30,16 @@ const appRoutes: Routes = [
   { path: 'dashboard', component: DashboardComponent },
   { path: 'feedback', component: ModalFeedbacksComponent },
   { path: 'recuperarSenha', component: RecuperarSenhaComponent },
+  { path: 'confirmarEmail', component: ConfirmaEmailComponent },
+  { path: 'spinner', component: SpinnerComponent },
 ];
 
 @NgModule({
-  declarations: [AppComponent, LoginComponent, CadastroComponent, DashboardComponent, BoardComponent, InicioComponent, ModalFeedbacksComponent, RecuperarSenhaComponent],
-  providers: [AuthService],
+  declarations: [AppComponent, LoginComponent, CadastroComponent, DashboardComponent, BoardComponent, InicioComponent, ModalFeedbacksComponent, RecuperarSenhaComponent, ConfirmaEmailComponent, SpinnerComponent],
+  providers: [AuthService, ModalFeedbacksComponent],
   bootstrap: [AppComponent],
   imports: [BrowserModule, RouterModule.forRoot(appRoutes), ReactiveFormsModule,
     AngularFireModule.initializeApp(environment.firebase), AngularFireAuthModule,
-    AngularFirestoreModule,],
+    AngularFirestoreModule, MatProgressSpinnerModule],
 })
 export class AppModule { }

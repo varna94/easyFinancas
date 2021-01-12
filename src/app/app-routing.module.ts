@@ -1,3 +1,5 @@
+import { SpinnerComponent } from './spinner/spinner.component';
+import { ConfirmaEmailComponent } from './confirma-email/confirma-email.component';
 import { RecuperarSenhaComponent } from './recuperar-senha/recuperar-senha.component';
 import { ModalFeedbacksComponent } from './modal-feedbacks/modal-feedbacks.component';
 import { InicioComponent } from './inicio/inicio.component';
@@ -15,6 +17,8 @@ const routes: Routes = [
   { path: 'dashboard', component: DashboardComponent, canActivate: [AuthGuard] },
   { path: 'feedback', component: ModalFeedbacksComponent },
   { path: 'recuperarSenha', component: RecuperarSenhaComponent },
+  { path: 'confirmarEmail', component: ConfirmaEmailComponent },
+  { path: 'spinner', component: SpinnerComponent },
 ];
 
 @NgModule({

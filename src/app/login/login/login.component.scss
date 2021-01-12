@@ -286,6 +286,47 @@ input::placeholder {
     width: 35px;
 }
 
+// button google
+.outras-opcoes-login {
+    margin-top: 24px;
+}
+
+#customBtnGoogle {
+    display: flex;
+    background: white;
+    color: #444;
+    width: 190px;
+    margin-right: auto;
+    margin-left: auto;
+    border-radius: 5px;
+    border: thin solid #888;
+    box-shadow: 1px 1px 1px grey;
+    white-space: nowrap;
+    align-items: center;
+    justify-content: space-between;
+}
+
+#customBtn:hover {
+    cursor: pointer;
+}
+
+span.label {
+    font-family: serif;
+    font-weight: normal;
+}
+
+.icon {
+    width: 30px;
+    height: 30px;
+}
+
+span.buttonText {
+    font-size: 14px;
+    font-weight: bold;
+    /* Use the Roboto font that is loaded in the <head> */
+    font-family: 'Roboto', sans-serif;
+}
+
 @media (max-width: 450px) {
     .modal {
         width: auto;

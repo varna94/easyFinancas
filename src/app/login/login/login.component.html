@@ -23,17 +23,18 @@
                 </div>
                 <div class="end-info-login">
                     <a (click)="cadastro()">Cadastre-se</a>
-                    <button routerLink="/recuperarSenha">Esqueceu a senha?</button>
+                    <a routerLink="/recuperarSenha">Esqueceu a senha?</a>
                 </div>
             </form>
-            <div class="formGroup">
-                <button type="button" class="btn googleBtn" (click)="authService.GoogleAuth()">
-                <i class="fab fa-google-plus-g"></i>
-                Log in with Google
+            <div class="outras-opcoes-login">
+                <button type="button" id="customBtnGoogle" class="btn googleBtn " (click)="authService.GoogleAuth()">
+                  <img class="icon" src="/assets/images/logo-google.png" />
+                  <span class="buttonText">Log in with Google</span>
               </button>
             </div>
 
         </div>
+
         <!-- <p>{{senha?.valid }}</p>
         <p>{{senha?.pristine }}</p>
         <p>{{formLogin.valid }}</p> -->

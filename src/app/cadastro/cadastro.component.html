@@ -9,9 +9,9 @@
             <span id="error-login" class="span-error " *ngIf="nomeVazio && !nome?.valid" >Não esqueça seu nome!</span>
             <!-- email -->
             <label for="email">Email:</label>
-            <input type="email" name="email" email="true" (keyup)="verifyEmailKd()" (blur)="verifyEmail($event)" placeholder="exemplo@email.com" id="email" formControlName='email' [ngClass]="{'input-blank': email?.pristine && emailVazio || (!email?.pristine && email?.invalid), 'input-valid':
-            !emailVazio && email?.pristine && email?.valid}" />
-            <span id="error-login" class="span-error " *ngIf="emailVazio && email?.pristine">Digite seu email.</span >
+            <input type="email" name="email" email="true" (keyup)="verifyEmailKd()" (blur)="verifyEmail($event)" placeholder="exemplo@email.com" id="email" formControlName='email' [ngClass]="{'input-blank': email?.pristine && emailVazioCad || (!email?.pristine && email?.invalid), 'input-valid':
+            !emailVazioCad && email?.pristine && email?.valid}" />
+            <span id="error-login" class="span-error " *ngIf="emailVazioCad && email?.pristine">Digite seu email.</span >
             <span id="error-login" class="span-error " *ngIf="!email?.pristine && !email?.valid">Email inválido!</span >
               <!-- confirme email -->
             <label for="email-confirm">Confirme seu email:</label>
@@ -20,8 +20,8 @@
             <span id="error-login" class="span-error " *ngIf="confEmail?.pristine && confEmailVazio || (!confEmail?.pristine && email?.value !== confEmail?.value)">Os email estão diferentes!</span >
               <!-- senha -->
             <label for="senha">Senha</label>
-            <input type="password" placeholder="Senha" id="senha" (blur)="verifySenha($event)" formControlName='senha' [ngClass]="{'input-blank': senha?.pristine && senhaVazia || (!senha?.pristine && !senha?.valid) , 'input-valid': !nome?.pristine && nome?.valid}"/>
-            <span id="error-password" class="span-error" *ngIf="senha?.pristine && senhaVazia ">Digite sua senha.</span>
+            <input type="password" placeholder="Senha" id="senha" (blur)="verifySenha($event)" formControlName='senha' [ngClass]="{'input-blank': senha?.pristine && senhaVaziaCad || (!senha?.pristine && !senha?.valid) , 'input-valid': !nome?.pristine && nome?.valid}"/>
+            <span id="error-password" class="span-error" *ngIf="senha?.pristine && senhaVaziaCad ">Digite sua senha.</span>
             <span id="error-password" class="span-error" *ngIf="!senha?.pristine && !senha?.valid">A senha deve conter no mínimo 6 caracteres.</span>
             <!-- botoes -->
             <div class="align-buttons">
@@ -29,11 +29,11 @@
                 <button (click)="authService.SignUp(email?.value,senha?.value)" class="salvar-cadastro">Salvar</button>
             </div>
         </form>
-        <div class="formGroup">
-            <button type="button" class="btn googleBtn" (click)="authService.GoogleAuth()">
-            <i class="fab fa-google-plus-g"></i>
-            Continue with Google
-          </button>
+        <div class="outras-opcoes-login">
+            <button type="button" id="customBtnGoogle" class="btn googleBtn " (click)="authService.GoogleAuth()">
+            <img class="icon" src="/assets/images/logo-google.png" />
+            <span class="buttonText">Log in with Google</span>
+        </button>
         </div>
     </div>
     <!-- <ul>
