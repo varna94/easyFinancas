@@ -13,7 +13,9 @@ export let senhaVaziaCad: boolean;
 export let emailVazioCad: boolean;
 export let confEmailVazio: boolean;
 export let nomeVazio: boolean;
+export let emailVazioRec: boolean;
 import * as firebase from 'firebase';
+import { error } from 'protractor';
 @Injectable({
   providedIn: 'root'
 })
@@ -78,25 +80,59 @@ export class AuthService {
   }
 
   // Sign up with email/password
-  SignUp(email: any, password: any) {
+  SignUp(email: any, password: any, nome: any) {
 
+    // console.log(form.value);
+
+
+    var dt;
     this.router.navigate(['spinner']);
-    return this.afAuth.createUserWithEmailAndPassword(email, password)
+    this.afAuth.createUserWithEmailAndPassword(email, password)
       .then((result: any) => {
         /* Call the SendVerificaitonMail() function when new user sign
         up and returns promise */
+        dt = result.user;
+        const user: User = {
+          uid: result.user.uid,
+          email: result.user.email,
+          displayName: nome,
+          photoURL: result.user.photoURL,
+          emailVerified: result.user.emailVerified,
+        }
+        // result.user.displayName = nome;
+        console.log(result);
+        console.log(result.user);
         this.SendVerificationMail();
         this.SetUserData(result.user);
+        this.createUserDB(user);
       }).catch((error: any) => {
         emailVazioCad = true;
         senhaVaziaCad = true;
         confEmailVazio = true;
         nomeVazio = true;
         this.router.navigate(['cadastro']);
-        // window.alert(error.message)
+        console.log(error.message);
       })
-  }
 
+
+  }
+  createUserDB(data: any) {
+    console.log(data);
+
+    return new Promise<any>((resolver, rejeitar) => {
+      this.afs
+        .collection("User")
+        .add(data)
+        .then(res => {
+          console.log(res);
+          console.log('suceso')
+        }, err => rejeitar())
+        .catch((error: any) => {
+          console.log(error);
+        });
+      console.log(data);
+    });
+  }
   // Send email verfificaiton when new user sign up
   SendVerificationMail() {
     return this.afAuth.currentUser.then(u => u?.sendEmailVerification()).then(() => {
@@ -106,11 +142,36 @@ export class AuthService {
 
   // Reset Forggot password
   ForgotPassword(passwordResetEmail: any) {
+    this.router.navigate(['spinner']);
     return this.afAuth.sendPasswordResetEmail(passwordResetEmail)
       .then(() => {
-        window.alert('Password reset email sent, check your inbox.');
+        infoFeedback = {
+          tipo: 'Success',
+          titulo: 'Sucesso!',
+          mensagem: 'Password reset email sent, check your inbox.',
+          acao: null
+        }
+        // this.feedback.renderFeedback('Erro', 'Erro ao logar!', 'Usuário não encotrado.', null);
+        this.router.navigate(['feedback']);
+        console.log('Password reset email sent, check your inbox.');
       }).catch((error: any) => {
-        window.alert(error)
+        if (error.code === 'auth/user-not-found') {
+          infoFeedback = {
+            tipo: 'Error',
+            titulo: 'Erro!',
+            mensagem: 'Usuário não encontrado!',
+            acao: null
+          }
+          // this.feedback.renderFeedback('Erro', 'Erro ao logar!', 'Usuário não encotrado.', null);
+          this.router.navigate(['feedback']);
+        } else {
+          emailVazioRec = true;
+          // this.router.navigate(['recuperarSenha']);
+          console.log(error);
+          this.router.navigate(['recuperarSenha']);
+        }
+
+
       })
   }
 

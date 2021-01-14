@@ -5,43 +5,44 @@ h1 {
     color: cadetblue;
 }
 
-li {
-    cursor: pointer;
-    font-family: Arial, Helvetica, sans-serif;
-    padding-top: 25px;
-    padding-bottom: 25px;
-    padding-left: 24px;
-    border-bottom: solid 1px #e0e0e0;
-    display: block;
-    font-weight: bold;
-    color: #205f61;
+.lista-opcoes {
+    li {
+        cursor: pointer;
+        font-family: Arial, Helvetica, sans-serif;
+        padding-top: 25px;
+        padding-bottom: 25px;
+        padding-left: 24px;
+        border-bottom: solid 1px #e0e0e0;
+        display: block;
+        font-weight: bold;
+        color: #205f61;
+    }
+    li:hover {
+        background-color: #e0e0e0;
+    }
+    li:active {
+        background-color: #ececec;
+    }
 }
 
-li:hover {
-    background-color: #e0e0e0;
-}
-
-li:active {
-    background-color: #ececec;
-}
-
-button {
-    height: 40px;
-    width: 152px;
-    margin: 0 24px 0 24px;
-    background-color: cadetblue;
-    border: none;
-    border-radius: 5px;
-    color: #fff;
-    font-size: 20px;
-    font-weight: bold;
-    cursor: pointer;
-    outline: none;
-    box-shadow: 0 1px 1px 0 rgba(0, 0, 0, 0.53);
-}
-
-button:active {
-    background-color: #0a7d72;
+#confCustom {
+    button {
+        height: 40px;
+        width: 152px;
+        margin: 0 24px 0 24px;
+        background-color: cadetblue;
+        border: none;
+        border-radius: 5px;
+        color: #fff;
+        font-size: 20px;
+        font-weight: bold;
+        cursor: pointer;
+        outline: none;
+        box-shadow: 0 1px 1px 0 rgba(0, 0, 0, 0.53);
+    }
+    button:active {
+        background-color: #0a7d72;
+    }
 }
 
 .lista-opcoes {
@@ -85,4 +86,26 @@ button:active {
 
 .center {
     padding: 24px;
+}
+
+.conta-opcoes {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    a {
+        text-decoration: none;
+        font-weight: bold;
+    }
+}
+
+.conta-opc-despesa {
+    color: #ff0000;
+}
+
+.conta-opc-receita {
+    color: green
+}
+
+.conta-opc-transacao {
+    color: #5454ff;
 }

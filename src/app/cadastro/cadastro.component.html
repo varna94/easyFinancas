@@ -4,7 +4,7 @@
         <form [formGroup]="formCadastro" class="form-cadastro" id="form-cadastro">
             <!-- nome -->
             <label for="name">Nome:</label>
-            <input class="input" type="text" name="" placeholder="José Silva" id="name" (blur)="verifyName($event)" formControlName='nome' [ngClass]="{'input-blank': nomeVazio && !nome?.valid , 'input-valid': !nome?.pristine && nome?.valid}" />
+            <input class="input" type="text" #nomeCadastro name="" placeholder="José Silva" id="name" (blur)="verifyName($event)" formControlName='nome' [ngClass]="{'input-blank': nomeVazio && !nome?.valid , 'input-valid': !nome?.pristine && nome?.valid}" />
             <span id="error-login" class="span-error hide">Digite seu nome e sobrenome!</span >
             <span id="error-login" class="span-error " *ngIf="nomeVazio && !nome?.valid" >Não esqueça seu nome!</span>
             <!-- email -->
@@ -26,7 +26,7 @@
             <!-- botoes -->
             <div class="align-buttons">
                 <button (click)="voltar()" class="voltar-cadastro">Voltar</button>
-                <button (click)="authService.SignUp(email?.value,senha?.value)" class="salvar-cadastro">Salvar</button>
+                <button (click)="authService.SignUp(email?.value,senha?.value,nomeCadastro.value)" class="salvar-cadastro">Salvar</button>
             </div>
         </form>
         <div class="outras-opcoes-login">

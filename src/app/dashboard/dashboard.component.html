@@ -1,4 +1,4 @@
-<div class="container">
+<div id="confCustom" class="container">
     <div class="content">
         <div class="dashboard">
             <div class="lateral-esquerda">
@@ -6,8 +6,16 @@
                     <h1>Easy</h1>
                     <p class="fin">Finanças</p>
                 </div>
-                <button id="novoRegistro" class="novo-registro">Novo</button>
-                <button (click)="authService.SignOut()">Sair</button>
+                <!-- Example single danger button -->
+                <div class="btn-adicionar">
+                    <button type="button" class="btn btn-danger dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">Adicionar</button>
+                    <ul class="dropdown-menu">
+                        <li><a class="dropdown-item" data-bs-toggle="modal" data-bs-target="#exampleModal" data-bs-whatever="@mdo">Conta</a></li>
+                        <li><a class="dropdown-item" href="#">...</a></li>
+                        <li><a class="dropdown-item" href="#">....</a></li>
+                    </ul>
+                </div>
+                <button style="margin-top: 15px;" (click)="authService.SignOut()">Sair</button>
                 <div id="listaOpcoes" class="lista-opcoes">
                     <li>Dashboard</li>
                     <li>Recursos</li>
@@ -19,6 +27,64 @@
             </div>
             <div class="center">
                 <app-board></app-board>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- MODAL CADASTRO CONTA -->
+<div id="modal" class="modal fade modal-fullscreen-md-down" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Nova conta</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form [formGroup]="formadicionarConta">
+                    <label for="conta-saldo">Saldo:</label>
+                    <input type="text" id="conta-saldo" class="form-control" formControlName="saldo">
+                    <div class="row">
+
+                        <div class="mb-3 col ">
+                            <label for="conta-name " class="col-form-label">Nome:</label>
+                            <input type="text " class="form-control " id="conta-name " formControlName="nome">
+                        </div>
+                        <div class="mb-3 col ">
+                            <label for="conta-instituicao " class="col-form-label ">Instituição financeira:</label>
+                            <select type="select " class="form-control form-select " id="conta-instituicao " formControlName="banco">
+                              <option selected>Selecione</option>
+                              <option>Santander</option>
+                              <option>Nubank</option>
+                              <option>Banco do Brasil</option>
+                              <option>BV</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="row ">
+                        <div class="mb-3 col ">
+                            <label for="conta-tipo " class="col-form-label ">Tipo:</label>
+                            <select type="select " class="form-control form-select " id="conta-tipo " formControlName="tipo">
+                              <option selected>Selecione</option>
+                              <option>Conta corrente</option>
+                              <option>Conta poupança</option>
+                            </select>
+                        </div>
+                        <div class="mb-3 col ">
+                            <label for="message-text " class="col-form-label ">Descrição:</label>
+                            <textarea class="form-control " id="message-text " formControlName="descricao"></textarea>
+                        </div>
+                    </div>
+
+                </form>
+                <div class="conta-opcoes ">
+                    <a class="conta-opc-despesa " href=" ">Despesas</a>
+                    <a class="conta-opc-receita " href=" ">Receitas</a>
+                    <a class="conta-opc-transacao " href=" ">Transações</a>
+                </div>
+            </div>
+            <div class="modal-footer ">
+                <button type="button " class="btn btn-secondary " data-bs-dismiss="modal ">Cancelar</button>
+                <button type="button " class="btn btn-primary" (click)="criarConta()">Salvar</button>
             </div>
         </div>
     </div>
