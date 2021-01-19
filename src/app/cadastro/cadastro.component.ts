@@ -100,23 +100,23 @@ export class CadastroComponent implements OnInit {
       this.senhaVaziaCad = false;
     }
   }
-  cadastrar() {
-    var cadastros = this.formCadastro.value;
-    if (localStorage.hasOwnProperty('Easy Financas Cadastro')) {
-      this.listaCadastros = JSON.parse(localStorage.getItem('Easy Financas Cadastro') || '{}');
+  // cadastrar() {
+  //   var cadastros = this.formCadastro.value;
+  //   if (localStorage.hasOwnProperty('Easy Financas Cadastro')) {
+  //     this.listaCadastros = JSON.parse(localStorage.getItem('Easy Financas Cadastro') || '{}');
 
-      this.listaCadastros.push(cadastros);
+  //     this.listaCadastros.push(cadastros);
 
-      localStorage.setItem('Easy Financas Cadastro', JSON.stringify(this.listaCadastros));
-    } else {
-      console.log(cadastros);
+  //     localStorage.setItem('Easy Financas Cadastro', JSON.stringify(this.listaCadastros));
+  //   } else {
+  //     console.log(cadastros);
 
-      this.listaCadastro.push(cadastros);
+  //     this.listaCadastro.push(cadastros);
 
-      console.log(this.listaCadastro);
-      localStorage.setItem('Easy Financas Cadastro', JSON.stringify(this.listaCadastro));
-    }
-  }
+  //     console.log(this.listaCadastro);
+  //     localStorage.setItem('Easy Financas Cadastro', JSON.stringify(this.listaCadastro));
+  //   }
+  // }
   voltar() {
     this.router.navigate(['login']);
     // alert('Voltar');

@@ -6,3 +6,10 @@ export interface Conta {
   tipo: string;
   descricao: boolean;
 }
+export interface User {
+  displayName: any;
+  email: any;
+  emailVerified: any;
+  photoURL: any;
+  uid: any;
+}

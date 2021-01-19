@@ -46,30 +46,30 @@ export class LoginComponent implements OnInit {
     this.router.navigate(['cadastro']);
   }
 
-  login() {
+  // login() {
 
-    const dadosFormLogin = this.formLogin.value;
-    if (localStorage.hasOwnProperty('Easy Financas Cadastro')) {
-      this.loginsCadastrados = JSON.parse(localStorage.getItem('Easy Financas Cadastro') || '{}');
-      console.log(this.loginsCadastrados);
-      console.log(dadosFormLogin);
-      this.loginsCadastrados.forEach((element) => {
+  //   const dadosFormLogin = this.formLogin.value;
+  //   if (localStorage.hasOwnProperty('Easy Financas Cadastro')) {
+  //     this.loginsCadastrados = JSON.parse(localStorage.getItem('Easy Financas Cadastro') || '{}');
+  //     console.log(this.loginsCadastrados);
+  //     console.log(dadosFormLogin);
+  //     this.loginsCadastrados.forEach((element) => {
 
-        console.log(element);
-      });
+  //       console.log(element);
+  //     });
 
-      if (this.loginsCadastrados.indexOf(dadosFormLogin.loginEmail) > -1 && this.loginsCadastrados.indexOf(dadosFormLogin.senha) > -1) {
-        alert('SUCESSO!');
-      } else {
-        alert('ERRO!');
-      }
+  //     if (this.loginsCadastrados.indexOf(dadosFormLogin.loginEmail) > -1 && this.loginsCadastrados.indexOf(dadosFormLogin.senha) > -1) {
+  //       alert('SUCESSO!');
+  //     } else {
+  //       alert('ERRO!');
+  //     }
 
-    } else {
-      alert('CADASTRE-SE!');
-    }
-    console.log(dadosFormLogin);
+  //   } else {
+  //     alert('CADASTRE-SE!');
+  //   }
+  //   console.log(dadosFormLogin);
 
-  }
+  // }
   verificaEmail(email: any) {
     console.log(email.currentTarget.value);
     if (email.currentTarget.value === '') {

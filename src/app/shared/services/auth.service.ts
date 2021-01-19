@@ -24,7 +24,7 @@ export class AuthService {
   userData: any; // Save logged in user data
   // emailVazio: boolean;
   // senhaVazia: boolean;
-
+  examp: any;
   constructor(
     public afs: AngularFirestore,   // Inject Firestore service
     public afAuth: AngularFireAuth, // Inject Firebase auth service
@@ -41,8 +41,8 @@ export class AuthService {
         localStorage.setItem('user', JSON.stringify(this.userData));
         JSON.parse(localStorage.getItem('user') || '{}');
       } else {
-        localStorage.setItem('user', 'null');
-        JSON.parse(localStorage.getItem('user') || '{}');
+        localStorage.removeItem('user');
+        // JSON.parse(localStorage.getItem('user') || '{}');
       }
     })
   }
@@ -246,6 +246,17 @@ export class AuthService {
       merge: true
     })
   }
+  // get user info
+
+  getContaInfo() {
+    // console.log(this.afs.collection("User").snapshotChanges());
+    return this.afs.collection("User").snapshotChanges();
+  }
+
+  getContaBancos() {
+    console.log(this.afs.collection("conta").snapshotChanges());
+    return this.afs.collection("conta").snapshotChanges();
+  }
 
   // Sign out
   SignOut() {
@@ -254,5 +265,6 @@ export class AuthService {
       this.router.navigate(['']);
     })
   }
+
 
 }
