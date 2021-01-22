@@ -1,17 +1,22 @@
+import { BrowserModule } from '@angular/platform-browser';
 import { MatTabsModule } from '@angular/material/tabs';
 import { User } from './../shared/services/user';
 import { CanActivate, Router } from '@angular/router';
 import { AuthGuard } from './../shared/guard/auth.guard';
-import { Conta } from './../shared/services/dashboard';
+import { Conta, Despesa } from './../shared/services/dashboard';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from "../shared/services/auth.service";
 import { AngularFirestore, AngularFirestoreDocument } from '@angular/fire/firestore';
 import { FirebaseApp } from '@angular/fire';
-
 export let listaContasBanco: Conta[] = [];
+export let listaDespesas: Despesa[] = [];
 import * as firebase from 'firebase';
-
+import { CommonModule } from '@angular/common';
+import { rootCertificates } from 'tls';
+import { DATABASE_URL } from 'angularfire2';
+// firebase.default.initializeApp();
+// const db = firebase.default.firestore();
 @Component({
   selector: 'app-dashboard',
   templateUrl: './dashboard.component.html',
@@ -19,11 +24,19 @@ import * as firebase from 'firebase';
 })
 export class DashboardComponent implements OnInit {
   formadicionarConta: FormGroup;
+  formadicionarDespesa: FormGroup;
   users: User;
   usersFilter: any;
   uidUserLS: any;
   contasBanco: any;
-  listaCB: Conta[] = [];
+  despesas: any;
+  contaRel: Conta;
+  public lsDespesa: Despesa[] = [];
+  public idConta: any;
+  public listaCB: Conta[] = [];
+  exibirContas: boolean;
+  userRef: User;
+  contaRef: Conta;
 
   constructor(public authService: AuthService, private formDasboard: FormBuilder, public afs: AngularFirestore, private router: Router) {
     this.formadicionarConta = this.formDasboard.group({
@@ -33,6 +46,14 @@ export class DashboardComponent implements OnInit {
       banco: [],
       tipo: [],
     });
+    this.formadicionarDespesa = this.formDasboard.group({
+      valor: [],
+      categoria: [],
+      descricao: [],
+      fixa: [],
+      conta: [],
+      status: [],
+    });
   }
 
   ngOnInit(): void {
@@ -41,9 +62,11 @@ export class DashboardComponent implements OnInit {
     let user = firebase.default.auth().currentUser;
     if (this.authService.isLoggedIn || user?.uid || this.uidUserLS.uid) {
       this.criarFormConta();
+      this.criarFormDespesa();
       this.usersInfo();
       this.contaInfo();
-      console.log(this.usersInfo());
+      this.buscarDespesas();
+      // console.log(this.usersInfo());
     } else {
       console.log('usuario n logado');
       this.router.navigate(['']);
@@ -59,10 +82,19 @@ export class DashboardComponent implements OnInit {
       tipo: ['', Validators.compose([Validators.required])],
     });
   }
-
+  criarFormDespesa() {
+    this.formadicionarDespesa = this.formDasboard.group({
+      valor: ['', Validators.compose([Validators.required])],
+      categoria: ['', Validators.compose([Validators.required])],
+      descricao: ['', Validators.compose([Validators.required])],
+      fixa: ['', Validators.compose([Validators.required])],
+      conta: ['', Validators.compose([Validators.required])],
+      status: ['', Validators.compose([Validators.required])],
+    });
+  }
   criarConta() {
     var user = firebase.default.auth().currentUser;
-    console.log(user)
+    // console.log(user)
     if (user?.uid) {
       const conta: Conta = {
         nome: this.formadicionarConta.get('nome')?.value,
@@ -83,7 +115,7 @@ export class DashboardComponent implements OnInit {
           .catch((error: any) => {
             console.log(error);
           });
-        console.log(conta);
+        // console.log(conta);
       });
     } else {
       alert("usuario n logaod");
@@ -107,9 +139,10 @@ export class DashboardComponent implements OnInit {
     let retorno;
     for (let index = 0; index < uid.length; index++) {
       if (uid[index].payload.doc?.data().uid === this.uidUserLS.uid) {
-        // console.log(uid[index].payload.doc?.data());
+
         this.users = uid[index].payload.doc?.data();
-        console.log(this.users);
+        console.log(uid[index].payload.doc.id);
+        // console.log(this.users);
       }
 
     }
@@ -137,6 +170,90 @@ export class DashboardComponent implements OnInit {
     }
     console.log(listaContasBanco);
     return listaContasBanco;
+  }
+  criarDespesa() {
+    var user = firebase.default.auth().currentUser;
+    let contaRef = firebase.default.firestore().collection("conta").doc(this.idConta);
+    // this.userRef = firebase.default.firestore().collection("users").doc(user?.uid);
+    this.buscarConta(this.contasBanco, this.formadicionarDespesa.get('conta')?.value);
+    console.log(this.idConta);
+    console.log(this.contaRel);
 
+    console.log(user)
+    if (user?.uid) {
+      const despesa: Despesa = {
+
+        valor: this.formadicionarDespesa.get('valor')?.value,
+        uid: user.uid,
+        descricao: this.formadicionarDespesa.get('descricao')?.value,
+        fixa: this.formadicionarDespesa.get('fixa')?.value,
+        status: this.formadicionarDespesa.get('status')?.value,
+        conta: contaRef,
+        categoria: this.formadicionarDespesa.get('categoria')?.value,
+      }
+      return new Promise<any>((resolver, rejeitar) => {
+        this.afs
+          .collection("despesa")
+          .add(despesa)
+          .then(res => {
+            console.log(res);
+            console.log('suceso')
+          }, err => rejeitar())
+          .catch((error: any) => {
+            console.log(error);
+          });
+        console.log(despesa);
+      });
+    } else {
+      alert("usuario n logado");
+      return false;
+    }
+  }
+  buscarConta(list: any, nomeConta: any) {
+    let buscarIdConta;
+    let idx;
+    for (let index = 0; index < list.length; index++) {
+      if (list[index].payload.doc?.data().uid === this.uidUserLS.uid && list[index].payload.doc?.data().nome === nomeConta) {
+        // console.log(uid[index].payload.doc?.data());
+        this.contaRel = list[index].payload.doc.data();
+        this.idConta = list[index].payload.doc.id;
+      }
+
+    }
+    console.log('aqui - ' + this.idConta);
+    return this.idConta;
+  }
+  buscarDespesas() {
+    this.authService.getDespesas().subscribe(res => {
+      this.despesas = res;
+      this.filterDespesas(this.despesas);
+      // console.log(this.contasBanco.payload?.doc.data());
+    })
+  }
+  filterDespesas(despesa: any) {
+    let contasX;
+    for (let index = 0; index < despesa.length; index++) {
+      if (despesa[index].payload.doc?.data().uid === this.uidUserLS.uid) {
+        // console.log(uid[index].payload.doc?.data());
+        listaDespesas.push(despesa[index].payload.doc?.data());
+        this.lsDespesa.push(despesa[index].payload.doc?.data());
+      }
+
+    }
+
+
+    for (let i = 0; i < listaDespesas.length; i++) {
+      for (let j = 0; j < listaDespesas[i].conta.length; j++) {
+        console.log(listaDespesas[i].conta[i].payload.doc.data());
+
+      }
+      console.log(listaDespesas[i]);
+
+    }
+    console.log(listaDespesas);
+    return listaDespesas;
+  }
+  showContas() {
+    this.exibirContas = true;
   }
 }

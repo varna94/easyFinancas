@@ -1,9 +1,10 @@
 import { BrowserModule } from '@angular/platform-browser';
-import { NgModule } from '@angular/core';
+import { LOCALE_ID, NgModule } from '@angular/core';
 import { AppComponent } from './app.component';
 import { LoginComponent } from './login/login/login.component';
 import { CadastroComponent } from './cadastro/cadastro.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
+
 import { Routes, Router, RouterModule } from '@angular/router';
 import { BoardComponent } from './board/board.component';
 import { ReactiveFormsModule } from "@angular/forms";
@@ -22,6 +23,12 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { Platform } from '@angular/cdk/platform';
 import { SpinnerComponent } from './spinner/spinner.component';
 import { animate } from '@angular/animations';
+import { ContaComponent } from './conta/conta.component';
+import { registerLocaleData } from '@angular/common';
+import ptBr from '@angular/common/locales/pt';
+import { DespesaComponent } from './despesa/despesa.component';
+registerLocaleData(ptBr);
+
 
 const appRoutes: Routes = [
   { path: '', component: InicioComponent },
@@ -35,10 +42,14 @@ const appRoutes: Routes = [
 ];
 
 @NgModule({
-  declarations: [AppComponent, LoginComponent, CadastroComponent, DashboardComponent, BoardComponent, InicioComponent, ModalFeedbacksComponent, RecuperarSenhaComponent, ConfirmaEmailComponent, SpinnerComponent],
-  providers: [AuthService, ModalFeedbacksComponent],
+  declarations: [AppComponent, LoginComponent, CadastroComponent, DashboardComponent, BoardComponent, InicioComponent, ModalFeedbacksComponent, RecuperarSenhaComponent, ConfirmaEmailComponent, SpinnerComponent, ContaComponent, DespesaComponent],
+  providers: [AuthService, ModalFeedbacksComponent,
+    {
+      provide: LOCALE_ID,
+      useValue: "pt"
+    }],
   bootstrap: [AppComponent],
-  imports: [BrowserModule, RouterModule.forRoot(appRoutes), ReactiveFormsModule,
+  imports: [BrowserModule, RouterModule.forRoot(appRoutes, { paramsInheritanceStrategy: 'always' }), ReactiveFormsModule,
     AngularFireModule.initializeApp(environment.firebase), AngularFireAuthModule,
     AngularFirestoreModule, MatProgressSpinnerModule],
 })

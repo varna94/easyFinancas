@@ -6,6 +6,16 @@ export interface Conta {
   tipo: string;
   descricao: boolean;
 }
+export interface Despesa {
+  uid: any;
+  valor: string;
+  conta: any;
+  descricao: string;
+  fixa: boolean;
+  status: any;
+  categoria: string;
+
+}
 export interface User {
   displayName: any;
   email: any;

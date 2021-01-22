@@ -254,8 +254,12 @@ export class AuthService {
   }
 
   getContaBancos() {
-    console.log(this.afs.collection("conta").snapshotChanges());
+    // console.log(this.afs.collection("conta").snapshotChanges());
     return this.afs.collection("conta").snapshotChanges();
+  }
+  getDespesas() {
+    console.log(this.afs.collection("despesa").snapshotChanges());
+    return this.afs.collection("despesa").snapshotChanges();
   }
 
   // Sign out

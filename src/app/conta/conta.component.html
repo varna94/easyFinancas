@@ -1,0 +1,29 @@
+<div>
+    <p class="titulo-contas">CONTAS</p>
+    <div *ngFor="let conta of lsContas">
+        <div class="card-conta">
+            <div class="header-card-conta">
+                <div>
+                    <p>{{conta.banco}}</p>
+                    <label>{{conta.nome}}</label>
+                </div>
+                <img class="img-banco" src="/assets/images/{{conta.banco}}.png" alt="">
+
+            </div>
+            <div class="valores-conta">
+                <div>
+                    <p id="um">Receitas</p>
+                    <p id="dois">{{conta.saldo | currency: 'BRL'}}</p>
+                </div>
+                <div>
+                    <p id="tres">Despesas</p>
+                    <p id="quatro">{{conta.saldo | currency: 'BRL'}}</p>
+                </div>
+            </div>
+            <div class="saldo-conta">
+                <p id="um">Saldo:</p>
+                <p id="dois">{{conta.saldo | currency: 'BRL'}}</p>
+            </div>
+        </div>
+    </div>
+</div>
