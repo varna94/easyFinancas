@@ -17,10 +17,10 @@
                 </div>
                 <button style="margin-top: 15px;" (click)="authService.SignOut()">Sair</button>
                 <div id="listaOpcoes" class="lista-opcoes">
-                    <li>Dashboard</li>
-                    <li>Recursos</li>
-                    <li>Despesas</li>
-                    <li><a (click)="showContas()">Contas</a></li>
+                    <li (click)="showDashboard()">Dashboard</li>
+                    <li (click)="showRecursos()">Recursos</li>
+                    <li (click)="showDespesas()">Despesas</li>
+                    <li (click)="showContas()">Contas</li>
                     <li>Cartão de crédito</li>
                 </div>
             </div>
@@ -36,32 +36,34 @@
                 <div *ngIf="exibirContas">
                     <app-conta></app-conta>
                 </div>
-                <app-despesa></app-despesa>
+                <div *ngIf="exibirDespesas">
+                    <app-despesa></app-despesa>
+                </div>
             </div>
         </div>
     </div>
+</div>
+<!-- MODAL CADASTRO CONTA -->
+<div id="modal" class="modal fade modal-fullscreen-md-down" id="modalConta" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Nova conta</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form [formGroup]="formadicionarConta">
+                    <label for="conta-saldo">Saldo:</label>
+                    <input type="text" id="conta-saldo" class="form-control" formControlName="saldo">
+                    <div class="row">
 
-    <!-- MODAL CADASTRO CONTA -->
-    <div id="modal" class="modal fade modal-fullscreen-md-down" id="modalConta" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Nova conta</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <form [formGroup]="formadicionarConta">
-                        <label for="conta-saldo">Saldo:</label>
-                        <input type="text" id="conta-saldo" class="form-control" formControlName="saldo">
-                        <div class="row">
-
-                            <div class="mb-3 col ">
-                                <label for="conta-name " class="col-form-label">Nome:</label>
-                                <input type="text " class="form-control " id="conta-name " formControlName="nome" maxlength="15">
-                            </div>
-                            <div class="mb-3 col ">
-                                <label for="conta-instituicao " class="col-form-label ">Instituição financeira:</label>
-                                <select type="select " class="form-control form-select " id="conta-instituicao " formControlName="banco">
+                        <div class="mb-3 col ">
+                            <label for="conta-name " class="col-form-label">Nome:</label>
+                            <input type="text " class="form-control " id="conta-name " formControlName="nome" maxlength="15">
+                        </div>
+                        <div class="mb-3 col ">
+                            <label for="conta-instituicao " class="col-form-label ">Instituição financeira:</label>
+                            <select type="select " class="form-control form-select " id="conta-instituicao " formControlName="banco">
                               <option selected>Selecione</option>
                               <option>Santander</option>
                               <option>Nubank</option>
@@ -70,102 +72,111 @@
                               <option>Bradesco</option>
                               <option>C6</option>
                             </select>
-                            </div>
                         </div>
-                        <div class="row ">
-                            <div class="mb-3 col ">
-                                <label for="conta-tipo " class="col-form-label ">Tipo:</label>
-                                <select type="select " class="form-control form-select " id="conta-tipo " formControlName="tipo">
+                    </div>
+                    <div class="row ">
+                        <div class="mb-3 col ">
+                            <label for="conta-tipo " class="col-form-label ">Tipo:</label>
+                            <select type="select " class="form-control form-select " id="conta-tipo " formControlName="tipo">
                                   <option selected>Selecione</option>
                                   <option>Conta corrente</option>
                                   <option>Conta poupança</option>
                                 </select>
-                            </div>
-                            <div class="mb-3 col ">
-                                <label for="message-text " class="col-form-label ">Descrição:</label>
-                                <textarea class="form-control " id="message-text " formControlName="descricao"></textarea>
-                            </div>
                         </div>
-
-                    </form>
-                    <div class="conta-opcoes ">
-                        <a class="conta-opc-despesa " href=" ">Despesas</a>
-                        <a class="conta-opc-receita " href=" ">Receitas</a>
-                        <a class="conta-opc-transacao " href=" ">Transações</a>
+                        <div class="mb-3 col ">
+                            <label for="message-text " class="col-form-label ">Descrição:</label>
+                            <textarea class="form-control " id="message-text " formControlName="descricao"></textarea>
+                        </div>
                     </div>
+
+                </form>
+                <div class="conta-opcoes ">
+                    <a class="conta-opc-despesa " href=" ">Despesas</a>
+                    <a class="conta-opc-receita " href=" ">Receitas</a>
+                    <a class="conta-opc-transacao " href=" ">Transações</a>
                 </div>
-                <div class="modal-footer ">
-                    <button type="button " class="btn btn-secondary " data-bs-dismiss="modal ">Cancelar</button>
-                    <button type="button " class="btn btn-primary" (click)="criarConta()">Salvar</button>
-                </div>
+            </div>
+            <div class="modal-footer ">
+                <button type="button " class="btn btn-secondary " data-bs-dismiss="modal ">Cancelar</button>
+                <button type="button " class="btn btn-primary" (click)="criarConta()">Salvar</button>
             </div>
         </div>
     </div>
+</div>
 
-    <!-- MODAL CADASTRO DESPESA -->
-    <div id="modal" class="modal fade modal-fullscreen-md-down" id="modalDespesa" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Nova despesa</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <form [formGroup]="formadicionarDespesa">
-                        <label for="conta-saldo">Valor:</label>
-                        <input type="text" id="conta-saldo" class="form-control" formControlName="valor">
-
-                        <label for="conta-name " class="col-form-label">Descrição:</label>
-                        <textarea type="text " class="form-control " id="conta-name " formControlName="descricao"></textarea>
-
-                        <div class="row">
-                            <div class="mb-3 col ">
-                                <label class="form-check-label col-form-label" for="flexCheckDefault">Fixa:</label>
-                                <input class="form-check-input mt-3 margin-right " type="checkbox" value="" id="flexCheckDefault" formControlName="fixa">
-                            </div>
-                            <div class="mb-3 col ">
-                                <label for="conta-instituicao " class="col-form-label ">Status:</label>
-                                <select type="select " class="form-control form-select " id="conta-instituicao " formControlName="status">
+<!-- MODAL CADASTRO DESPESA -->
+<div id="modal" class="modal fade modal-fullscreen-md-down" id="modalDespesa" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Nova despesa</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form [formGroup]="formadicionarDespesa">
+                    <label for="conta-saldo">Valor:</label>
+                    <input type="text" id="conta-saldo" class="form-control" formControlName="valor">
+                    <div class="row">
+                        <div class="mb-3 col ">
+                            <label for="conta-name " class="col-form-label">Descrição:</label>
+                            <textarea type="text " class="form-control " id="conta-name " formControlName="descricao"></textarea>
+                        </div>
+                        <div class="mb-3 col ">
+                            <label for="conta-name " class="col-form-label">Data de vencimento  :</label>
+                            <input type="date" class="form-control " id="conta-name " formControlName="dataVencimento">
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="mb-3 col ">
+                            <label class="form-check-label col-form-label" for="flexCheckDefault">Fixa:</label>
+                            <input class="form-check-input mt-3 margin-right " type="checkbox" value="" id="flexCheckDefault" formControlName="fixa">
+                        </div>
+                        <div class="mb-3 col ">
+                            <label for="conta-instituicao " class="col-form-label ">Status:</label>
+                            <select type="select " class="form-control form-select " id="conta-instituicao " formControlName="status">
                                   <option selected>Selecione</option>
                                   <option selected>Paga</option>
                                   <option selected>Pendente</option>
                                   <option selected>Vencida</option>
 
                                 </select>
-                            </div>
                         </div>
-                        <div class="row ">
-                            <div class="mb-3 col ">
-                                <label for="conta-banco " class="col-form-label ">Conta:</label>
-                                <select type="select " class="form-control form-select " id="conta-banco " formControlName="conta">
+                    </div>
+                    <div class="row ">
+                        <div class="mb-3 col ">
+                            <label for="conta-banco " class="col-form-label ">Conta:</label>
+                            <select type="select " class="form-control form-select " id="conta-banco " formControlName="conta">
                                   <option selected>Selecione</option>
                                   <option *ngFor="let ls of listaCB" value="{{ls.nome}}">{{ls.nome}} - {{ls.banco}}</option>
                                 </select>
-                            </div>
-                            <div class="mb-3 col ">
-                                <label for="conta-tipo " class="col-form-label ">Categoria:</label>
-                                <select type="select " class="form-control form-select " id="conta-tipo " formControlName="categoria">
-                                  <option selected>Selecione</option>
-                                  <option></option>
-                                </select>
-                            </div>
                         </div>
-                    </form>
-                    <div class="conta-opcoes ">
-                        <a class="conta-opc-despesa">Despesas</a>
-                        <a class="conta-opc-receita">Receitas</a>
-                        <a class="conta-opc-transacao">Transações</a>
+                        <div class="mb-3 col ">
+                            <label for="conta-tipo " class="col-form-label ">Categoria:</label>
+                            <select type="select " class="form-control form-select " id="conta-tipo " formControlName="categoria">
+                                  <option selected>Selecione</option>
+                                  <option>Alimentação</option>
+                                  <option>Saúde</option>
+                                  <option>Educação</option>
+                                  <option>Transporte</option>
+                                </select>
+                        </div>
                     </div>
+                </form>
+                <div class="conta-opcoes ">
+                    <a class="conta-opc-despesa">Despesas</a>
+                    <a class="conta-opc-receita">Receitas</a>
+                    <a class="conta-opc-transacao">Transações</a>
                 </div>
-                <div class="modal-footer ">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-                    <button type="button" class="btn btn-primary" (click)="criarDespesa()">Salvar</button>
-                </div>
+            </div>
+            <div class="modal-footer ">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                <button type="button" class="btn btn-primary" data-bs-dismiss="modal" (click)="criarDespesa()">Salvar</button>
             </div>
         </div>
     </div>
+</div>
 
-    <!-- MODAL CADASTRO RECURSO
+<!-- MODAL CADASTRO RECURSO
     <div id="modal" class="modal fade modal-fullscreen-md-down" id="modalRecurso" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">

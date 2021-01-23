@@ -35,6 +35,7 @@ export class DashboardComponent implements OnInit {
   public idConta: any;
   public listaCB: Conta[] = [];
   exibirContas: boolean;
+  exibirDespesas: boolean;
   userRef: User;
   contaRef: Conta;
 
@@ -90,6 +91,7 @@ export class DashboardComponent implements OnInit {
       fixa: ['', Validators.compose([Validators.required])],
       conta: ['', Validators.compose([Validators.required])],
       status: ['', Validators.compose([Validators.required])],
+      dataVencimento: ['', Validators.compose([Validators.required])],
     });
   }
   criarConta() {
@@ -104,6 +106,7 @@ export class DashboardComponent implements OnInit {
         tipo: this.formadicionarConta.get('tipo')?.value,
         descricao: this.formadicionarConta.get('descricao')?.value,
       }
+      console.log(conta);
       return new Promise<any>((resolver, rejeitar) => {
         this.afs
           .collection("conta")
@@ -122,16 +125,13 @@ export class DashboardComponent implements OnInit {
       return false;
     }
 
-
   }
+
   usersInfo = () => {
     // console.log('user logado - ' + this.uidUserLS);
-
     this.authService.getContaInfo().subscribe(res => {
       this.usersFilter = res;
       this.filterUser(this.usersFilter);
-      // var teste = this.users.filter(i => i.payload.doc.data().uid == this.uidUser.uid);
-      // console.log(this.filterUser(this.users.payload.doc.data().uid));
     });
 
   }
@@ -146,9 +146,6 @@ export class DashboardComponent implements OnInit {
       }
 
     }
-    // console.log(this.users);
-    // console.log(this.users.displayName);
-    // console.log(this.users.uid);
     return this.users;
   }
   contaInfo() {
@@ -171,6 +168,7 @@ export class DashboardComponent implements OnInit {
     console.log(listaContasBanco);
     return listaContasBanco;
   }
+
   criarDespesa() {
     var user = firebase.default.auth().currentUser;
     let contaRef = firebase.default.firestore().collection("conta").doc(this.idConta);
@@ -182,13 +180,13 @@ export class DashboardComponent implements OnInit {
     console.log(user)
     if (user?.uid) {
       const despesa: Despesa = {
-
+        dataVencimento: this.formadicionarDespesa.get('dataVencimento')?.value,
         valor: this.formadicionarDespesa.get('valor')?.value,
         uid: user.uid,
         descricao: this.formadicionarDespesa.get('descricao')?.value,
         fixa: this.formadicionarDespesa.get('fixa')?.value,
         status: this.formadicionarDespesa.get('status')?.value,
-        conta: contaRef,
+        conta: this.idConta,
         categoria: this.formadicionarDespesa.get('categoria')?.value,
       }
       return new Promise<any>((resolver, rejeitar) => {
@@ -209,6 +207,8 @@ export class DashboardComponent implements OnInit {
       return false;
     }
   }
+
+
   buscarConta(list: any, nomeConta: any) {
     let buscarIdConta;
     let idx;
@@ -223,6 +223,7 @@ export class DashboardComponent implements OnInit {
     console.log('aqui - ' + this.idConta);
     return this.idConta;
   }
+
   buscarDespesas() {
     this.authService.getDespesas().subscribe(res => {
       this.despesas = res;
@@ -241,19 +242,25 @@ export class DashboardComponent implements OnInit {
 
     }
 
-
-    for (let i = 0; i < listaDespesas.length; i++) {
-      for (let j = 0; j < listaDespesas[i].conta.length; j++) {
-        console.log(listaDespesas[i].conta[i].payload.doc.data());
-
-      }
-      console.log(listaDespesas[i]);
-
-    }
     console.log(listaDespesas);
     return listaDespesas;
   }
+
+
   showContas() {
+    this.exibirDespesas = false;
     this.exibirContas = true;
+  }
+  showDespesas() {
+    this.exibirContas = false;
+    this.exibirDespesas = true;
+  }
+  showDashboard() {
+    this.exibirDespesas = false;
+    this.exibirContas = false;
+  }
+  showRecursos() {
+    this.exibirContas = false;
+    this.exibirDespesas = false;
   }
 }

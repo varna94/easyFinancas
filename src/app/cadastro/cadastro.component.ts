@@ -31,9 +31,7 @@ export class CadastroComponent implements OnInit {
       confEmail: [],
       senha: []
     });
-
   }
-
   ngOnInit(): void {
     this.nomeVazio = nomeVazio;
     this.emailVazioCad = emailVazioCad;
@@ -49,12 +47,8 @@ export class CadastroComponent implements OnInit {
       confEmail: ['', Validators.compose([Validators.required])],
       senha: ['', Validators.compose([Validators.required, Validators.minLength(6)])]
     });
-
   }
-  lista() {
 
-    // this.formCadastro.controls['cadastro'].push(this.formCadastro);
-  }
   // Verify Name
   verifyName(name: any) {
     if (name.currentTarget.value === '') {
@@ -86,10 +80,6 @@ export class CadastroComponent implements OnInit {
       this.confEmailVazio = false;
     }
   }
-  verifyKeydownConfEmail(confEmail: any) {
-
-  }
-
 
   //Verifi Senha
   verifySenha(senha: any) {
@@ -100,23 +90,6 @@ export class CadastroComponent implements OnInit {
       this.senhaVaziaCad = false;
     }
   }
-  // cadastrar() {
-  //   var cadastros = this.formCadastro.value;
-  //   if (localStorage.hasOwnProperty('Easy Financas Cadastro')) {
-  //     this.listaCadastros = JSON.parse(localStorage.getItem('Easy Financas Cadastro') || '{}');
-
-  //     this.listaCadastros.push(cadastros);
-
-  //     localStorage.setItem('Easy Financas Cadastro', JSON.stringify(this.listaCadastros));
-  //   } else {
-  //     console.log(cadastros);
-
-  //     this.listaCadastro.push(cadastros);
-
-  //     console.log(this.listaCadastro);
-  //     localStorage.setItem('Easy Financas Cadastro', JSON.stringify(this.listaCadastro));
-  //   }
-  // }
   voltar() {
     this.router.navigate(['login']);
     // alert('Voltar');

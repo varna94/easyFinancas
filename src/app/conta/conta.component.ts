@@ -1,5 +1,6 @@
-import { Conta } from './../shared/services/dashboard';
-import { listaContasBanco } from './../dashboard/dashboard.component';
+import { BrowserModule } from '@angular/platform-browser';
+import { Conta, Despesa } from './../shared/services/dashboard';
+import { listaContasBanco, listaDespesas } from './../dashboard/dashboard.component';
 import { Component, OnInit } from '@angular/core';
 
 @Component({
@@ -9,10 +10,12 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ContaComponent implements OnInit {
   lsContas: Conta[] = [];
+  lsDespesas: Despesa[] = [];
   constructor() { }
 
   ngOnInit(): void {
     this.lsContas = listaContasBanco;
-  }
+    this.lsDespesas = listaDespesas;
 
+  }
 }

@@ -81,10 +81,6 @@ export class AuthService {
 
   // Sign up with email/password
   SignUp(email: any, password: any, nome: any) {
-
-    // console.log(form.value);
-
-
     var dt;
     this.router.navigate(['spinner']);
     this.afAuth.createUserWithEmailAndPassword(email, password)
@@ -114,8 +110,8 @@ export class AuthService {
         console.log(error.message);
       })
 
-
   }
+
   createUserDB(data: any) {
     console.log(data);
 
@@ -183,35 +179,22 @@ export class AuthService {
 
   // Sign in with Google
   GoogleAuth() {
-    // var router: Router;
     var provider = new firebase.default.auth.GoogleAuthProvider();
     firebase.default.auth().signInWithPopup(provider)
       .then((result) => {
-
-
-        // This gives you a Google Access Token. You can use it to access the Google API.
         var token = result.credential as firebase.default.auth.OAuthCredential;
-        // The signed-in user info.
         var user = result.user;
-        // router.navigate(['dashboard']);
         console.log(token);
         console.log(user);
         this.router.navigate(['dashboard']);
 
-        // ...
       }).catch(function (error) {
         alert('erro');
-        // Handle Errors here.
         var errorCode = error.code;
         var errorMessage = error.message;
-        // The email of the user's account used.
         var email = error.email;
-        // The firebase.auth.AuthCredential type that was used.
         var credential = error.credential;
-        // ...
       });
-    // return this.AuthLogin(firebase.default.auth().signInWithPopup(new firebase.default.auth.GoogleAuthProvider()));
-    // this.AuthLogin(new firebase.default.auth().signInWithPopup(new firebase.default.auth.GithubAuthProvider()));
   }
 
   // Auth logic to run auth providers
@@ -258,7 +241,7 @@ export class AuthService {
     return this.afs.collection("conta").snapshotChanges();
   }
   getDespesas() {
-    console.log(this.afs.collection("despesa").snapshotChanges());
+    // console.log(this.afs.collection("despesa").snapshotChanges());
     return this.afs.collection("despesa").snapshotChanges();
   }
 

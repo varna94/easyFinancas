@@ -1,17 +1,24 @@
-<table class="table">
-    <thead>
-        <tr>
-            <th scope="col">Valor</th>
-            <th scope="col">Conta</th>
-            <th scope="col">Last</th>
-            <th scope="col">Handle</th>
-        </tr>
-    </thead>
-    <tbody>
-        <tr *ngFor="let d of despesas">
-            <!-- <th scope="row">1</th> -->
-            <th>{{d.valor | currency: 'BRL'}} </th>
-            <td>{{d.conta}}</td>
-        </tr>
-    </tbody>
-</table>
+<div class="tableDespesas">
+    <p class="titulo-despesas">DESPESAS</p>
+    <table class="table">
+        <thead>
+            <tr>
+                <th scope="col">Valor</th>
+                <th scope="col">descrição</th>
+                <th scope="col">Fixa?</th>
+                <th scope="col">Status</th>
+                <th scope="col">Data de Vencimento</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let d of despesas">
+                <!-- <th scope="row">1</th> -->
+                <th>{{d.valor | currency: 'BRL'}} </th>
+                <td>{{d.descricao}}</td>
+                <td>{{d.fixa}}</td>
+                <td>{{d.status}}</td>
+                <td>{{d.dataVencimento | date: 'dd/MM/yyyy'}}</td>
+            </tr>
+        </tbody>
+    </table>
+</div>

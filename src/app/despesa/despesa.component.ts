@@ -15,6 +15,7 @@ export class DespesaComponent implements OnInit {
   ngOnInit(): void {
     console.log(listaDespesas);
     this.despesas = listaDespesas;
+
   }
 
 }

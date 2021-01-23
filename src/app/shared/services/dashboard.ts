@@ -14,6 +14,7 @@ export interface Despesa {
   fixa: boolean;
   status: any;
   categoria: string;
+  dataVencimento: Date;
 
 }
 export interface User {

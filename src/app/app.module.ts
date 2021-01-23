@@ -50,7 +50,7 @@ const appRoutes: Routes = [
     }],
   bootstrap: [AppComponent],
   imports: [BrowserModule, RouterModule.forRoot(appRoutes, { paramsInheritanceStrategy: 'always' }), ReactiveFormsModule,
-    AngularFireModule.initializeApp(environment.firebase), AngularFireAuthModule,
+    AngularFireModule.initializeApp(environment.firebase), AngularFireAuthModule, AngularFireAuthModule,
     AngularFirestoreModule, MatProgressSpinnerModule],
 })
 export class AppModule { }
