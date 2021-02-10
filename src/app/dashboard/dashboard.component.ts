@@ -14,7 +14,7 @@ export let listaDespesas: Despesa[] = [];
 import * as firebase from 'firebase';
 import { CommonModule } from '@angular/common';
 import { rootCertificates } from 'tls';
-import { DATABASE_URL } from 'angularfire2';
+// import { DATABASE_URL } from 'angularfire2';
 // firebase.default.initializeApp();
 // const db = firebase.default.firestore();
 @Component({

@@ -40,6 +40,7 @@ export class LoginComponent implements OnInit {
     });
 
     console.log(this.formLogin.get('loginEmail')?.valid);
+    console.log(this.formLogin.get('loginEmail')?.value);
   }
 
   cadastro() {

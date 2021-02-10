@@ -10,8 +10,8 @@ export const environment = {
     projectId: "easyfinancas-d1cb0",
     storageBucket: "easyfinancas-d1cb0.appspot.com",
     messagingSenderId: "161335320210",
-    appId: "1:161335320210:web:aa31a25b4ebae71394504b",
-    measurementId: "G-S3E45JN2VP"
+    // appId: "1:161335320210:web:aa31a25b4ebae71394504b",
+    // measurementId: "G-S3E45JN2VP"
   }
 };
 
