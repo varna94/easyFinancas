@@ -1,3 +1,4 @@
+
 // import { infoFeedback } from './../../app.component';
 import { ModalFeedbacksComponent } from './../../modal-feedbacks/modal-feedbacks.component';
 import { Injectable, NgZone } from '@angular/core';
@@ -233,11 +234,20 @@ export class AuthService {
 
   getContaInfo() {
     // console.log(this.afs.collection("User").snapshotChanges());
-    return this.afs.collection("User").snapshotChanges();
+    return this.afs.collection("User").stateChanges();
   }
 
   getContaBancos() {
-    // console.log(this.afs.collection("conta").snapshotChanges());
+    // actions: any;
+    // let actions;
+    // console.log(this.afs.collection("conta").snapshotChanges().pipe(
+    //   map(actions => actions.map(a => {
+    //     const data = a.payload.doc.data() as Title;
+    //     const id = a.payload.doc.id;
+    //     return { id, ...data }
+    //   })),
+    //   tap(data => console.log('data', data))
+    // ););
     return this.afs.collection("conta").snapshotChanges();
   }
   getDespesas() {
@@ -248,6 +258,7 @@ export class AuthService {
   // Sign out
   SignOut() {
     return this.afAuth.signOut().then(() => {
+
       localStorage.removeItem('user');
       this.router.navigate(['']);
     })

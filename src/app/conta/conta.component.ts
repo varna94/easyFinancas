@@ -16,6 +16,7 @@ export class ContaComponent implements OnInit {
   ngOnInit(): void {
     this.lsContas = listaContasBanco;
     this.lsDespesas = listaDespesas;
-
+    console.log('contas');
+    console.log(this.lsContas);
   }
 }

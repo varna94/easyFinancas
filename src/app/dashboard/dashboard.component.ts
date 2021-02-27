@@ -60,7 +60,9 @@ export class DashboardComponent implements OnInit {
   ngOnInit(): void {
     this.uidUserLS = JSON.parse(localStorage.getItem("user") || '{}');
     console.log(this.uidUserLS);
+    console.log(this.authService.isLoggedIn);
     let user = firebase.default.auth().currentUser;
+    console.log(user?.uid);
     if (this.authService.isLoggedIn || user?.uid || this.uidUserLS.uid) {
       this.criarFormConta();
       this.criarFormDespesa();
@@ -124,7 +126,6 @@ export class DashboardComponent implements OnInit {
       alert("usuario n logaod");
       return false;
     }
-
   }
 
   usersInfo = () => {
@@ -151,6 +152,7 @@ export class DashboardComponent implements OnInit {
   contaInfo() {
     this.authService.getContaBancos().subscribe(res => {
       this.contasBanco = res;
+      console.log(this.contasBanco);
       this.filterContas(this.contasBanco);
       // console.log(this.contasBanco.payload?.doc.data());
     })
@@ -160,8 +162,14 @@ export class DashboardComponent implements OnInit {
     for (let index = 0; index < contas.length; index++) {
       if (contas[index].payload.doc?.data().uid === this.uidUserLS.uid) {
         // console.log(uid[index].payload.doc?.data());
-        listaContasBanco.push(contas[index].payload.doc?.data());
-        this.listaCB.push(contas[index].payload.doc?.data());
+        if (!listaContasBanco.includes(contas[index].payload.doc?.data())) {
+          console.log(contas[index].payload.doc?.id);
+          listaContasBanco.push(contas[index].payload.doc?.data());
+
+        }
+        if (!this.listaCB.includes(contas[index].payload.doc?.data())) {
+          this.listaCB.push(contas[index].payload.doc?.data());
+        }
       }
 
     }
