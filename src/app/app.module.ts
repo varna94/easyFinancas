@@ -1,3 +1,4 @@
+import { ApiService } from './../api.service';
 import { Request, Response } from 'express';
 import { BrowserModule } from '@angular/platform-browser';
 import { LOCALE_ID, NgModule } from '@angular/core';
