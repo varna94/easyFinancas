@@ -1,3 +1,4 @@
+import { Request, Response } from 'express';
 import { BrowserModule } from '@angular/platform-browser';
 import { LOCALE_ID, NgModule } from '@angular/core';
 import { AppComponent } from './app.component';
@@ -27,6 +28,8 @@ import { ContaComponent } from './conta/conta.component';
 import { registerLocaleData } from '@angular/common';
 import ptBr from '@angular/common/locales/pt';
 import { DespesaComponent } from './despesa/despesa.component';
+
+import { HttpClientModule } from '@angular/common/http';
 registerLocaleData(ptBr);
 
 
@@ -50,7 +53,7 @@ const appRoutes: Routes = [
     }],
   bootstrap: [AppComponent],
   imports: [BrowserModule, RouterModule.forRoot(appRoutes, { paramsInheritanceStrategy: 'always' }), ReactiveFormsModule,
-    AngularFireModule.initializeApp(environment.firebase), AngularFireAuthModule, AngularFireAuthModule,
+    AngularFireModule.initializeApp(environment.firebase), AngularFireAuthModule, AngularFireAuthModule, Request, Response, HttpClientModule,
     AngularFirestoreModule, MatProgressSpinnerModule],
 })
 export class AppModule { }
