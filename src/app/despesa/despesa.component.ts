@@ -1,3 +1,4 @@
+import { ApiService } from './../../api.service';
 import { Despesa } from './../shared/services/dashboard';
 import { listaDespesas } from './../dashboard/dashboard.component';
 import { Component, OnInit } from '@angular/core';
@@ -10,9 +11,11 @@ import { Component, OnInit } from '@angular/core';
 })
 export class DespesaComponent implements OnInit {
   public despesas: Despesa[] = [];
-  constructor() { }
+  constructor(public apService: ApiService) { }
 
   ngOnInit(): void {
+    this.apService.GetDespesas();
+    console.log(this.apService.GetDespesas());
     console.log(listaDespesas);
     this.despesas = listaDespesas;
 

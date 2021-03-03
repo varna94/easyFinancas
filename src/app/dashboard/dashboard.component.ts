@@ -1,3 +1,4 @@
+import { ApiService } from './../../api.service';
 import { BrowserModule } from '@angular/platform-browser';
 import { MatTabsModule } from '@angular/material/tabs';
 import { User } from './../shared/services/user';
@@ -10,10 +11,11 @@ import { AuthService } from "../shared/services/auth.service";
 import { AngularFirestore, AngularFirestoreDocument } from '@angular/fire/firestore';
 import { FirebaseApp } from '@angular/fire';
 export let listaContasBanco: Conta[] = [];
-export let listaDespesas: Despesa[] = [];
+export let listaDespesas: any;
 import * as firebase from 'firebase';
 import { CommonModule } from '@angular/common';
 import { rootCertificates } from 'tls';
+
 // import { DATABASE_URL } from 'angularfire2';
 // firebase.default.initializeApp();
 // const db = firebase.default.firestore();
@@ -39,7 +41,7 @@ export class DashboardComponent implements OnInit {
   userRef: User;
   contaRef: Conta;
 
-  constructor(public authService: AuthService, private formDasboard: FormBuilder, public afs: AngularFirestore, private router: Router) {
+  constructor(public authService: AuthService, private formDasboard: FormBuilder, public afs: AngularFirestore, private router: Router, public serviceDb: ApiService) {
     this.formadicionarConta = this.formDasboard.group({
       nome: [],
       saldo: [],
@@ -68,8 +70,10 @@ export class DashboardComponent implements OnInit {
       this.criarFormDespesa();
       this.usersInfo();
       this.contaInfo();
-      this.buscarDespesas();
-      // console.log(this.usersInfo());
+      // this.buscarDespesas();
+
+      console.log('despesas mongoDB');
+      console.log(this.serviceDb.GetDespesas());
     } else {
       console.log('usuario n logado');
       this.router.navigate(['']);
@@ -109,19 +113,20 @@ export class DashboardComponent implements OnInit {
         descricao: this.formadicionarConta.get('descricao')?.value,
       }
       console.log(conta);
-      return new Promise<any>((resolver, rejeitar) => {
-        this.afs
-          .collection("conta")
-          .add(conta)
-          .then(res => {
-            console.log(res);
-            console.log('suceso')
-          }, err => rejeitar())
-          .catch((error: any) => {
-            console.log(error);
-          });
-        // console.log(conta);
-      });
+      return this.serviceDb.AddContas(conta, 'conta');
+      // return new Promise<any>((resolver, rejeitar) => {
+      //   this.afs
+      //     .collection("conta")
+      //     .add(conta)
+      //     .then(res => {
+      //       console.log(res);
+      //       console.log('suceso')
+      //     }, err => rejeitar())
+      //     .catch((error: any) => {
+      //       console.log(error);
+      //     });
+      //   // console.log(conta);
+      // });
     } else {
       alert("usuario n logaod");
       return false;
@@ -197,23 +202,25 @@ export class DashboardComponent implements OnInit {
         conta: this.idConta,
         categoria: this.formadicionarDespesa.get('categoria')?.value,
       }
-      return new Promise<any>((resolver, rejeitar) => {
-        this.afs
-          .collection("despesa")
-          .add(despesa)
-          .then(res => {
-            console.log(res);
-            console.log('suceso')
-          }, err => rejeitar())
-          .catch((error: any) => {
-            console.log(error);
-          });
-        console.log(despesa);
-      });
+      return this.serviceDb.AddDespesas(despesa, 'despesas');
+      // return new Promise<any>((resolver, rejeitar) => {
+      //   this.afs
+      //     .collection("despesa")
+      //     .add(despesa)
+      //     .then(res => {
+      //       console.log(res);
+      //       console.log('suceso')
+      //     }, err => rejeitar())
+      //     .catch((error: any) => {
+      //       console.log(error);
+      //     });
+      //   console.log(despesa);
+      // });
     } else {
       alert("usuario n logado");
       return false;
     }
+
   }
 
 
@@ -233,22 +240,35 @@ export class DashboardComponent implements OnInit {
   }
 
   buscarDespesas() {
-    this.authService.getDespesas().subscribe(res => {
-      this.despesas = res;
-      this.filterDespesas(this.despesas);
-      // console.log(this.contasBanco.payload?.doc.data());
-    })
+    let despesa;
+    // this.serviceDb.GetDespesas();
+    // this.serviceDb.GetDespesas().subscribe({
+    //   next(x) {
+    //     console.log(x)
+    //     despesa = x;
+    //     listaDespesas = x;
+    //     console.log(despesa);
+    //   },
+    //   error(err) {
+    //     console.log(err)
+    //     // desp = err;
+    //   },
+    // });
+    console.log(listaDespesas);
+
   }
   filterDespesas(despesa: any) {
     let contasX;
-    for (let index = 0; index < despesa.length; index++) {
-      if (despesa[index].payload.doc?.data().uid === this.uidUserLS.uid) {
-        // console.log(uid[index].payload.doc?.data());
-        listaDespesas.push(despesa[index].payload.doc?.data());
-        this.lsDespesa.push(despesa[index].payload.doc?.data());
-      }
+
+    for (let index = 0; index < despesa?.length; index++) {
+      // if (despesa ? [index].uid === this.uidUserLS.uid) {
+      // console.log(uid[index].payload.doc?.data());
+      listaDespesas.push(despesa[index]);
+      this.lsDespesa.push(despesa[index]);
+      // }
 
     }
+
 
     console.log(listaDespesas);
     return listaDespesas;

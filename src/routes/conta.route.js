@@ -1,14 +1,14 @@
 const express = require('express');
 const app = express();
-const desepesasRoute = express.Router();
+const contasRoute = express.Router();
 
-// Student model
-let Student = require('../models/article');
+// Contas model
+let Contas = require('../models/contas.models');
 var table;
 
-// Add Student
-desepesasRoute.route('/despesas').post((req, res, next) => {
-    Student.create(req.body, (error, data) => {
+// Add, GET, UPDATE, DELETE Despesas
+contasRoute.route('/conta').post((req, res, next) => {
+    Contas.create(req.body, (error, data) => {
         if (error) {
             return next(error)
         } else {
@@ -18,21 +18,9 @@ desepesasRoute.route('/despesas').post((req, res, next) => {
     })
 });
 
-// Get all student
-desepesasRoute.route('/despesas').get((req, res) => {
-    Student.find((error, data) => {
-        if (error) {
-            return next(error)
-        } else {
-            console.log('retorno get id');
-            res.json(data)
-        }
-    })
-})
 
-// Get single student
-desepesasRoute.route('/despesas/:id').get((req, res) => {
-    Student.findById(req.params.id, (error, data) => {
+contasRoute.route('/conta').get((req, res) => {
+    Contas.find((error, data) => {
         if (error) {
             return next(error)
         } else {
@@ -43,9 +31,20 @@ desepesasRoute.route('/despesas/:id').get((req, res) => {
 })
 
 
-// Update student
-desepesasRoute.route('/despesas/:id').put((req, res, next) => {
-    Student.findByIdAndUpdate(req.params.id, {
+contasRoute.route('/conta/:id').get((req, res) => {
+    Contas.findById(req.params.id, (error, data) => {
+        if (error) {
+            return next(error)
+        } else {
+            console.log('retorno get id');
+            res.json(data)
+        }
+    })
+})
+
+
+contasRoute.route('/conta/:id').put((req, res, next) => {
+    Contas.findByIdAndUpdate(req.params.id, {
         $set: req.body
     }, (error, data) => {
         if (error) {
@@ -53,14 +52,13 @@ desepesasRoute.route('/despesas/:id').put((req, res, next) => {
             console.log(error)
         } else {
             res.json(data)
-            console.log('Student successfully updated!')
+            console.log('Contas successfully updated!')
         }
     })
 })
 
-// Delete student
-desepesasRoute.route('/despesas/:id').delete((req, res, next) => {
-    Student.findByIdAndRemove(req.params.id, (error, data) => {
+contasRoute.route('/conta/:id').delete((req, res, next) => {
+    Contas.findByIdAndRemove(req.params.id, (error, data) => {
         if (error) {
             return next(error);
         } else {
@@ -71,4 +69,4 @@ desepesasRoute.route('/despesas/:id').delete((req, res, next) => {
     })
 })
 
-module.exports = desepesasRoute;
+module.exports = contasRoute;

@@ -1,9 +1,9 @@
 import { Response } from 'express';
-import { Despesa, Conta } from './app/shared/services/dashboard';
+import { Despesa, Conta, dataGe } from './app/shared/services/dashboard';
 import { Injectable } from '@angular/core';
-// import { Student } from './student';
-import { Observable, throwError } from 'rxjs';
-import { catchError, map } from 'rxjs/operators';
+// import { Despesas } from './Despesas';
+import { Observable, Subscriber, throwError } from 'rxjs';
+import { catchError, map, take } from 'rxjs/operators';
 import { HttpClient, HttpHeaders, HttpErrorResponse } from '@angular/common/http';
 
 @Injectable({
@@ -17,23 +17,51 @@ export class ApiService {
 
   constructor(private http: HttpClient) { }
 
-  // Add student
-  AddStudent(data: Despesa): Observable<any> {
-    let API_URL = `${this.endpoint}/add-student`;
+  // POST, GET, UPDATE, DELETE depesas
+  AddDespesas(data: Despesa, table: String): Observable<any> {
+    let API_URL = `${this.endpoint}/${table}`;
+    console.log(API_URL);
+    console.log(data);
+    console.log(table);
     return this.http.post(API_URL, data)
       .pipe(
         catchError(this.errorMgmt)
       )
   }
 
-  // Get all students
-  GetStudents() {
-    return this.http.get(`${this.endpoint}`);
+  GetDespesas() {
+    let API_URL = `${this.endpoint}/despesas`;
+    // return this.http.get(API_URL, { headers: this.headers })
+    //   .pipe(
+    //     map((res) => {
+    //       console.log(res);
+    //       return res || {}
+    //     }),
+    //     catchError(this.errorMgmt)
+    //   )
+    // let retorno = this.http.get(API_URL);
+    // retorno.subscribe(c => {
+    //   return c;
+    // })
+
+    // this.http.get(API_URL).toPromise().then(data => {
+    //   console.log(data);
+    //   return data;
+    // })
+
+    return new Promise(resolve => {
+      this.http.get(API_URL).pipe(
+        take(1)).subscribe((data: any) => {
+          console.log(data);
+          // return data;
+          resolve(data);
+        })
+    })
+    // return desp;
   }
 
-  // Get student
-  GetStudent(id: any): Observable<any> {
-    let API_URL = `${this.endpoint}/read-student/${id}`;
+  GetDespesa(id: any): Observable<any> {
+    let API_URL = `${this.endpoint}/despesas/${id}`;
     return this.http.get(API_URL, { headers: this.headers })
       .pipe(
         map((res) => {
@@ -43,18 +71,16 @@ export class ApiService {
       )
   }
 
-  // Update student
-  UpdateStudent(id: any, data: any): Observable<any> {
-    let API_URL = `${this.endpoint}/update-student/${id}`;
+  UpdateDespesas(id: any, data: any): Observable<any> {
+    let API_URL = `${this.endpoint}/despesas/${id}`;
     return this.http.put(API_URL, data, { headers: this.headers })
       .pipe(
         catchError(this.errorMgmt)
       )
   }
 
-  // Delete student
-  DeleteStudent(id: any): Observable<any> {
-    var API_URL = `${this.endpoint}/delete-student/${id}`;
+  DeleteDespesas(id: any): Observable<any> {
+    var API_URL = `${this.endpoint}/despesas/${id}`;
     return this.http.delete(API_URL)
       .pipe(
         catchError(this.errorMgmt)
@@ -73,6 +99,23 @@ export class ApiService {
     }
     console.log(errorMessage);
     return throwError(errorMessage);
+  }
+
+  // CONTAS
+  AddContas(data: Conta, table: String): Observable<any> {
+    let API_URL = `${this.endpoint}/${table}`;
+    console.log(API_URL);
+    console.log(data);
+    console.log(table);
+    // console.log(this.http.post(API_URL, data).subscribe({
+    //   next(x) { console.log(x) },
+    //   error(err) { console.log(err) },
+    //   complete() { console.log('done') }
+    // }));
+    return this.http.post(API_URL, data)
+      .pipe(
+        catchError(this.errorMgmt)
+      )
   }
 
 }

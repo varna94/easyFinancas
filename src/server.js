@@ -20,7 +20,8 @@ mongoose.connect(dataBaseConfig.db, {
 )
 
 // Set up express js port
-const studentRoute = require('./routes/article.route')
+const despesasRoute = require('./routes/depesas.route');
+const contasRoute = require('./routes/conta.route');
 
 const app = express();
 app.use(bodyParser.json());
@@ -30,11 +31,12 @@ app.use(bodyParser.urlencoded({
 app.use(cors());
 
 // Setting up static directory
-app.use(express.static(path.join(__dirname, 'dist/angular8-meanstack-angular-material')));
+// app.use(express.static(path.join(__dirname, 'dist/angular8-meanstack-angular-material')));
 
 
 // RESTful API root
-app.use('/api', studentRoute)
+app.use('/api', despesasRoute);
+app.use('/api', contasRoute);
 
 // PORT
 const port = process.env.PORT || 4000;
@@ -53,9 +55,9 @@ app.get('/', (req, res) => {
     res.send('invaild endpoint');
 });
 
-app.get('*', (req, res) => {
-    res.sendFile(path.join(__dirname, 'dist/angular8-meanstack-angular-material/index.html'));
-});
+// app.get('*', (req, res) => {
+//     res.sendFile(path.join(__dirname, 'dist/angular8-meanstack-angular-material/index.html'));
+// });
 
 // error handler
 app.use(function(err, req, res, next) {

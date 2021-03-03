@@ -24,3 +24,7 @@ export interface User {
   photoURL: any;
   uid: any;
 }
+
+export interface dataGe {
+
+}
