@@ -3,9 +3,10 @@ import { Despesa, Conta, dataGe } from './app/shared/services/dashboard';
 import { Injectable } from '@angular/core';
 // import { Despesas } from './Despesas';
 import { Observable, Subscriber, throwError } from 'rxjs';
-import { catchError, map, take } from 'rxjs/operators';
+import { catchError, take, map, tap } from 'rxjs/operators';
 import { HttpClient, HttpHeaders, HttpErrorResponse } from '@angular/common/http';
-
+import { resolve } from 'dns';
+// import { map } from 'rxjs/operators';
 @Injectable({
   providedIn: 'root'
 })
@@ -20,45 +21,27 @@ export class ApiService {
   // POST, GET, UPDATE, DELETE depesas
   AddDespesas(data: Despesa, table: String): Observable<any> {
     let API_URL = `${this.endpoint}/${table}`;
-    console.log(API_URL);
-    console.log(data);
-    console.log(table);
+    // console.log(API_URL);
+    // console.log(data);
+    // console.log(table);
     return this.http.post(API_URL, data)
       .pipe(
         catchError(this.errorMgmt)
       )
   }
 
-  GetDespesas() {
+  GetDespesas(): Promise<any> {
     let API_URL = `${this.endpoint}/despesas`;
-    // return this.http.get(API_URL, { headers: this.headers })
-    //   .pipe(
-    //     map((res) => {
-    //       console.log(res);
-    //       return res || {}
-    //     }),
-    //     catchError(this.errorMgmt)
-    //   )
-    // let retorno = this.http.get(API_URL);
-    // retorno.subscribe(c => {
-    //   return c;
-    // })
-
-    // this.http.get(API_URL).toPromise().then(data => {
-    //   console.log(data);
-    //   return data;
-    // })
 
     return new Promise(resolve => {
       this.http.get(API_URL).pipe(
         take(1)).subscribe((data: any) => {
           console.log(data);
-          // return data;
           resolve(data);
         })
     })
-    // return desp;
   }
+
 
   GetDespesa(id: any): Observable<any> {
     let API_URL = `${this.endpoint}/despesas/${id}`;

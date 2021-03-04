@@ -9,10 +9,10 @@ export interface Conta {
 export interface Despesa {
   uid: any;
   valor: string;
-  conta: any;
+  conta: string;
   descricao: string;
   fixa: boolean;
-  status: any;
+  status: string;
   categoria: string;
   dataVencimento: Date;
 

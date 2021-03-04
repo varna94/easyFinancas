@@ -1,3 +1,4 @@
+import { DespesaComponent } from './../despesa/despesa.component';
 import { ApiService } from './../../api.service';
 import { BrowserModule } from '@angular/platform-browser';
 import { MatTabsModule } from '@angular/material/tabs';
@@ -41,7 +42,7 @@ export class DashboardComponent implements OnInit {
   userRef: User;
   contaRef: Conta;
 
-  constructor(public authService: AuthService, private formDasboard: FormBuilder, public afs: AngularFirestore, private router: Router, public serviceDb: ApiService) {
+  constructor(public authService: AuthService, private formDasboard: FormBuilder, public afs: AngularFirestore, private router: Router, public serviceDb: ApiService, public dep: DespesaComponent) {
     this.formadicionarConta = this.formDasboard.group({
       nome: [],
       saldo: [],
@@ -114,19 +115,7 @@ export class DashboardComponent implements OnInit {
       }
       console.log(conta);
       return this.serviceDb.AddContas(conta, 'conta');
-      // return new Promise<any>((resolver, rejeitar) => {
-      //   this.afs
-      //     .collection("conta")
-      //     .add(conta)
-      //     .then(res => {
-      //       console.log(res);
-      //       console.log('suceso')
-      //     }, err => rejeitar())
-      //     .catch((error: any) => {
-      //       console.log(error);
-      //     });
-      //   // console.log(conta);
-      // });
+
     } else {
       alert("usuario n logaod");
       return false;
@@ -202,20 +191,15 @@ export class DashboardComponent implements OnInit {
         conta: this.idConta,
         categoria: this.formadicionarDespesa.get('categoria')?.value,
       }
-      return this.serviceDb.AddDespesas(despesa, 'despesas');
-      // return new Promise<any>((resolver, rejeitar) => {
-      //   this.afs
-      //     .collection("despesa")
-      //     .add(despesa)
-      //     .then(res => {
-      //       console.log(res);
-      //       console.log('suceso')
-      //     }, err => rejeitar())
-      //     .catch((error: any) => {
-      //       console.log(error);
-      //     });
-      //   console.log(despesa);
-      // });
+      this.serviceDb.AddDespesas(despesa, 'despesas').subscribe(
+        value => {
+          this.dep.ngOnInit();
+          console.log("sucess")
+        },
+
+        err => console.log('error')
+      );
+      return 'success';
     } else {
       alert("usuario n logado");
       return false;
