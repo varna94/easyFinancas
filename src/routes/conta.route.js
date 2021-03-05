@@ -7,7 +7,7 @@ let Contas = require('../models/contas.models');
 var table;
 
 // Add, GET, UPDATE, DELETE Despesas
-contasRoute.route('/conta').post((req, res, next) => {
+contasRoute.route('/contas').post((req, res, next) => {
     Contas.create(req.body, (error, data) => {
         if (error) {
             return next(error)
@@ -19,7 +19,7 @@ contasRoute.route('/conta').post((req, res, next) => {
 });
 
 
-contasRoute.route('/conta').get((req, res) => {
+contasRoute.route('/contas').get((req, res) => {
     Contas.find((error, data) => {
         if (error) {
             return next(error)
@@ -31,7 +31,7 @@ contasRoute.route('/conta').get((req, res) => {
 })
 
 
-contasRoute.route('/conta/:id').get((req, res) => {
+contasRoute.route('/contas/:id').get((req, res) => {
     Contas.findById(req.params.id, (error, data) => {
         if (error) {
             return next(error)
@@ -43,7 +43,7 @@ contasRoute.route('/conta/:id').get((req, res) => {
 })
 
 
-contasRoute.route('/conta/:id').put((req, res, next) => {
+contasRoute.route('/contas/:id').put((req, res, next) => {
     Contas.findByIdAndUpdate(req.params.id, {
         $set: req.body
     }, (error, data) => {
@@ -57,7 +57,7 @@ contasRoute.route('/conta/:id').put((req, res, next) => {
     })
 })
 
-contasRoute.route('/conta/:id').delete((req, res, next) => {
+contasRoute.route('/contas/:id').delete((req, res, next) => {
     Contas.findByIdAndRemove(req.params.id, (error, data) => {
         if (error) {
             return next(error);

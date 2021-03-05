@@ -10,5 +10,4 @@ const contas = new Schema({
     descricao: { type: String }
 })
 
-
 module.exports = mongoose.model('conta', contas);

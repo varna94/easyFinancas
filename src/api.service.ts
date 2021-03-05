@@ -1,3 +1,4 @@
+import { error } from 'protractor';
 import { Response } from 'express';
 import { Despesa, Conta, dataGe } from './app/shared/services/dashboard';
 import { Injectable } from '@angular/core';
@@ -21,9 +22,7 @@ export class ApiService {
   // POST, GET, UPDATE, DELETE depesas
   AddDespesas(data: Despesa, table: String): Observable<any> {
     let API_URL = `${this.endpoint}/${table}`;
-    // console.log(API_URL);
-    // console.log(data);
-    // console.log(table);
+
     return this.http.post(API_URL, data)
       .pipe(
         catchError(this.errorMgmt)
@@ -90,15 +89,27 @@ export class ApiService {
     console.log(API_URL);
     console.log(data);
     console.log(table);
-    // console.log(this.http.post(API_URL, data).subscribe({
-    //   next(x) { console.log(x) },
-    //   error(err) { console.log(err) },
-    //   complete() { console.log('done') }
-    // }));
+
     return this.http.post(API_URL, data)
       .pipe(
-        catchError(this.errorMgmt)
+        map((data) => console.log(data)),
+        catchError(error => this.errorMgmt(error))
       )
+  }
+  GetContas(): Promise<any> {
+    let API_URL = `${this.endpoint}/contas`;
+    console.log(API_URL)
+    return new Promise(resolve => {
+      this.http.get(API_URL).pipe(
+        take(1)).subscribe((data: any) => {
+          console.log(data);
+          resolve(data);
+
+        }),
+        (error: any) => {
+          console.log(error);
+        }
+    })
   }
 
 }

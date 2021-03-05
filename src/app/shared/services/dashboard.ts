@@ -4,12 +4,12 @@ export interface Conta {
   banco: string;
   saldo: string;
   tipo: string;
-  descricao: boolean;
+  descricao: string;
 }
 export interface Despesa {
   uid: any;
   valor: string;
-  conta: string;
+  conta: string[];
   descricao: string;
   fixa: boolean;
   status: string;

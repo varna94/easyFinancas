@@ -35,7 +35,7 @@ export class DashboardComponent implements OnInit {
   despesas: any;
   contaRel: Conta;
   public lsDespesa: Despesa[] = [];
-  public idConta: any;
+  public bancoConta: string[] = [];
   public listaCB: Conta[] = [];
   exibirContas: boolean;
   exibirDespesas: boolean;
@@ -95,7 +95,7 @@ export class DashboardComponent implements OnInit {
       valor: ['', Validators.compose([Validators.required])],
       categoria: ['', Validators.compose([Validators.required])],
       descricao: ['', Validators.compose([Validators.required])],
-      fixa: ['', Validators.compose([Validators.required])],
+      fixa: [false, Validators.compose([Validators.required])],
       conta: ['', Validators.compose([Validators.required])],
       status: ['', Validators.compose([Validators.required])],
       dataVencimento: ['', Validators.compose([Validators.required])],
@@ -114,8 +114,15 @@ export class DashboardComponent implements OnInit {
         descricao: this.formadicionarConta.get('descricao')?.value,
       }
       console.log(conta);
-      return this.serviceDb.AddContas(conta, 'conta');
-
+      // return this.serviceDb.AddContas(conta, 'contas');
+      this.serviceDb.AddContas(conta, 'contas').subscribe(
+        value => {
+          this.dep.ngOnInit();
+          console.log("sucess")
+        },
+        err => console.log('error')
+      );
+      return 'success';
     } else {
       alert("usuario n logaod");
       return false;
@@ -143,40 +150,15 @@ export class DashboardComponent implements OnInit {
     }
     return this.users;
   }
-  contaInfo() {
-    this.authService.getContaBancos().subscribe(res => {
-      this.contasBanco = res;
-      console.log(this.contasBanco);
-      this.filterContas(this.contasBanco);
-      // console.log(this.contasBanco.payload?.doc.data());
-    })
-  }
-  filterContas(contas: any) {
-    let contasX;
-    for (let index = 0; index < contas.length; index++) {
-      if (contas[index].payload.doc?.data().uid === this.uidUserLS.uid) {
-        // console.log(uid[index].payload.doc?.data());
-        if (!listaContasBanco.includes(contas[index].payload.doc?.data())) {
-          console.log(contas[index].payload.doc?.id);
-          listaContasBanco.push(contas[index].payload.doc?.data());
-
-        }
-        if (!this.listaCB.includes(contas[index].payload.doc?.data())) {
-          this.listaCB.push(contas[index].payload.doc?.data());
-        }
-      }
-
-    }
-    console.log(listaContasBanco);
-    return listaContasBanco;
-  }
 
   criarDespesa() {
     var user = firebase.default.auth().currentUser;
-    let contaRef = firebase.default.firestore().collection("conta").doc(this.idConta);
+    // let contaRef = firebase.default.firestore().collection("conta").doc(this.ba);
     // this.userRef = firebase.default.firestore().collection("users").doc(user?.uid);
-    this.buscarConta(this.contasBanco, this.formadicionarDespesa.get('conta')?.value);
-    console.log(this.idConta);
+    // this.buscarConta(this.contasBanco, this.formadicionarDespesa.get('conta')?.value);
+
+
+    // console.log(this.idConta);
     console.log(this.contaRel);
 
     console.log(user)
@@ -188,7 +170,7 @@ export class DashboardComponent implements OnInit {
         descricao: this.formadicionarDespesa.get('descricao')?.value,
         fixa: this.formadicionarDespesa.get('fixa')?.value,
         status: this.formadicionarDespesa.get('status')?.value,
-        conta: this.idConta,
+        conta: this.formadicionarDespesa.get('conta')?.value,
         categoria: this.formadicionarDespesa.get('categoria')?.value,
       }
       this.serviceDb.AddDespesas(despesa, 'despesas').subscribe(
@@ -206,41 +188,21 @@ export class DashboardComponent implements OnInit {
     }
 
   }
-
-
-  buscarConta(list: any, nomeConta: any) {
-    let buscarIdConta;
-    let idx;
-    for (let index = 0; index < list.length; index++) {
-      if (list[index].payload.doc?.data().uid === this.uidUserLS.uid && list[index].payload.doc?.data().nome === nomeConta) {
-        // console.log(uid[index].payload.doc?.data());
-        this.contaRel = list[index].payload.doc.data();
-        this.idConta = list[index].payload.doc.id;
+  contaInfo() {
+    const conta = this.serviceDb.GetContas().then(conta => {
+      // this.despesas = data;
+      for (let i = 0; i < conta.length; i++) {
+        if (conta[i].uid === this.uidUserLS.uid) {
+          this.bancoConta.push(conta[i]._id);
+          this.listaCB.push(conta[i]);
+          // this.serviceDb.push(conta[i]);
+          console.log(this.bancoConta);
+        }
       }
-
-    }
-    console.log('aqui - ' + this.idConta);
-    return this.idConta;
+      return conta;
+    });
   }
 
-  buscarDespesas() {
-    let despesa;
-    // this.serviceDb.GetDespesas();
-    // this.serviceDb.GetDespesas().subscribe({
-    //   next(x) {
-    //     console.log(x)
-    //     despesa = x;
-    //     listaDespesas = x;
-    //     console.log(despesa);
-    //   },
-    //   error(err) {
-    //     console.log(err)
-    //     // desp = err;
-    //   },
-    // });
-    console.log(listaDespesas);
-
-  }
   filterDespesas(despesa: any) {
     let contasX;
 
@@ -250,10 +212,7 @@ export class DashboardComponent implements OnInit {
       listaDespesas.push(despesa[index]);
       this.lsDespesa.push(despesa[index]);
       // }
-
     }
-
-
     console.log(listaDespesas);
     return listaDespesas;
   }

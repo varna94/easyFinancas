@@ -7,6 +7,7 @@ const despesas = new Schema({
     descricao: { type: String },
     fixa: { type: Boolean },
     status: { type: String },
+    conta: { type: String },
     categoria: { type: String },
     dataVencimento: { type: Date }
 });
