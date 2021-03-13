@@ -10,6 +10,6 @@ const despesas = new Schema({
     conta: { type: String },
     categoria: { type: String },
     dataVencimento: { type: Date }
-});
+}, { timestamps: true });
 
 module.exports = mongoose.model('despesas', despesas);

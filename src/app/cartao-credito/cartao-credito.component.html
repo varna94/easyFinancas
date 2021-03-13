@@ -1,0 +1,118 @@
+<a class="dropdown-item" data-bs-toggle="modal" data-bs-target="#modalCartao" data-bs-whatever="@mdo">
+    <button type="button" class="btn btn-outline-primary btn-size-add-cc">+</button>
+</a>
+
+<!-- MODAL CADASTRO CARTAO DE CREDITO -->
+<div id="modal" class="modal fade modal-fullscreen-md-down" id="modalCartao" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Novo cartão</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form [formGroup]="formAdicionarCartao">
+                    <label for="conta-saldo">Nome:</label>
+                    <input type="text" id="conta-saldo" class="form-control" formControlName="nome">
+
+                    <div class="row">
+                        <div class="mb-3 col ">
+                            <label for="conta-name " class="col-form-label">Limite:</label>
+                            <input type="text " class="form-control " id="conta-name " formControlName="limite" maxlength="15">
+                        </div>
+                        <div class="mb-3 col ">
+                            <label for="conta-instituicao " class="col-form-label ">Bandeira:</label>
+                            <select type="select " class="form-control form-select " id="conta-instituicao " formControlName="bandeira">
+                            <option selected>Selecione</option>
+                            <option value="Master"><img src="/assets/images/bandeiraCartoes/MasterCard.png"/></option>
+                            <option value="Visa">Visa</option>
+                            <option value="Amex">Amex</option>
+                            <option value="Hipercard">Hipercard</option>
+                          </select>
+                        </div>
+                    </div>
+                    <div class="row ">
+                        <div class="mb-3 col ">
+                            <label for="conta-tipo " class="col-form-label ">Conta:</label>
+                            <select type="select " class="form-control form-select " id="conta-tipo " formControlName="banco">
+                                <option selected value="carteira">Carteira</option>
+                                <option>Contas+</option>
+                              </select>
+                        </div>
+                        <div class="mb-3 col ">
+                            <label for="message-text " class="col-form-label ">Descrição:</label>
+                            <textarea class="form-control " id="message-text " formControlName="descricao"></textarea>
+                        </div>
+                    </div>
+
+                    <div class="row ">
+                        <div class="mb-3 col ">
+                            <label for="cartao-dataFechamentoFatura" class="col-form-label ">Data fechamento da fatura:</label>
+                            <input type="date" class="form-control " id="cartao-dataFechamentoFatura" formControlName="dataFechamentoFatura">
+                        </div>
+                        <div class="mb-3 col ">
+                            <label for="cartao-dataVencimentoFatura" class="col-form-label ">Data vencimento da fatura:</label>
+                            <input type="date" class="form-control " id="cartao-dataVencimentoFatura" formControlName="dataVencimentoFatura">
+                        </div>
+                    </div>
+
+                </form>
+
+            </div>
+            <div class="modal-footer ">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                <button type="button" class="btn btn-primary" data-bs-dismiss="modal" (click)="criarCartao()">Salvar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="container">
+    <div class="row mobile-social-share">
+        <div class="col-md-9">
+            <h3>Compartilhe</h3>
+        </div>
+        <div id="socialHolder" class="col-md-3">
+            <div id="socialShare" class="btn-group share-group">
+                <a data-toggle="dropdown" class="btn btn-info">
+                    <i class="fa fa-share-alt fa-inverse"></i>
+                </a>
+                <button href="#" data-toggle="dropdown" class="btn btn-info dropdown-toggle share">
+    					<span class="caret"></span>
+    				</button>
+                <ul class="dropdown-menu">
+                    <li>
+                        <a data-original-title="Twitter" rel="tooltip" href="#" class="btn btn-twitter" data-placement="left">
+                            <i class="fa fa-twitter"></i>
+                        </a>
+                    </li>
+                    <li>
+                        <a data-original-title="Facebook" rel="tooltip" href="#" class="btn btn-facebook" data-placement="left">
+                            <i class="fa fa-facebook"></i>
+                        </a>
+                    </li>
+                    <li>
+                        <a data-original-title="Google+" rel="tooltip" href="#" class="btn btn-google" data-placement="left">
+                            <i class="fa fa-google-plus"></i>
+                        </a>
+                    </li>
+                    <li>
+                        <a data-original-title="LinkedIn" rel="tooltip" href="#" class="btn btn-linkedin" data-placement="left">
+                            <i class="fa fa-linkedin"></i>
+                        </a>
+                    </li>
+                    <li>
+                        <a data-original-title="Pinterest" rel="tooltip" class="btn btn-pinterest" data-placement="left">
+                            <i class="fa fa-pinterest"></i>
+                        </a>
+                    </li>
+                    <li>
+                        <a data-original-title="Email" rel="tooltip" class="btn btn-mail" data-placement="left">
+                            <i class="fa fa-envelope"></i>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,14 +1,14 @@
 const express = require('express');
 const app = express();
-const contasRoute = express.Router();
+const cartoesRoute = express.Router();
 
-// Contas model
-let Contas = require('../models/contas.models');
+// cartoes model
+let CartaoCC = require('../models/cartoes.models');
 var table;
 
-// Add, GET, UPDATE, DELETE contas
-contasRoute.route('/contas').post((req, res, next) => {
-    Contas.create(req.body, (error, data) => {
+// Add, GET, UPDATE, DELETE cartoes
+cartoesRoute.route('/cartoes').post((req, res, next) => {
+    CartaoCC.create(req.body, (error, data) => {
         if (error) {
             return next(error)
         } else {
@@ -18,8 +18,9 @@ contasRoute.route('/contas').post((req, res, next) => {
     })
 });
 
-contasRoute.route('/contas').get((req, res) => {
-    Contas.find((error, data) => {
+
+cartoesRoute.route('/cartoes').get((req, res) => {
+    CartaoCC.find((error, data) => {
         if (error) {
             return next(error)
         } else {
@@ -29,8 +30,9 @@ contasRoute.route('/contas').get((req, res) => {
     })
 })
 
-contasRoute.route('/contas/:id').get((req, res) => {
-    Contas.findById(req.params.id, (error, data) => {
+
+cartoesRoute.route('/cartoes/:id').get((req, res) => {
+    CartaoCC.findById(req.params.id, (error, data) => {
         if (error) {
             return next(error)
         } else {
@@ -40,8 +42,9 @@ contasRoute.route('/contas/:id').get((req, res) => {
     })
 })
 
-contasRoute.route('/contas/:id').put((req, res, next) => {
-    Contas.findByIdAndUpdate(req.params.id, {
+
+cartoesRoute.route('/cartoes/:id').put((req, res, next) => {
+    CartaoCC.findByIdAndUpdate(req.params.id, {
         $set: req.body
     }, (error, data) => {
         if (error) {
@@ -49,13 +52,13 @@ contasRoute.route('/contas/:id').put((req, res, next) => {
             console.log(error)
         } else {
             res.json(data)
-            console.log('Contas successfully updated!')
+            console.log('cartoes successfully updated!')
         }
     })
 })
 
-contasRoute.route('/contas/:id').delete((req, res, next) => {
-    Contas.findByIdAndRemove(req.params.id, (error, data) => {
+cartoesRoute.route('/cartoes/:id').delete((req, res, next) => {
+    CartaoCC.findByIdAndRemove(req.params.id, (error, data) => {
         if (error) {
             return next(error);
         } else {
@@ -66,4 +69,4 @@ contasRoute.route('/contas/:id').delete((req, res, next) => {
     })
 })
 
-module.exports = contasRoute;
+module.exports = cartoesRoute;

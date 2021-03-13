@@ -8,6 +8,6 @@ const contas = new Schema({
     saldo: { type: String },
     tipo: { type: String },
     descricao: { type: String }
-})
+}, { timestamps: true })
 
 module.exports = mongoose.model('conta', contas);

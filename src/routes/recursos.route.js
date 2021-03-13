@@ -1,14 +1,14 @@
 const express = require('express');
 const app = express();
-const contasRoute = express.Router();
+const recursosRoute = express.Router();
 
-// Contas model
-let Contas = require('../models/contas.models');
+// contas model
+let Recursos = require('../models/recursos.models');
 var table;
 
 // Add, GET, UPDATE, DELETE contas
-contasRoute.route('/contas').post((req, res, next) => {
-    Contas.create(req.body, (error, data) => {
+recursosRoute.route('/recursos').post((req, res, next) => {
+    Recursos.create(req.body, (error, data) => {
         if (error) {
             return next(error)
         } else {
@@ -18,8 +18,9 @@ contasRoute.route('/contas').post((req, res, next) => {
     })
 });
 
-contasRoute.route('/contas').get((req, res) => {
-    Contas.find((error, data) => {
+
+recursosRoute.route('/recursos').get((req, res) => {
+    Recursos.find((error, data) => {
         if (error) {
             return next(error)
         } else {
@@ -29,8 +30,9 @@ contasRoute.route('/contas').get((req, res) => {
     })
 })
 
-contasRoute.route('/contas/:id').get((req, res) => {
-    Contas.findById(req.params.id, (error, data) => {
+
+recursosRoute.route('/recursos/:id').get((req, res) => {
+    Recursos.findById(req.params.id, (error, data) => {
         if (error) {
             return next(error)
         } else {
@@ -40,8 +42,9 @@ contasRoute.route('/contas/:id').get((req, res) => {
     })
 })
 
-contasRoute.route('/contas/:id').put((req, res, next) => {
-    Contas.findByIdAndUpdate(req.params.id, {
+
+recursosRoute.route('/recursos/:id').put((req, res, next) => {
+    Recursos.findByIdAndUpdate(req.params.id, {
         $set: req.body
     }, (error, data) => {
         if (error) {
@@ -49,13 +52,13 @@ contasRoute.route('/contas/:id').put((req, res, next) => {
             console.log(error)
         } else {
             res.json(data)
-            console.log('Contas successfully updated!')
+            console.log('contas successfully updated!')
         }
     })
 })
 
-contasRoute.route('/contas/:id').delete((req, res, next) => {
-    Contas.findByIdAndRemove(req.params.id, (error, data) => {
+recursosRoute.route('/recursos/:id').delete((req, res, next) => {
+    Recursos.findByIdAndRemove(req.params.id, (error, data) => {
         if (error) {
             return next(error);
         } else {
@@ -66,4 +69,4 @@ contasRoute.route('/contas/:id').delete((req, res, next) => {
     })
 })
 
-module.exports = contasRoute;
+module.exports = recursosRoute;

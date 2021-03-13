@@ -31,6 +31,9 @@ import ptBr from '@angular/common/locales/pt';
 import { DespesaComponent } from './despesa/despesa.component';
 
 import { HttpClientModule } from '@angular/common/http';
+import { CartaoCreditoComponent } from './cartao-credito/cartao-credito.component';
+import { RecursosComponent } from './recursos/recursos.component';
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 registerLocaleData(ptBr);
 
 
@@ -46,7 +49,7 @@ const appRoutes: Routes = [
 ];
 
 @NgModule({
-  declarations: [AppComponent, LoginComponent, CadastroComponent, DashboardComponent, BoardComponent, InicioComponent, ModalFeedbacksComponent, RecuperarSenhaComponent, ConfirmaEmailComponent, SpinnerComponent, ContaComponent, DespesaComponent],
+  declarations: [AppComponent, LoginComponent, CadastroComponent, DashboardComponent, BoardComponent, InicioComponent, ModalFeedbacksComponent, RecuperarSenhaComponent, ConfirmaEmailComponent, SpinnerComponent, ContaComponent, DespesaComponent, CartaoCreditoComponent, RecursosComponent],
   providers: [AuthService, ModalFeedbacksComponent, DespesaComponent,
     {
       provide: LOCALE_ID,
@@ -55,6 +58,6 @@ const appRoutes: Routes = [
   bootstrap: [AppComponent],
   imports: [BrowserModule, RouterModule.forRoot(appRoutes, { paramsInheritanceStrategy: 'always' }), ReactiveFormsModule,
     AngularFireModule.initializeApp(environment.firebase), AngularFireAuthModule, AngularFireAuthModule, HttpClientModule,
-    AngularFirestoreModule, MatProgressSpinnerModule],
+    AngularFirestoreModule, MatProgressSpinnerModule, FontAwesomeModule],
 })
 export class AppModule { }

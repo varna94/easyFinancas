@@ -1,13 +1,8 @@
-import { error } from 'protractor';
-import { Response } from 'express';
-import { Despesa, Conta, dataGe } from './app/shared/services/dashboard';
+import { Despesa, Conta, dataGe, Recurso, Cartao } from './app/shared/services/dashboard';
 import { Injectable } from '@angular/core';
-// import { Despesas } from './Despesas';
 import { Observable, Subscriber, throwError } from 'rxjs';
 import { catchError, take, map, tap } from 'rxjs/operators';
 import { HttpClient, HttpHeaders, HttpErrorResponse } from '@angular/common/http';
-import { resolve } from 'dns';
-// import { map } from 'rxjs/operators';
 @Injectable({
   providedIn: 'root'
 })
@@ -40,7 +35,6 @@ export class ApiService {
         })
     })
   }
-
 
   GetDespesa(id: any): Observable<any> {
     let API_URL = `${this.endpoint}/despesas/${id}`;
@@ -110,6 +104,104 @@ export class ApiService {
           console.log(error);
         }
     })
+  }
+  // RECURSOS
+  // POST, GET, UPDATE, DELETE recursos
+  AddRescursos(data: Recurso, table: String): Observable<any> {
+    let API_URL = `${this.endpoint}/${table}`;
+    return this.http.post(API_URL, data)
+      .pipe(
+        catchError(this.errorMgmt)
+      )
+  }
+
+  GetRescursos(): Promise<any> {
+    let API_URL = `${this.endpoint}/rescursos`;
+
+    return new Promise(resolve => {
+      this.http.get(API_URL).pipe(
+        take(1)).subscribe((data: any) => {
+          console.log(data);
+          resolve(data);
+        })
+    })
+  }
+
+  GetRescurso(id: any): Observable<any> {
+    let API_URL = `${this.endpoint}/rescursos/${id}`;
+    return this.http.get(API_URL, { headers: this.headers })
+      .pipe(
+        map((res) => {
+          return res || {}
+        }),
+        catchError(this.errorMgmt)
+      )
+  }
+
+  UpdateRescursos(id: any, data: any): Observable<any> {
+    let API_URL = `${this.endpoint}/rescursos/${id}`;
+    return this.http.put(API_URL, data, { headers: this.headers })
+      .pipe(
+        catchError(this.errorMgmt)
+      )
+  }
+
+  DeleteRescursos(id: any): Observable<any> {
+    var API_URL = `${this.endpoint}/rescursos/${id}`;
+    return this.http.delete(API_URL)
+      .pipe(
+        catchError(this.errorMgmt)
+      )
+  }
+
+
+  // CARTAO CC
+  // POST, GET, UPDATE, DELETE Cartoes
+  AddCartoes(data: Cartao, table: String): Observable<any> {
+    let API_URL = `${this.endpoint}/${table}`;
+    return this.http.post(API_URL, data)
+      .pipe(
+        catchError(this.errorMgmt)
+      )
+  }
+
+  GetCartoes(): Promise<any> {
+    let API_URL = `${this.endpoint}/cartoes`;
+
+    return new Promise(resolve => {
+      this.http.get(API_URL).pipe(
+        take(1)).subscribe((data: any) => {
+          console.log(data);
+          resolve(data);
+        })
+    })
+  }
+
+  GetCartao(id: any): Observable<any> {
+    let API_URL = `${this.endpoint}/cartoes/${id}`;
+    return this.http.get(API_URL, { headers: this.headers })
+      .pipe(
+        map((res) => {
+          return res || {}
+        }),
+        catchError(this.errorMgmt)
+      )
+  }
+
+  UpdateCartoes(id: any, data: any): Observable<any> {
+    let API_URL = `${this.endpoint}/cartoes/${id}`;
+    return this.http.put(API_URL, data, { headers: this.headers })
+      .pipe(
+        catchError(this.errorMgmt)
+      )
+  }
+
+  DeleteCartoes(id: any): Observable<any> {
+    var API_URL = `${this.endpoint}/cartoes/${id}`;
+    return this.http.delete(API_URL)
+      .pipe(
+        catchError(this.errorMgmt)
+      )
   }
 
 }

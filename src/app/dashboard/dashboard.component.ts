@@ -5,7 +5,7 @@ import { MatTabsModule } from '@angular/material/tabs';
 import { User } from './../shared/services/user';
 import { CanActivate, Router } from '@angular/router';
 import { AuthGuard } from './../shared/guard/auth.guard';
-import { Conta, Despesa } from './../shared/services/dashboard';
+import { Conta, Despesa, Recurso } from './../shared/services/dashboard';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from "../shared/services/auth.service";
@@ -28,6 +28,7 @@ import { rootCertificates } from 'tls';
 export class DashboardComponent implements OnInit {
   formadicionarConta: FormGroup;
   formadicionarDespesa: FormGroup;
+  formAdicionarRecursos: FormGroup;
   users: User;
   usersFilter: any;
   uidUserLS: any;
@@ -39,6 +40,8 @@ export class DashboardComponent implements OnInit {
   public listaCB: Conta[] = [];
   exibirContas: boolean;
   exibirDespesas: boolean;
+  exibirCartoes: boolean;
+  exibirRecursos: boolean;
   userRef: User;
   contaRef: Conta;
 
@@ -57,6 +60,17 @@ export class DashboardComponent implements OnInit {
       fixa: [],
       conta: [],
       status: [],
+    });
+    this.formAdicionarRecursos = this.formDasboard.group({
+      saldo: [],
+      conta: [],
+      descricao: [],
+      recebido: [],
+      tipo: [],
+      receitaFixa: [],
+      repetir: [],
+      periodo: [],
+      dataRecebimento: [],
     });
   }
 
@@ -99,6 +113,21 @@ export class DashboardComponent implements OnInit {
       conta: ['', Validators.compose([Validators.required])],
       status: ['', Validators.compose([Validators.required])],
       dataVencimento: ['', Validators.compose([Validators.required])],
+      repetir: [''],
+      periodo: [''],
+    });
+  }
+  criarFormRecursos() {
+    this.formAdicionarRecursos = this.formDasboard.group({
+      saldo: ['', Validators.compose([Validators.required])],
+      conta: ['', Validators.compose([Validators.required])],
+      descricao: [''],
+      recebido: [false, Validators.compose([Validators.required])],
+      tipo: ['', Validators.compose([Validators.required])],
+      receitaFixa: [false, Validators.compose([Validators.required])],
+      repetir: [0],
+      periodo: [''],
+      dataRecebimento: [null, Validators.compose([Validators.required])],
     });
   }
   criarConta() {
@@ -153,10 +182,6 @@ export class DashboardComponent implements OnInit {
 
   criarDespesa() {
     var user = firebase.default.auth().currentUser;
-    // let contaRef = firebase.default.firestore().collection("conta").doc(this.ba);
-    // this.userRef = firebase.default.firestore().collection("users").doc(user?.uid);
-    // this.buscarConta(this.contasBanco, this.formadicionarDespesa.get('conta')?.value);
-
 
     // console.log(this.idConta);
     console.log(this.contaRel);
@@ -172,8 +197,46 @@ export class DashboardComponent implements OnInit {
         status: this.formadicionarDespesa.get('status')?.value,
         conta: this.formadicionarDespesa.get('conta')?.value,
         categoria: this.formadicionarDespesa.get('categoria')?.value,
+        periodo: this.formadicionarDespesa.get('periodo')?.value,
+        repetir: this.formadicionarDespesa.get('repetir')?.value
       }
       this.serviceDb.AddDespesas(despesa, 'despesas').subscribe(
+        value => {
+          this.dep.ngOnInit();
+          console.log("sucess")
+        },
+
+        err => console.log('error')
+      );
+      return 'success';
+    } else {
+      alert("usuario n logado");
+      return false;
+    }
+
+  }
+
+  criarRecursos() {
+    var user = firebase.default.auth().currentUser;
+
+    // console.log(this.idConta);
+    console.log(this.contaRel);
+
+    console.log(user)
+    if (user?.uid) {
+      const recurso: Recurso = {
+        uid: user.uid,
+        saldo: this.formAdicionarRecursos.get('saldo')?.value,
+        conta: this.formAdicionarRecursos.get('conta')?.value,
+        descricao: this.formAdicionarRecursos.get('descricao')?.value,
+        recebido: this.formAdicionarRecursos.get('recebido')?.value,
+        tipo: this.formAdicionarRecursos.get('tipo')?.value,
+        receitaFixa: this.formAdicionarRecursos.get('receitaFixa')?.value,
+        repetir: this.formAdicionarRecursos.get('repetir')?.value,
+        periodo: this.formAdicionarRecursos.get('periodo')?.value,
+        dataRecebimento: this.formAdicionarRecursos.get('dataRecebimento')?.value
+      }
+      this.serviceDb.AddRescursos(recurso, 'recursos').subscribe(
         value => {
           this.dep.ngOnInit();
           console.log("sucess")
@@ -219,19 +282,33 @@ export class DashboardComponent implements OnInit {
 
 
   showContas() {
-    this.exibirDespesas = false;
     this.exibirContas = true;
+    this.exibirDespesas = false;
+    this.exibirCartoes = false;
+    this.exibirRecursos = false;
   }
   showDespesas() {
-    this.exibirContas = false;
     this.exibirDespesas = true;
+    this.exibirContas = false;
+    this.exibirCartoes = false;
+    this.exibirRecursos = false;
   }
   showDashboard() {
     this.exibirDespesas = false;
     this.exibirContas = false;
+    this.exibirCartoes = false;
+    this.exibirRecursos = false;
   }
   showRecursos() {
+    this.exibirRecursos = true;
     this.exibirContas = false;
     this.exibirDespesas = false;
+    this.exibirCartoes = false;
+  }
+  showCC() {
+    this.exibirCartoes = true;
+    this.exibirContas = false;
+    this.exibirDespesas = false;
+    this.exibirRecursos = false;
   }
 }
