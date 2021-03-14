@@ -20,15 +20,22 @@
                             <label for="conta-name " class="col-form-label">Limite:</label>
                             <input type="text " class="form-control " id="conta-name " formControlName="limite" maxlength="15">
                         </div>
-                        <div class="mb-3 col ">
-                            <label for="conta-instituicao " class="col-form-label ">Bandeira:</label>
-                            <select type="select " class="form-control form-select " id="conta-instituicao " formControlName="bandeira">
-                            <option selected>Selecione</option>
-                            <option value="Master"><img src="/assets/images/bandeiraCartoes/MasterCard.png"/></option>
-                            <option value="Visa">Visa</option>
-                            <option value="Amex">Amex</option>
-                            <option value="Hipercard">Hipercard</option>
-                          </select>
+                        <div class="mb-3 col dropdown">
+                            <button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+                                  Bandeira
+                                  <label value=""></label>
+                                </button>
+                            <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                                <li value="master">
+                                    <a class="dropdown-item center"><img class="iconBandeiraCC" src="/assets/images/bandeiraCartoes/MasterCard.png" /></a>
+                                </li>
+                                <li value="visa">
+                                    <a class="dropdown-item center"><img class="iconBandeiraCC" src="/assets/images/bandeiraCartoes/visa.png" /></a>
+                                </li>
+                                <li value="amex">
+                                    <a class="dropdown-item center"><img class="iconBandeiraCC" src="/assets/images/bandeiraCartoes/americanexpress.png" /></a>
+                                </li>
+                            </ul>
                         </div>
                     </div>
                     <div class="row ">
@@ -56,62 +63,16 @@
                         </div>
                     </div>
 
+                    <div class="row">
+
+                    </div>
+
                 </form>
 
             </div>
             <div class="modal-footer ">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
                 <button type="button" class="btn btn-primary" data-bs-dismiss="modal" (click)="criarCartao()">Salvar</button>
-            </div>
-        </div>
-    </div>
-</div>
-
-<div class="container">
-    <div class="row mobile-social-share">
-        <div class="col-md-9">
-            <h3>Compartilhe</h3>
-        </div>
-        <div id="socialHolder" class="col-md-3">
-            <div id="socialShare" class="btn-group share-group">
-                <a data-toggle="dropdown" class="btn btn-info">
-                    <i class="fa fa-share-alt fa-inverse"></i>
-                </a>
-                <button href="#" data-toggle="dropdown" class="btn btn-info dropdown-toggle share">
-    					<span class="caret"></span>
-    				</button>
-                <ul class="dropdown-menu">
-                    <li>
-                        <a data-original-title="Twitter" rel="tooltip" href="#" class="btn btn-twitter" data-placement="left">
-                            <i class="fa fa-twitter"></i>
-                        </a>
-                    </li>
-                    <li>
-                        <a data-original-title="Facebook" rel="tooltip" href="#" class="btn btn-facebook" data-placement="left">
-                            <i class="fa fa-facebook"></i>
-                        </a>
-                    </li>
-                    <li>
-                        <a data-original-title="Google+" rel="tooltip" href="#" class="btn btn-google" data-placement="left">
-                            <i class="fa fa-google-plus"></i>
-                        </a>
-                    </li>
-                    <li>
-                        <a data-original-title="LinkedIn" rel="tooltip" href="#" class="btn btn-linkedin" data-placement="left">
-                            <i class="fa fa-linkedin"></i>
-                        </a>
-                    </li>
-                    <li>
-                        <a data-original-title="Pinterest" rel="tooltip" class="btn btn-pinterest" data-placement="left">
-                            <i class="fa fa-pinterest"></i>
-                        </a>
-                    </li>
-                    <li>
-                        <a data-original-title="Email" rel="tooltip" class="btn btn-mail" data-placement="left">
-                            <i class="fa fa-envelope"></i>
-                        </a>
-                    </li>
-                </ul>
             </div>
         </div>
     </div>

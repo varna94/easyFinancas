@@ -1,7 +1,7 @@
 import { ApiService } from './../api.service';
 import { Request, Response } from 'express';
 import { BrowserModule } from '@angular/platform-browser';
-import { LOCALE_ID, NgModule } from '@angular/core';
+import { CUSTOM_ELEMENTS_SCHEMA, LOCALE_ID, NgModule } from '@angular/core';
 import { AppComponent } from './app.component';
 import { LoginComponent } from './login/login/login.component';
 import { CadastroComponent } from './cadastro/cadastro.component';
@@ -33,9 +33,9 @@ import { DespesaComponent } from './despesa/despesa.component';
 import { HttpClientModule } from '@angular/common/http';
 import { CartaoCreditoComponent } from './cartao-credito/cartao-credito.component';
 import { RecursosComponent } from './recursos/recursos.component';
-import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
-registerLocaleData(ptBr);
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
+registerLocaleData(ptBr);
 
 const appRoutes: Routes = [
   { path: '', component: InicioComponent },
@@ -58,6 +58,6 @@ const appRoutes: Routes = [
   bootstrap: [AppComponent],
   imports: [BrowserModule, RouterModule.forRoot(appRoutes, { paramsInheritanceStrategy: 'always' }), ReactiveFormsModule,
     AngularFireModule.initializeApp(environment.firebase), AngularFireAuthModule, AngularFireAuthModule, HttpClientModule,
-    AngularFirestoreModule, MatProgressSpinnerModule, FontAwesomeModule],
+    AngularFirestoreModule, MatProgressSpinnerModule, BrowserAnimationsModule],
 })
 export class AppModule { }

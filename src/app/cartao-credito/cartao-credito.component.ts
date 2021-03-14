@@ -1,7 +1,7 @@
 import { Cartao } from './../shared/services/dashboard';
 import { ApiService } from './../../api.service';
 import { FormGroup, FormBuilder } from '@angular/forms';
-import { Component, OnInit } from '@angular/core';
+import { Component, CUSTOM_ELEMENTS_SCHEMA, OnInit } from '@angular/core';
 import * as firebase from 'firebase';
 
 @Component({
