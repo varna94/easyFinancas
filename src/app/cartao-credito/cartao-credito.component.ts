@@ -1,8 +1,9 @@
 import { Cartao } from './../shared/services/dashboard';
 import { ApiService } from './../../api.service';
-import { FormGroup, FormBuilder } from '@angular/forms';
+import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Component, CUSTOM_ELEMENTS_SCHEMA, OnInit } from '@angular/core';
 import * as firebase from 'firebase';
+import { Key } from 'readline';
 
 @Component({
   selector: 'app-cartao-credito',
@@ -11,7 +12,11 @@ import * as firebase from 'firebase';
 })
 export class CartaoCreditoComponent implements OnInit {
   public formAdicionarCartao: FormGroup;
-
+  public listCartoes: Array<[string, any]> = [];
+  formadicionarDespesaCC: FormGroup;
+  exibirModalAddDespesasCC: boolean;
+  bandeira: String;
+  uidUserLS: any;
   constructor(public service: ApiService, private formCC: FormBuilder) {
     this.formAdicionarCartao = this.formCC.group({
       nome: [],
@@ -22,10 +27,20 @@ export class CartaoCreditoComponent implements OnInit {
       dataVencimentoFatura: [],
       descricao: []
     });
+    this.formadicionarDespesaCC = this.formCC.group({
+      valor: [],
+      categoria: [],
+      descricao: [],
+      fixa: [],
+      conta: [],
+      status: [],
+    });
   }
 
   ngOnInit(): void {
-
+    this.uidUserLS = JSON.parse(localStorage.getItem("user") || '{}');
+    this.getCartoes();
+    this.criarFormDespesa();
   }
   crirFormCartao() {
     this.formAdicionarCartao = this.formCC.group({
@@ -37,10 +52,25 @@ export class CartaoCreditoComponent implements OnInit {
       dataVencimentoFatura: [''],
       descricao: ['']
     });
+
   }
+  criarFormDespesa() {
+    this.formadicionarDespesaCC = this.formCC.group({
+      valor: ['', Validators.compose([Validators.required])],
+      categoria: ['', Validators.compose([Validators.required])],
+      descricao: ['', Validators.compose([Validators.required])],
+      fixa: [false, Validators.compose([Validators.required])],
+      conta: ['', Validators.compose([Validators.required])],
+      status: ['', Validators.compose([Validators.required])],
+      dataVencimento: ['', Validators.compose([Validators.required])],
+      repetir: [''],
+      periodo: [''],
+    });
+  }
+
   criarCartao() {
     var user = firebase.default.auth().currentUser;
-
+    this.listCartoes = [];
     if (user?.uid) {
       const cartao: Cartao = {
         nome: this.formAdicionarCartao.get('nome')?.value,
@@ -67,4 +97,27 @@ export class CartaoCreditoComponent implements OnInit {
     }
   }
 
+  getCartoes() {
+    return this.service.GetCartoes().then(cartao => {
+      // this.despesas = data;
+      for (let i = 0; i < cartao.length; i++) {
+        if (cartao[i].uid === this.uidUserLS.uid) {
+          this.listCartoes.push(cartao[i]);
+          // this.listCartoes.push('_id', cartao[i._id]);
+          console.log(this.listCartoes);
+        }
+      }
+      // return cartoes;
+    });
+  }
+  addDespesaCC() {
+
+  }
+  abrirModalAddDespesaCC(bandeira: String, id: String) {
+    console.log(`bandeira ${bandeira}`);
+    console.log(`_id ${id}`);
+    this.bandeira = bandeira;
+    this.exibirModalAddDespesasCC = true;
+    console.log(`flag modal ${this.exibirModalAddDespesasCC}`);
+  }
 }

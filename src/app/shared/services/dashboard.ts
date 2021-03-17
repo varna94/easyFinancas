@@ -20,6 +20,18 @@ export interface Despesa {
   repetir: Number;
   periodo: String;
 }
+export interface DespesaCC {
+  uid: any;
+  valor: string;
+  conta: String[];
+  descricao: String;
+  fixa: Boolean;
+  status: String;
+  categoria: String;
+  dataVencimento: Date;
+  repetir: Number;
+  periodo: String;
+}
 export interface Recurso {
   uid: any;
   saldo: String;
