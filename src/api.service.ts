@@ -1,4 +1,4 @@
-import { Despesa, Conta, dataGe, Recurso, Cartao } from './app/shared/services/dashboard';
+import { Despesa, Conta, dataGe, Recurso, Cartao, DespesaCC } from './app/shared/services/dashboard';
 import { Injectable } from '@angular/core';
 import { Observable, Subscriber, throwError } from 'rxjs';
 import { catchError, take, map, tap } from 'rxjs/operators';
@@ -203,5 +203,44 @@ export class ApiService {
         catchError(this.errorMgmt)
       )
   }
+  // DESPESA CARTAO
+  // POST, GET, UPDATE, DELETE Cartoes
+  AddDespesasCartao(data: DespesaCC): Observable<any> {
+    let API_URL = `${this.endpoint}/depesaCC`;
+    return this.http.post(API_URL, data)
+      .pipe(
+        catchError(this.errorMgmt)
+      )
+  }
 
+  GetDespesasCartao(): Promise<any> {
+    let API_URL = `${this.endpoint}/depesaCC`;
+
+    return new Promise(resolve => {
+      this.http.get(API_URL).pipe(
+        take(1)).subscribe((data: any) => {
+          console.log(data);
+          resolve(data);
+        })
+    })
+  }
+
+  GetDespesaCartao(id: any): Observable<any> {
+    let API_URL = `${this.endpoint}/depesaCC/${id}`;
+    return this.http.get(API_URL, { headers: this.headers })
+      .pipe(
+        map((res) => {
+          return res || {}
+        }),
+        catchError(this.errorMgmt)
+      )
+  }
+
+  UpdateDespesasCartao(id: any, data: any): Observable<any> {
+    let API_URL = `${this.endpoint}/depesaCC/${id}`;
+    return this.http.put(API_URL, data, { headers: this.headers })
+      .pipe(
+        catchError(this.errorMgmt)
+      )
+  }
 }

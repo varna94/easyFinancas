@@ -24,6 +24,7 @@ const despesasRoute = require('./routes/depesas.route');
 const contasRoute = require('./routes/conta.route');
 const recursosRoute = require('./routes/recursos.route');
 const cartoesRoute = require('./routes/cartao.route');
+const despesasCartaoRoute = require('./routes/depesasCC.route');
 
 const app = express();
 app.use(bodyParser.json());
@@ -37,6 +38,7 @@ app.use('/api', despesasRoute);
 app.use('/api', contasRoute);
 app.use('/api', recursosRoute);
 app.use('/api', cartoesRoute);
+app.use('/api', despesasCartaoRoute);
 
 // PORT
 const port = process.env.PORT || 4000;

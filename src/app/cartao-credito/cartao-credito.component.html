@@ -13,6 +13,7 @@
                     <p>{{$any(cc)._id}}</p>
                     <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
                     <a (click)="abrirModalAddDespesaCC($any(cc).bandeira,$any(cc)._id)" data-bs-toggle="modal" data-bs-target="#modalCartao" data-bs-whatever="@mdo" class="card-link">Adicionar despesa</a>
+                    <a data-bs-toggle="modal" data-bs-target="#modalCartao" data-bs-whatever="@mdo" class="card-link">Ver despesa</a>
                     <!-- <a href="#" class="card-link">Another link</a> -->
                 </div>
             </div>
@@ -34,6 +35,44 @@
                     <input type="text" id="conta-saldo" class="form-control" formControlName="valor">
                     <div class="row">
                         <div class="mb-3 col ">
+                            <label for="conta-tipo " class="col-form-label ">Categoria:</label>
+                            <select type="select " class="form-control form-select " id="conta-tipo " formControlName="categoria">
+                          <option selected>Selecione</option>
+                          <option>Alimentação</option>
+                          <option>Saúde</option>
+                          <option>Educação</option>
+                          <option>Transporte</option>
+                        </select>
+                        </div>
+
+                    </div>
+
+                    <div class="row ">
+                        <div class="mb-3 col ">
+                            <label for="conta-tipo " class="col-form-label ">Repetir:</label>
+                            <input class="form-control mt-3 margin-right " type="number" placeholder="1" value="" id="" formControlName="repetir">
+                        </div>
+                        <div class="mb-3 col ">
+                            <label for="periodo" class="col-form-label ">Período:</label>
+                            <select type="select " class="form-control form-select " id="periodo" formControlName="periodo">
+                                <option selected>Selecione</option>
+                                <option value="Dias">Dias</option>
+                                <option value="Dias">Semanas</option>
+                                <option value="Mes">Meses</option>
+                                <option value="Trimestre">Trimestre</option>
+                                <option value="Semestre">Semestre</option>
+                                <option value="Anual">Anual</option>
+                          </select>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="mb-3 col ">
+                            <label class="form-check-label col-form-label" for="flexCheckDefault">Fixa:</label>
+                            <input class="form-check-input mt-3 margin-right " type="checkbox" value="" id="flexCheckDefault" formControlName="fixa">
+                        </div>
+                    </div>
+                    <div class="row ">
+                        <div class="mb-3 col ">
                             <label for="conta-name " class="col-form-label">Descrição:</label>
                             <textarea type="text " class="form-control " id="conta-name " formControlName="descricao"></textarea>
                         </div>
@@ -42,69 +81,11 @@
                             <input type="date" class="form-control " id="conta-name " formControlName="dataVencimento">
                         </div>
                     </div>
-                    <div class="row">
-                        <div class="mb-3 col ">
-                            <label class="form-check-label col-form-label" for="flexCheckDefault">Fixa:</label>
-                            <input class="form-check-input mt-3 margin-right " type="checkbox" value="" id="flexCheckDefault" formControlName="fixa">
-                        </div>
-                        <div class="mb-3 col ">
-                            <label for="conta-instituicao " class="col-form-label ">Status:</label>
-                            <select type="select " class="form-control form-select " id="conta-instituicao " formControlName="status">
-                              <option selected>Selecione</option>
-                              <option selected>Paga</option>
-                              <option selected>Pendente</option>
-                              <option selected>Vencida</option>
-
-                            </select>
-                        </div>
-                    </div>
-                    <div class="row ">
-                        <div class="mb-3 col ">
-                            <label for="conta-tipo " class="col-form-label ">Repetir:</label>
-                            <input class="form-control mt-3 margin-right " type="number" placeholder="1" value="" id="" formControlName="repetir">
-                        </div>
-                        <div class="mb-3 col ">
-                            <label for="message-text " class="col-form-label ">Período:</label>
-                            <select type="select " class="form-control form-select " id="periodo" formControlName="periodo">
-                            <option selected>Selecione</option>
-                            <option value="Dias">Dias</option>
-                            <option value="Dias">Semanas</option>
-                            <option value="Mes">Meses</option>
-                            <option value="Trimestre">Trimestre</option>
-                            <option value="Semestre">Semestre</option>
-                            <option value="Anual">Anual</option>
-                          </select>
-                        </div>
-                    </div>
-                    <div class="row ">
-                        <div class="mb-3 col ">
-                            <label for="conta-banco " class="col-form-label ">Conta:</label>
-                            <select type="select" class="form-control form-select " id="conta-banco " formControlName="conta">
-                              <option selected>Selecione</option>
-                              <!-- <option *ngFor="let ls of listaCB" value="{{ls.nome}}">{{ls.nome}} - {{ls.banco}}</option> -->
-                            </select>
-                        </div>
-                        <div class="mb-3 col ">
-                            <label for="conta-tipo " class="col-form-label ">Categoria:</label>
-                            <select type="select " class="form-control form-select " id="conta-tipo " formControlName="categoria">
-                              <option selected>Selecione</option>
-                              <option>Alimentação</option>
-                              <option>Saúde</option>
-                              <option>Educação</option>
-                              <option>Transporte</option>
-                            </select>
-                        </div>
-                    </div>
                 </form>
-                <div class="conta-opcoes ">
-                    <a class="conta-opc-despesa">Despesas</a>
-                    <a class="conta-opc-receita">Receitas</a>
-                    <a class="conta-opc-transacao">Transações</a>
-                </div>
             </div>
             <div class="modal-footer ">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-                <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Salvar</button>
+                <button type="button" class="btn btn-primary" data-bs-dismiss="modal" (click)="addDespesaCC(idCC)">Salvar</button>
             </div>
         </div>
     </div>
@@ -137,21 +118,7 @@
                               <option value="hipercard">HiperCard</option>
                               <option value="amex">Amex</option>
                             </select>
-                            <!-- <button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
-                                  Bandeira
-                                  <label value=""></label>
-                                </button>
-                            <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-                                <li value="master">
-                                    <a class="dropdown-item center"><img class="iconBandeiraCC" src="/assets/images/bandeiraCartoes/MasterCard.png" /></a>
-                                </li>
-                                <li value="visa">
-                                    <a class="dropdown-item center"><img class="iconBandeiraCC" src="/assets/images/bandeiraCartoes/visa.png" /></a>
-                                </li>
-                                <li value="amex">
-                                    <a class="dropdown-item center"><img class="iconBandeiraCC" src="/assets/images/bandeiraCartoes/americanexpress.png" /></a>
-                                </li>
-                            </ul> -->
+
                         </div>
                     </div>
                     <div class="row ">
@@ -190,4 +157,24 @@
             </div>
         </div>
     </div>
+</div>
+
+
+<div class="row">
+    <div class="col-4">
+        <div class="list-group" id="list-tab" role="tablist">
+            <a class="list-group-item list-group-item-action active" id="list-home-list" data-bs-toggle="list" href="#list-home" role="tab" aria-controls="home">Home</a>
+            <a class="list-group-item list-group-item-action" id="list-profile-list" data-bs-toggle="list" href="#list-profile" role="tab" aria-controls="profile">Profile</a>
+            <a class="list-group-item list-group-item-action" id="list-messages-list" data-bs-toggle="list" href="#list-messages" role="tab" aria-controls="messages">Messages</a>
+            <a class="list-group-item list-group-item-action" id="list-settings-list" data-bs-toggle="list" href="#list-settings" role="tab" aria-controls="settings">Settings</a>
+        </div>
+    </div>
+    <!-- <div class="col-8">
+        <div class="tab-content" id="nav-tabContent">
+            <div class="tab-pane fade show active" id="list-home" role="tabpanel" aria-labelledby="list-home-list">...</div>
+            <div class="tab-pane fade" id="list-profile" role="tabpanel" aria-labelledby="list-profile-list">...</div>
+            <div class="tab-pane fade" id="list-messages" role="tabpanel" aria-labelledby="list-messages-list">...</div>
+            <div class="tab-pane fade" id="list-settings" role="tabpanel" aria-labelledby="list-settings-list">...</div>
+        </div>
+    </div> -->
 </div>

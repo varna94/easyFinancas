@@ -1,4 +1,4 @@
-import { Cartao } from './../shared/services/dashboard';
+import { Cartao, DespesaCC } from './../shared/services/dashboard';
 import { ApiService } from './../../api.service';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Component, CUSTOM_ELEMENTS_SCHEMA, OnInit } from '@angular/core';
@@ -13,9 +13,10 @@ import { Key } from 'readline';
 export class CartaoCreditoComponent implements OnInit {
   public formAdicionarCartao: FormGroup;
   public listCartoes: Array<[string, any]> = [];
-  formadicionarDespesaCC: FormGroup;
+  public formadicionarDespesaCC: FormGroup;
   exibirModalAddDespesasCC: boolean;
   bandeira: String;
+  idCC: String;
   uidUserLS: any;
   constructor(public service: ApiService, private formCC: FormBuilder) {
     this.formAdicionarCartao = this.formCC.group({
@@ -60,11 +61,10 @@ export class CartaoCreditoComponent implements OnInit {
       categoria: ['', Validators.compose([Validators.required])],
       descricao: ['', Validators.compose([Validators.required])],
       fixa: [false, Validators.compose([Validators.required])],
-      conta: ['', Validators.compose([Validators.required])],
-      status: ['', Validators.compose([Validators.required])],
       dataVencimento: ['', Validators.compose([Validators.required])],
       repetir: [''],
       periodo: [''],
+      id: ['']
     });
   }
 
@@ -110,13 +110,38 @@ export class CartaoCreditoComponent implements OnInit {
       // return cartoes;
     });
   }
-  addDespesaCC() {
-
+  addDespesaCC(id: String) {
+    var user = firebase.default.auth().currentUser;
+    if (user?.uid) {
+      const despesaCartao: DespesaCC = {
+        uid: user?.uid,
+        valor: this.formadicionarDespesaCC.get('valor')?.value,
+        descricao: this.formadicionarDespesaCC.get('descricao')?.value,
+        fixa: this.formadicionarDespesaCC.get('fixa')?.value,
+        categoria: this.formadicionarDespesaCC.get('categoria')?.value,
+        dataVencimento: this.formadicionarDespesaCC.get('dataVencimento')?.value,
+        repetir: this.formadicionarDespesaCC.get('repetir')?.value,
+        periodo: this.formadicionarDespesaCC.get('periodo')?.value,
+        idCartao: id
+      }
+      this.service.AddDespesasCartao(despesaCartao).subscribe(
+        value => {
+          this.ngOnInit();
+          console.log('success');
+        },
+        err => console.log('error')
+      );
+      return 'success';
+    } else {
+      alert("usuario n logado");
+      return false;
+    }
   }
   abrirModalAddDespesaCC(bandeira: String, id: String) {
     console.log(`bandeira ${bandeira}`);
     console.log(`_id ${id}`);
     this.bandeira = bandeira;
+    this.idCC = id;
     this.exibirModalAddDespesasCC = true;
     console.log(`flag modal ${this.exibirModalAddDespesasCC}`);
   }
