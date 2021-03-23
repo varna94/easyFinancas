@@ -14,7 +14,10 @@ export class CartaoCreditoComponent implements OnInit {
   public formAdicionarCartao: FormGroup;
   public listCartoes: Array<[string, any]> = [];
   public formadicionarDespesaCC: FormGroup;
+  public mostrarComprasFatura: boolean = false;
+  public despCC: Array<[string, any]> = [];
   exibirModalAddDespesasCC: boolean;
+  nomeCartao: String;
   bandeira: String;
   idCC: String;
   uidUserLS: any;
@@ -112,6 +115,7 @@ export class CartaoCreditoComponent implements OnInit {
   }
   addDespesaCC(id: String) {
     var user = firebase.default.auth().currentUser;
+    this.listCartoes = [];
     if (user?.uid) {
       const despesaCartao: DespesaCC = {
         uid: user?.uid,
@@ -144,5 +148,26 @@ export class CartaoCreditoComponent implements OnInit {
     this.idCC = id;
     this.exibirModalAddDespesasCC = true;
     console.log(`flag modal ${this.exibirModalAddDespesasCC}`);
+  }
+
+  exibirFatura(nomeCC: string, bandeiraCC: String, idCartao: string) {
+    console.log(idCartao);
+    this.despCC = [];
+    this.bandeira = bandeiraCC;
+    this.nomeCartao = nomeCC;
+    this.service.GetDespesasCartao().then(desp => {
+      // this.despesas = data;
+      for (let i = 0; i < desp.length; i++) {
+        if (desp[i].idCartao === idCartao) {
+          this.despCC.push(desp[i]);
+          // this.listCartoes.push('_id', cartao[i._id]);
+          console.log('desps');
+          console.log(this.despCC);
+        } else {
+          console.log("nenhuma compra para esse cartao!");
+        }
+      }
+      // return cartoes;
+    });
   }
 }

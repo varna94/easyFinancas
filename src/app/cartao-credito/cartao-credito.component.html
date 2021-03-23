@@ -1,7 +1,7 @@
 <div class="container">
     <div class="row row-cols-1 row-cols-sm-2 row-cols-md-4">
         <div class="col card-cc">
-            <a class="btn-add-cc" data-bs-toggle="modal" data-bs-target="#modalCartao" data-bs-whatever="@mdo">
+            <a class="btn-add-cc" data-bs-toggle="modal" data-bs-target="#modalCartaoCadastro" data-bs-whatever="@mdo">
                 <button type="button" class="btn btn-outline-primary btn-size-add-cc">+</button>
             </a>
         </div>
@@ -9,11 +9,11 @@
             <div class="card ">
                 <div class="card-body">
                     <img class="img-bandeira-cartao" src="/assets/images/bandeiraCartoes/{{$any(cc).bandeira}}.png" alt="">
-                    <h5 class="card-title">{{$any(cc).nome}}</h5>
+                    <h3 class="card-title">{{$any(cc).nome}}</h3>
                     <p>{{$any(cc)._id}}</p>
                     <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
                     <a (click)="abrirModalAddDespesaCC($any(cc).bandeira,$any(cc)._id)" data-bs-toggle="modal" data-bs-target="#modalCartao" data-bs-whatever="@mdo" class="card-link">Adicionar despesa</a>
-                    <a data-bs-toggle="modal" data-bs-target="#modalCartao" data-bs-whatever="@mdo" class="card-link">Ver despesa</a>
+                    <a (click)="exibirFatura($any(cc).nome,$any(cc).bandeira,$any(cc)._id)" class="card-link " data-bs-toggle="modal" data-bs-target="#modalFatura">Ver despesa</a>
                     <!-- <a href="#" class="card-link">Another link</a> -->
                 </div>
             </div>
@@ -26,7 +26,7 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Nova despesa - {{bandeira}}</h5>
+                <h3 class="modal-title" id="exampleModalLabel">Nova despesa - {{bandeira}}</h3>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
@@ -92,11 +92,11 @@
 </div>
 
 <!-- MODAL CADASTRO CARTAO DE CREDITO -->
-<div id="modal" class="modal fade modal-fullscreen-md-down" id="modalCartao" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div id="modal" class="modal fade modal-fullscreen-md-down" id="modalCartaoCadastro" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Novo cartão</h5>
+                <h3 class="modal-title" id="exampleModalLabel">Novo cartão</h3>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
@@ -159,22 +159,62 @@
     </div>
 </div>
 
+<!-- Exibir compras fatura -->
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" id="modalFatura" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <div class="header-modal-despesas-cc">
+                    <img class="iconBandeiraCC" src="assets/images/bandeiraCartoes/{{bandeira}}.png" alt="">
+                    <h3 style="margin-top:12px;" class="modal-title" id="exampleModalLabel">Despesas do cartão <b>{{nomeCartao}}</b></h3>
+                </div>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <table class="table" *ngIf="despCC.length > 0">
+                    <thead>
+                        <tr>
+                            <th scope="col">Valor</th>
+                            <th scope="col">Categoria</th>
+                            <th scope="col">Data fatura</th>
+                            <th scope="col">fixa</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let desp of despCC">
+                            <th scope="row">{{$any(desp).valor}}</th>
+                            <td>{{$any(desp).categoria}}</td>
+                            <td>{{$any(desp).dataVencimento | date: 'dd/MM/yyyy'}}</td>
+                            <td>{{$any(desp).fixa}}</td>
+                        </tr>
+                    </tbody>
+                </table>
+                <p *ngIf="despCC.length <= 0">Nenhuma despesa para esse cartão!</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
+            </div>
+        </div>
+    </div>
+</div>
 
+<!--
 <div class="row">
     <div class="col-4">
         <div class="list-group" id="list-tab" role="tablist">
-            <a class="list-group-item list-group-item-action active" id="list-home-list" data-bs-toggle="list" href="#list-home" role="tab" aria-controls="home">Home</a>
-            <a class="list-group-item list-group-item-action" id="list-profile-list" data-bs-toggle="list" href="#list-profile" role="tab" aria-controls="profile">Profile</a>
+            <a class="list-group-item list-group-item-action active" id="list-home-list" data-bs-toggle="list" href="#list-home" role="tab" aria-controls="home"><img class="iconBandeiraCC" src="/assets/images/bandeiraCartoes/MasterCard.png" alt=""></a>
+            <a class="list-group-item list-group-item-action" id="list-profile-list" data-bs-toggle="list" href="#list-profile" role="tab" aria-controls="profile"><img class="iconBandeiraCC" src="/assets/images/bandeiraCartoes/visa.png" alt=""></a>
             <a class="list-group-item list-group-item-action" id="list-messages-list" data-bs-toggle="list" href="#list-messages" role="tab" aria-controls="messages">Messages</a>
             <a class="list-group-item list-group-item-action" id="list-settings-list" data-bs-toggle="list" href="#list-settings" role="tab" aria-controls="settings">Settings</a>
         </div>
     </div>
-    <!-- <div class="col-8">
+    <div class="col-8">
         <div class="tab-content" id="nav-tabContent">
             <div class="tab-pane fade show active" id="list-home" role="tabpanel" aria-labelledby="list-home-list">...</div>
             <div class="tab-pane fade" id="list-profile" role="tabpanel" aria-labelledby="list-profile-list">...</div>
             <div class="tab-pane fade" id="list-messages" role="tabpanel" aria-labelledby="list-messages-list">...</div>
             <div class="tab-pane fade" id="list-settings" role="tabpanel" aria-labelledby="list-settings-list">...</div>
         </div>
-    </div> -->
-</div>
+    </div>
+</div> -->
