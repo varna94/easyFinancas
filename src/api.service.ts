@@ -107,7 +107,7 @@ export class ApiService {
   }
   // RECURSOS
   // POST, GET, UPDATE, DELETE recursos
-  AddRescursos(data: Recurso, table: String): Observable<any> {
+  Addrecursos(data: Recurso, table: String): Observable<any> {
     let API_URL = `${this.endpoint}/${table}`;
     return this.http.post(API_URL, data)
       .pipe(
@@ -115,8 +115,8 @@ export class ApiService {
       )
   }
 
-  GetRescursos(): Promise<any> {
-    let API_URL = `${this.endpoint}/rescursos`;
+  Getrecursos(): Promise<any> {
+    let API_URL = `${this.endpoint}/recursos`;
 
     return new Promise(resolve => {
       this.http.get(API_URL).pipe(
@@ -128,7 +128,7 @@ export class ApiService {
   }
 
   GetRescurso(id: any): Observable<any> {
-    let API_URL = `${this.endpoint}/rescursos/${id}`;
+    let API_URL = `${this.endpoint}/recursos/${id}`;
     return this.http.get(API_URL, { headers: this.headers })
       .pipe(
         map((res) => {
@@ -138,16 +138,16 @@ export class ApiService {
       )
   }
 
-  UpdateRescursos(id: any, data: any): Observable<any> {
-    let API_URL = `${this.endpoint}/rescursos/${id}`;
+  Updaterecursos(id: any, data: any): Observable<any> {
+    let API_URL = `${this.endpoint}/recursos/${id}`;
     return this.http.put(API_URL, data, { headers: this.headers })
       .pipe(
         catchError(this.errorMgmt)
       )
   }
 
-  DeleteRescursos(id: any): Observable<any> {
-    var API_URL = `${this.endpoint}/rescursos/${id}`;
+  Deleterecursos(id: any): Observable<any> {
+    var API_URL = `${this.endpoint}/recursos/${id}`;
     return this.http.delete(API_URL)
       .pipe(
         catchError(this.errorMgmt)

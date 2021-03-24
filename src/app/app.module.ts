@@ -1,7 +1,7 @@
 import { ApiService } from './../api.service';
 import { Request, Response } from 'express';
 import { BrowserModule } from '@angular/platform-browser';
-import { CUSTOM_ELEMENTS_SCHEMA, LOCALE_ID, NgModule } from '@angular/core';
+import { CUSTOM_ELEMENTS_SCHEMA, LOCALE_ID, NgModule, Pipe } from '@angular/core';
 import { AppComponent } from './app.component';
 import { LoginComponent } from './login/login/login.component';
 import { CadastroComponent } from './cadastro/cadastro.component';
@@ -50,7 +50,7 @@ const appRoutes: Routes = [
 
 @NgModule({
   declarations: [AppComponent, LoginComponent, CadastroComponent, DashboardComponent, BoardComponent, InicioComponent, ModalFeedbacksComponent, RecuperarSenhaComponent, ConfirmaEmailComponent, SpinnerComponent, ContaComponent, DespesaComponent, CartaoCreditoComponent, RecursosComponent],
-  providers: [AuthService, ModalFeedbacksComponent, DespesaComponent,
+  providers: [AuthService, ModalFeedbacksComponent, DespesaComponent, RecursosComponent,
     {
       provide: LOCALE_ID,
       useValue: "pt"

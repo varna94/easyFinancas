@@ -217,10 +217,6 @@
                             <label for="conta-tipo " class="col-form-label ">Receita fixa?</label>
                             <input class="form-check-input mt-3 margin-right " type="checkbox" value="" id="flexCheckDefault" formControlName="receitaFixa">
                         </div>
-                        <div class="mb-3 col ">
-                            <label for="message-text " class="col-form-label ">Descrição:</label>
-                            <textarea class="form-control " id="message-text " formControlName="descricao"></textarea>
-                        </div>
                     </div>
                     <div class="row ">
                         <div class="mb-3 col ">
@@ -240,6 +236,22 @@
                             </select>
                         </div>
                     </div>
+                    <div class="row">
+                        <div class="mb-3 col">
+                            <label for="recursoTipo" class="col-form-label ">Tipo:</label>
+                            <select type="select " class="form-control form-select " id="recursoTipo" formControlName="tipo">
+                              <option selected>Selecione</option>
+                              <option value="Salário">Salário</option>
+                              <option value="Prêmio">Prêmio</option>
+                              <option value="Presente">Presente</option>
+                              <option value="Investimento">Investimento</option>
+                            </select>
+                        </div>
+                        <div class="mb-3 col">
+                            <label for="message-text" class="col-form-label ">Descrição:</label>
+                            <textarea class="form-control " id="message-text " formControlName="descricao"></textarea>
+                        </div>
+                    </div>
 
                 </form>
                 <div class="conta-opcoes ">
@@ -250,7 +262,7 @@
             </div>
             <div class="modal-footer ">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-                <button type="button " class="btn btn-primary" (click)="criarRecursos()">Salvar</button>
+                <button type="button" class="btn btn-primary" data-bs-dismiss="modal" (click)="criarRecursos()">Salvar</button>
             </div>
         </div>
     </div>

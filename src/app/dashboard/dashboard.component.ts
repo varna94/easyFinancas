@@ -1,3 +1,4 @@
+import { RecursosComponent } from './../recursos/recursos.component';
 import { DespesaComponent } from './../despesa/despesa.component';
 import { ApiService } from './../../api.service';
 import { BrowserModule } from '@angular/platform-browser';
@@ -45,7 +46,7 @@ export class DashboardComponent implements OnInit {
   userRef: User;
   contaRef: Conta;
 
-  constructor(public authService: AuthService, private formDasboard: FormBuilder, public afs: AngularFirestore, private router: Router, public serviceDb: ApiService, public dep: DespesaComponent) {
+  constructor(public authService: AuthService, private formDasboard: FormBuilder, public afs: AngularFirestore, private router: Router, public serviceDb: ApiService, public dep: DespesaComponent, public cmpRecurso: RecursosComponent) {
     this.formadicionarConta = this.formDasboard.group({
       nome: [],
       saldo: [],
@@ -236,9 +237,9 @@ export class DashboardComponent implements OnInit {
         periodo: this.formAdicionarRecursos.get('periodo')?.value,
         dataRecebimento: this.formAdicionarRecursos.get('dataRecebimento')?.value
       }
-      this.serviceDb.AddRescursos(recurso, 'recursos').subscribe(
+      this.serviceDb.Addrecursos(recurso, 'recursos').subscribe(
         value => {
-          this.dep.ngOnInit();
+          this.cmpRecurso.ngOnInit();
           console.log("sucess")
         },
 

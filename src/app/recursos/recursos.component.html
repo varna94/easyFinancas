@@ -1,1 +1,25 @@
-<p>recursos works!</p>
+<div class="container">
+    <table class="table">
+        <thead>
+            <tr>
+                <th scope="col">Conta</th>
+                <th scope="col">Saldo</th>
+                <th scope="col">Tipo</th>
+                <th scope="col">Recebido</th>
+                <th scope="col">Data de recebimento</th>
+                <th scope="col">Descrição</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let recurso of listRecursos">
+                <th scope="row">{{recurso.conta}}</th>
+                <td>{{recurso.saldo.toString() | currency: 'BRL'}}</td>
+                <td>{{recurso.tipo}}</td>
+                <td>{{recurso.recebido ? 'Sim' : 'Não'}}</td>
+                <td>{{recurso.dataRecebimento | date: 'dd/MM/yyyy'}}</td>
+                <td>{{recurso.descricao}}</td>
+                <td></td>
+            </tr>
+        </tbody>
+    </table>
+</div>
