@@ -1,6 +1,6 @@
 import { ApiService } from './../../api.service';
 import { Despesa } from './../shared/services/dashboard';
-import { listaDespesas } from './../dashboard/dashboard.component';
+import { listaDespesas, DashboardComponent } from './../dashboard/dashboard.component';
 import { Component, OnInit } from '@angular/core';
 import { json } from 'body-parser';
 
@@ -11,7 +11,7 @@ import { json } from 'body-parser';
   styleUrls: ['./despesa.component.scss']
 })
 export class DespesaComponent implements OnInit {
-  public despesas: Despesa[] = [];
+  public despesas: Array<[string, any]> = [];;
   public despesasLs: Despesa[] = [];
   public uidUserLS: any;
   constructor(public apService: ApiService) { }
@@ -31,6 +31,18 @@ export class DespesaComponent implements OnInit {
 
     console.log(this.despesas);
 
+  }
+
+  deleteDespesa(idDelete: String) {
+    console.log('entrou delete!');
+    this.apService.DeleteDespesas(idDelete).subscribe(
+      val => {
+        this.despesas = [];
+        this.ngOnInit();
+        console.log('success - ' + val);
+      },
+      err => console.log('error - ' + err)
+    );
   }
 
 }

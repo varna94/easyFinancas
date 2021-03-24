@@ -8,6 +8,7 @@
                 <th scope="col">Recebido</th>
                 <th scope="col">Data de recebimento</th>
                 <th scope="col">Descrição</th>
+                <th scope="col"></th>
             </tr>
         </thead>
         <tbody>
@@ -18,7 +19,10 @@
                 <td>{{recurso.recebido ? 'Sim' : 'Não'}}</td>
                 <td>{{recurso.dataRecebimento | date: 'dd/MM/yyyy'}}</td>
                 <td>{{recurso.descricao}}</td>
-                <td></td>
+                <td>
+                    <span class="material-icons"> mode_edit</span>
+                    <span class="material-icons material-icons-delete">delete</span>
+                </td>
             </tr>
         </tbody>
     </table>

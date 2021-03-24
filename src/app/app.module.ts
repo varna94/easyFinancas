@@ -50,7 +50,7 @@ const appRoutes: Routes = [
 
 @NgModule({
   declarations: [AppComponent, LoginComponent, CadastroComponent, DashboardComponent, BoardComponent, InicioComponent, ModalFeedbacksComponent, RecuperarSenhaComponent, ConfirmaEmailComponent, SpinnerComponent, ContaComponent, DespesaComponent, CartaoCreditoComponent, RecursosComponent],
-  providers: [AuthService, ModalFeedbacksComponent, DespesaComponent, RecursosComponent,
+  providers: [AuthService, ModalFeedbacksComponent, DespesaComponent, RecursosComponent, DashboardComponent,
     {
       provide: LOCALE_ID,
       useValue: "pt"

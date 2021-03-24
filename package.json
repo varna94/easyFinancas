@@ -28,6 +28,7 @@
     "cors": "^2.8.5",
     "firebase": "^8.2.4",
     "firebase-admin": "^9.4.2",
+    "material-design-icons": "^3.0.1",
     "mongoose": "^5.11.18",
     "rxjs": "~6.6.0",
     "tslib": "^2.0.0",

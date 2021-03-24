@@ -65,7 +65,7 @@
 
                         <div class="mb-3 col ">
                             <label for="conta-name " class="col-form-label">Nome:</label>
-                            <input type="text " class="form-control " id="conta-name " formControlName="nome" maxlength="15">
+                            <input type="text " class="form-control " id="conta-name " formControlName="nome" maxlength="10">
                         </div>
                         <div class="mb-3 col ">
                             <label for="conta-instituicao " class="col-form-label ">Instituição financeira:</label>
@@ -200,7 +200,7 @@
                             <label for="conta-name " class="col-form-label">Conta:</label>
                             <select type="select " class="form-control form-select " id="conta-banco " formControlName="conta">
                               <option selected>Selecione</option>
-                              <option *ngFor="let ls of listaCB" value="{{ls.nome}}">{{ls.nome}} - {{ls.banco}}</option>
+                              <option *ngFor="let ls of listaCB" value="{{ls.nome}} - {{ls.banco}}">{{ls.nome}} - {{ls.banco}}</option>
                             </select>
                         </div>
                         <div class="mb-3 col ">

@@ -8,16 +8,21 @@
                 <th scope="col">Fixa?</th>
                 <th scope="col">Status</th>
                 <th scope="col">Data de Vencimento</th>
+                <th></th>
             </tr>
         </thead>
         <tbody>
             <tr *ngFor="let d of despesas">
                 <!-- <th scope="row">1</th> -->
-                <th>{{d.valor | currency: 'BRL'}} </th>
-                <td>{{d.descricao}}</td>
-                <td>{{d.fixa}}</td>
-                <td>{{d.status}}</td>
-                <td>{{d.dataVencimento | date: 'dd/MM/yyyy'}}</td>
+                <th>{{$any(d).valor | currency: 'BRL'}} </th>
+                <td>{{$any(d).descricao}}</td>
+                <td>{{$any(d).fixa}}</td>
+                <td>{{$any(d).status}}</td>
+                <td>{{$any(d).dataVencimento | date: 'dd/MM/yyyy'}}</td>
+                <td>
+                    <span class="material-icons"> mode_edit</span>
+                    <span class="material-icons material-icons-delete" (click)="deleteDespesa($any(d)._id)">delete</span>
+                </td>
             </tr>
         </tbody>
     </table>
