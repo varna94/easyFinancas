@@ -9,8 +9,12 @@ import { Pipe, PipeTransform } from '@angular/core'
   styleUrls: ['./recursos.component.scss']
 })
 export class RecursosComponent implements OnInit {
-
-  listRecursos: Recurso[] = [];
+  saldo: string;
+  conta: string;
+  idDelete: string;
+  errorDelete: boolean = false;
+  successDelete: boolean = false;
+  listRecursos: Array<[string, any]> = [];
   constructor(public service: ApiService) { }
 
   ngOnInit(): void {
@@ -30,5 +34,30 @@ export class RecursosComponent implements OnInit {
     });
     return recursos;
   }
+  deleteInfo(id: string, saldo: string, conta: string) {
+    this.idDelete = id;
+    this.conta = conta;
+    this.saldo = saldo;
+  }
+  deleteRecurso(idDel: string) {
+    // idDel = '123';
+    console.log('entrou delete!');
+    this.service.Deleterecursos(idDel).subscribe(
+      val => {
+        this.successDelete = true;
+        this.listRecursos = [];
+        this.ngOnInit();
+        console.log('success - ' + val);
+      },
 
+      err => {
+        this.errorDelete = true;
+        console.log('error - ' + err);
+      }
+    );
+  }
+  zerarVariaveis() {
+    this.successDelete = false;
+    this.errorDelete = false;
+  }
 }

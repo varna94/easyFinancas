@@ -15,7 +15,7 @@ export class ApiService {
   constructor(private http: HttpClient) { }
 
   // POST, GET, UPDATE, DELETE depesas
-  AddDespesas(data: Despesa, table: String): Observable<any> {
+  AddDespesas(data: Despesa, table: string): Observable<any> {
     let API_URL = `${this.endpoint}/${table}`;
 
     return this.http.post(API_URL, data)
@@ -78,7 +78,7 @@ export class ApiService {
   }
 
   // CONTAS
-  AddContas(data: Conta, table: String): Observable<any> {
+  AddContas(data: Conta, table: string): Observable<any> {
     let API_URL = `${this.endpoint}/${table}`;
     console.log(API_URL);
     console.log(data);
@@ -107,7 +107,7 @@ export class ApiService {
   }
   // RECURSOS
   // POST, GET, UPDATE, DELETE recursos
-  Addrecursos(data: Recurso, table: String): Observable<any> {
+  Addrecursos(data: Recurso, table: string): Observable<any> {
     let API_URL = `${this.endpoint}/${table}`;
     return this.http.post(API_URL, data)
       .pipe(
@@ -157,7 +157,7 @@ export class ApiService {
 
   // CARTAO CC
   // POST, GET, UPDATE, DELETE Cartoes
-  AddCartoes(data: Cartao, table: String): Observable<any> {
+  AddCartoes(data: Cartao, table: string): Observable<any> {
     let API_URL = `${this.endpoint}/${table}`;
     return this.http.post(API_URL, data)
       .pipe(

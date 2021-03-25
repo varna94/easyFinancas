@@ -13,7 +13,7 @@ import { AuthService } from "../shared/services/auth.service";
 export class CadastroComponent implements OnInit {
   formCadastro: FormGroup;
   cad: FormArray;
-  // public name: String = '';
+  // public name: string = '';
   emailVazioCad: boolean;
   confEmailVazio: boolean;
   nomeVazio: boolean;

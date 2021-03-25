@@ -2,56 +2,56 @@ import { CurrencyPipe } from '@angular/common';
 
 export interface Conta {
   uid: any;
-  nome: String;
-  banco: String;
+  nome: string;
+  banco: string;
   saldo: string;
-  tipo: String;
-  descricao: String;
+  tipo: string;
+  descricao: string;
 }
 export interface Despesa {
   uid: any;
   valor: string;
-  conta: String[];
-  descricao: String;
+  conta: string[];
+  descricao: string;
   fixa: Boolean;
-  status: String;
-  categoria: String;
+  status: string;
+  categoria: string;
   dataVencimento: Date;
   repetir: Number;
-  periodo: String;
+  periodo: string;
 }
 export interface DespesaCC {
   uid: any;
   valor: string;
-  descricao: String;
+  descricao: string;
   fixa: Boolean;
-  categoria: String;
+  categoria: string;
   dataVencimento: Date;
   repetir: Number;
-  periodo: String;
-  idCartao: String;
+  periodo: string;
+  idCartao: string;
 }
 export interface Recurso {
   uid: any;
-  saldo: String;
-  conta: String;
-  descricao: String;
+  saldo: string;
+  conta: string;
+  descricao: string;
   recebido: Boolean;
-  tipo: String;
+  tipo: string;
   receitaFixa: Boolean;
   repetir: Number;
-  periodo: String;
+  periodo: string;
   dataRecebimento: Date;
 }
 export interface Cartao {
   uid: any;
-  nome: String;
-  bandeira: String;
-  banco: String;
-  limite: String;
+  nome: string;
+  bandeira: string;
+  banco: string;
+  limite: string;
   dataFechamentoFatura: Date;
   dataVencimentoFatura: Date;
-  descricao: String;
+  descricao: string;
 }
 export interface User {
   displayName: any;

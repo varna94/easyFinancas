@@ -33,7 +33,7 @@ export class DespesaComponent implements OnInit {
 
   }
 
-  deleteDespesa(idDelete: String) {
+  deleteDespesa(idDelete: string) {
     console.log('entrou delete!');
     this.apService.DeleteDespesas(idDelete).subscribe(
       val => {

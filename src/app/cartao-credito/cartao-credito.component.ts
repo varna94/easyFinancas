@@ -17,9 +17,9 @@ export class CartaoCreditoComponent implements OnInit {
   public mostrarComprasFatura: boolean = false;
   public despCC: Array<[string, any]> = [];
   exibirModalAddDespesasCC: boolean;
-  nomeCartao: String;
-  bandeira: String;
-  idCC: String;
+  nomeCartao: string;
+  bandeira: string;
+  idCC: string;
   uidUserLS: any;
   constructor(public service: ApiService, private formCC: FormBuilder) {
     this.formAdicionarCartao = this.formCC.group({
@@ -113,7 +113,7 @@ export class CartaoCreditoComponent implements OnInit {
       // return cartoes;
     });
   }
-  addDespesaCC(id: String) {
+  addDespesaCC(id: string) {
     var user = firebase.default.auth().currentUser;
     this.listCartoes = [];
     if (user?.uid) {
@@ -141,7 +141,7 @@ export class CartaoCreditoComponent implements OnInit {
       return false;
     }
   }
-  abrirModalAddDespesaCC(bandeira: String, id: String) {
+  abrirModalAddDespesaCC(bandeira: string, id: string) {
     console.log(`bandeira ${bandeira}`);
     console.log(`_id ${id}`);
     this.bandeira = bandeira;
@@ -150,7 +150,7 @@ export class CartaoCreditoComponent implements OnInit {
     console.log(`flag modal ${this.exibirModalAddDespesasCC}`);
   }
 
-  exibirFatura(nomeCC: string, bandeiraCC: String, idCartao: string) {
+  exibirFatura(nomeCC: string, bandeiraCC: string, idCartao: string) {
     console.log(idCartao);
     this.despCC = [];
     this.bandeira = bandeiraCC;
