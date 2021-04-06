@@ -9,7 +9,7 @@ import { ApiService } from './../../api.service';
   styleUrls: ['./conta.component.scss']
 })
 export class ContaComponent implements OnInit {
-  public lsContas: Conta[] = [];
+  public lsContas: Array<[string, any]> = [];
   public lsDespesas: Despesa[] = [];
   public uidUserLS: any;
 
@@ -29,6 +29,29 @@ export class ContaComponent implements OnInit {
       }
       return conta;
     });
+    this.getDespesasConta(this.lsContas);
 
+  }
+
+  getDespesasConta(contas: Array<[string, any]>) {
+    console.log('entrou get despesa');
+    console.log(contas);
+    const desp = this.apService.GetDespesas().then(desp => {
+      // this.despesas = data;
+      for (let i = 0; i < desp.length; i++) {
+        console.log(desp[i]);
+        for (let j = 0; j < contas.length; j++) {
+          console.log('contas -- ');
+          console.log(contas[j]._id);
+          if (desp[i].contaId === contas[j]._id) {
+
+            this.lsDespesas.push(desp[i]);
+
+            console.log(this.lsDespesas);
+          }
+        }
+      }
+      return desp;
+    });
   }
 }

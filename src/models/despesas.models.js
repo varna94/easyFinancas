@@ -8,6 +8,7 @@ const despesas = new Schema({
     fixa: { type: Boolean },
     status: { type: String },
     conta: { type: String },
+    contaId: { type: String },
     categoria: { type: String },
     dataVencimento: { type: Date }
 }, { timestamps: true });

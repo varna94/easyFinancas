@@ -7,16 +7,16 @@
         <div class="card-conta">
             <div class="header-card-conta">
                 <div>
-                    <p>{{conta.banco}}</p>
-                    <label>{{conta.nome}}</label>
+                    <p>{{$any(conta).banco}}</p>
+                    <label>{{$any(conta).nome}}</label>
                 </div>
-                <img class="img-banco" src="/assets/images/{{conta.banco}}.png" alt="">
+                <img class="img-banco" src="/assets/images/{{$any(conta).banco}}.png" alt="">
 
             </div>
             <div class="valores-conta">
                 <div>
                     <p id="um">Receitas</p>
-                    <p id="dois">{{conta.saldo | currency: 'BRL'}}</p>
+                    <p id="dois">{{$any(conta).saldo | currency: 'BRL'}}</p>
                 </div>
                 <div>
                     <p id="tres">Despesas</p>

@@ -12,6 +12,7 @@ export interface Despesa {
   uid: any;
   valor: string;
   conta: string[];
+  contaId: string;
   descricao: string;
   fixa: Boolean;
   status: string;

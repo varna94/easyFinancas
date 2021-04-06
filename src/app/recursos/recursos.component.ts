@@ -40,7 +40,7 @@ export class RecursosComponent implements OnInit {
     this.saldo = saldo;
   }
   deleteRecurso(idDel: string) {
-    // idDel = '123';
+    idDel = '123';
     console.log('entrou delete!');
     this.service.Deleterecursos(idDel).subscribe(
       val => {

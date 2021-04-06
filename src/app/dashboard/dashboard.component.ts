@@ -28,7 +28,6 @@ import { rootCertificates } from 'tls';
 })
 export class DashboardComponent implements OnInit {
   formadicionarConta: FormGroup;
-  formadicionarDespesa: FormGroup;
   formAdicionarRecursos: FormGroup;
   users: User;
   usersFilter: any;
@@ -36,7 +35,6 @@ export class DashboardComponent implements OnInit {
   contasBanco: any;
   despesas: any;
   contaRel: Conta;
-  public lsDespesa: Despesa[] = [];
   public bancoConta: string[] = [];
   public listaCB: Conta[] = [];
   exibirContas: boolean;
@@ -53,14 +51,6 @@ export class DashboardComponent implements OnInit {
       descricao: [],
       banco: [],
       tipo: [],
-    });
-    this.formadicionarDespesa = this.formDasboard.group({
-      valor: [],
-      categoria: [],
-      descricao: [],
-      fixa: [],
-      conta: [],
-      status: [],
     });
     this.formAdicionarRecursos = this.formDasboard.group({
       saldo: [],
@@ -83,7 +73,6 @@ export class DashboardComponent implements OnInit {
     console.log(user?.uid);
     if (this.authService.isLoggedIn || user?.uid || this.uidUserLS.uid) {
       this.criarFormConta();
-      this.criarFormDespesa();
       this.usersInfo();
       this.contaInfo();
       // this.buscarDespesas();
@@ -103,19 +92,6 @@ export class DashboardComponent implements OnInit {
       descricao: ['', Validators.compose([Validators.required])],
       banco: ['', Validators.compose([Validators.required])],
       tipo: ['', Validators.compose([Validators.required])],
-    });
-  }
-  criarFormDespesa() {
-    this.formadicionarDespesa = this.formDasboard.group({
-      valor: ['', Validators.compose([Validators.required])],
-      categoria: ['', Validators.compose([Validators.required])],
-      descricao: ['', Validators.compose([Validators.required])],
-      fixa: [false, Validators.compose([Validators.required])],
-      conta: ['', Validators.compose([Validators.required])],
-      status: ['', Validators.compose([Validators.required])],
-      dataVencimento: ['', Validators.compose([Validators.required])],
-      repetir: [''],
-      periodo: [''],
     });
   }
   criarFormRecursos() {
@@ -181,42 +157,6 @@ export class DashboardComponent implements OnInit {
     return this.users;
   }
 
-  criarDespesa() {
-    var user = firebase.default.auth().currentUser;
-
-    // console.log(this.idConta);
-    console.log(this.contaRel);
-
-    console.log(user)
-    if (user?.uid) {
-      const despesa: Despesa = {
-        dataVencimento: this.formadicionarDespesa.get('dataVencimento')?.value,
-        valor: this.formadicionarDespesa.get('valor')?.value,
-        uid: user.uid,
-        descricao: this.formadicionarDespesa.get('descricao')?.value,
-        fixa: this.formadicionarDespesa.get('fixa')?.value,
-        status: this.formadicionarDespesa.get('status')?.value,
-        conta: this.formadicionarDespesa.get('conta')?.value,
-        categoria: this.formadicionarDespesa.get('categoria')?.value,
-        periodo: this.formadicionarDespesa.get('periodo')?.value,
-        repetir: this.formadicionarDespesa.get('repetir')?.value
-      }
-      this.serviceDb.AddDespesas(despesa, 'despesas').subscribe(
-        value => {
-          this.dep.ngOnInit();
-          console.log("sucess")
-        },
-
-        err => console.log('error')
-      );
-      return 'success';
-    } else {
-      alert("usuario n logado");
-      return false;
-    }
-
-  }
-
   criarRecursos() {
     var user = firebase.default.auth().currentUser;
 
@@ -266,21 +206,6 @@ export class DashboardComponent implements OnInit {
       return conta;
     });
   }
-
-  filterDespesas(despesa: any) {
-    let contasX;
-
-    for (let index = 0; index < despesa?.length; index++) {
-      // if (despesa ? [index].uid === this.uidUserLS.uid) {
-      // console.log(uid[index].payload.doc?.data());
-      listaDespesas.push(despesa[index]);
-      this.lsDespesa.push(despesa[index]);
-      // }
-    }
-    console.log(listaDespesas);
-    return listaDespesas;
-  }
-
 
   showContas() {
     this.exibirContas = true;
