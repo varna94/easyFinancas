@@ -105,6 +105,7 @@ export class DespesaComponent implements OnInit {
       this.apService.AddDespesas(despesa, 'despesas').subscribe(
         value => {
           this.despesas = [];
+          this.listaCB = [];
           this.ngOnInit();
           console.log("sucess")
         },

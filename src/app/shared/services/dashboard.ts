@@ -10,7 +10,7 @@ export interface Conta {
 }
 export interface Despesa {
   uid: any;
-  valor: string;
+  valor: number;
   conta: string[];
   contaId: string;
   descricao: string;
@@ -36,6 +36,7 @@ export interface Recurso {
   uid: any;
   saldo: string;
   conta: string;
+  contaId: string;
   descricao: string;
   recebido: Boolean;
   tipo: string;

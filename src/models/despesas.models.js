@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 const despesas = new Schema({
-    valor: { type: String },
+    valor: { type: Number },
     uid: { type: String },
     descricao: { type: String },
     fixa: { type: Boolean },

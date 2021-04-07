@@ -5,6 +5,7 @@ const recursos = new Schema({
     uid: { type: String },
     saldo: { type: String },
     conta: { type: String },
+    contaId: { type: String },
     descricao: { type: String },
     recebido: { type: Boolean },
     tipo: { type: String },

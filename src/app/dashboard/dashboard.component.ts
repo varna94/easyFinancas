@@ -157,41 +157,6 @@ export class DashboardComponent implements OnInit {
     return this.users;
   }
 
-  criarRecursos() {
-    var user = firebase.default.auth().currentUser;
-
-    // console.log(this.idConta);
-    console.log(this.contaRel);
-
-    console.log(user)
-    if (user?.uid) {
-      const recurso: Recurso = {
-        uid: user.uid,
-        saldo: this.formAdicionarRecursos.get('saldo')?.value,
-        conta: this.formAdicionarRecursos.get('conta')?.value,
-        descricao: this.formAdicionarRecursos.get('descricao')?.value,
-        recebido: this.formAdicionarRecursos.get('recebido')?.value,
-        tipo: this.formAdicionarRecursos.get('tipo')?.value,
-        receitaFixa: this.formAdicionarRecursos.get('receitaFixa')?.value,
-        repetir: this.formAdicionarRecursos.get('repetir')?.value,
-        periodo: this.formAdicionarRecursos.get('periodo')?.value,
-        dataRecebimento: this.formAdicionarRecursos.get('dataRecebimento')?.value
-      }
-      this.serviceDb.Addrecursos(recurso, 'recursos').subscribe(
-        value => {
-          this.cmpRecurso.ngOnInit();
-          console.log("sucess")
-        },
-
-        err => console.log('error')
-      );
-      return 'success';
-    } else {
-      alert("usuario n logado");
-      return false;
-    }
-
-  }
   contaInfo() {
     const conta = this.serviceDb.GetContas().then(conta => {
       // this.despesas = data;
