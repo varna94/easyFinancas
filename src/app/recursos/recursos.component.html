@@ -1,37 +1,40 @@
-<button type="button" class="btn btn-outline-secondary" data-bs-toggle="modal" data-bs-target="#modalRecurso" data-bs-whatever="@mdo">Adicionar
-  <span class="material-icons">add_circle_outline</span>
-</button>
-<h1>Recursos</h1>
-<div class="container">
-    <table class="table">
-        <thead>
-            <tr>
-                <th scope="col">Conta</th>
-                <th scope="col">Saldo</th>
-                <th scope="col">Tipo</th>
-                <th scope="col">Recebido</th>
-                <th scope="col">Data de recebimento</th>
-                <th scope="col">Descrição</th>
-                <th scope="col"></th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr *ngFor="let recurso of listRecursos">
-                <th scope="row">{{$any(recurso).conta}}</th>
-                <td>{{$any(recurso).saldo.toString() | currency: 'BRL'}}</td>
-                <td>{{$any(recurso).tipo}}</td>
-                <td>{{$any(recurso).recebido ? 'Sim' : 'Não'}}</td>
-                <td>{{$any(recurso).dataRecebimento | date: 'dd/MM/yyyy'}}</td>
-                <td>{{$any(recurso).descricao}}</td>
-                <td>
-                    <span class="material-icons"> mode_edit</span>
-                    <span class="material-icons material-icons-delete" data-bs-toggle="modal" data-bs-target="#ConfirmarExclusão" (click)="deleteInfo($any(recurso)._id,$any(recurso).saldo,$any(recurso).conta)">delete</span>
-                </td>
-            </tr>
-        </tbody>
-    </table>
+<div class="card-recursos">
+    <div class="header-card-recursos">
+        <button type="button" class="btn btn-outline-success btn-with-icon" data-bs-toggle="modal" data-bs-target="#modalRecurso" data-bs-whatever="@mdo">Adicionar
+          <span class="material-icons align-icon-btn">add_circle_outline</span>
+        </button>
+    </div>
+    <h1>Recursos</h1>
+    <div class="container">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th scope="col">Conta</th>
+                    <th scope="col">Saldo</th>
+                    <th scope="col">Tipo</th>
+                    <th scope="col">Recebido</th>
+                    <th scope="col">Data de recebimento</th>
+                    <th scope="col">Descrição</th>
+                    <th scope="col"></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let recurso of listRecursos">
+                    <th scope="row">{{$any(recurso).conta}}</th>
+                    <td>{{$any(recurso).saldo.toString() | currency: 'BRL'}}</td>
+                    <td>{{$any(recurso).tipo}}</td>
+                    <td>{{$any(recurso).recebido ? 'Sim' : 'Não'}}</td>
+                    <td>{{$any(recurso).dataRecebimento | date: 'dd/MM/yyyy'}}</td>
+                    <td>{{$any(recurso).descricao}}</td>
+                    <td>
+                        <span class="material-icons"> mode_edit</span>
+                        <span class="material-icons material-icons-delete" data-bs-toggle="modal" data-bs-target="#ConfirmarExclusão" (click)="deleteInfo($any(recurso)._id,$any(recurso).saldo,$any(recurso).conta)">delete</span>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
 </div>
-
 <!-- MODAL CONFIRMAR EXCLUSÃO -->
 
 <div class="modal fade" id="ConfirmarExclusão" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -166,11 +169,6 @@
                     </div>
 
                 </form>
-                <div class="conta-opcoes ">
-                    <a class="conta-opc-despesa " href=" ">Despesas</a>
-                    <a class="conta-opc-receita " href=" ">Receitas</a>
-                    <a class="conta-opc-transacao " href=" ">Transações</a>
-                </div>
             </div>
             <div class="modal-footer ">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>

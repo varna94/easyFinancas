@@ -1,6 +1,5 @@
 .tableDespesas {
-    width: 800px;
-    margin: 0 auto;
+    padding: 24px;
 }
 
 .titulo-despesas {
@@ -19,6 +18,22 @@
 
 .material-icons-delete:hover {
     color: #ff0000;
+}
+
+.header-card-despesa {
+    display: flex;
+    justify-content: flex-end;
+}
+
+.btn-with-icon {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.align-icon-btn {
+    margin-left: 10px;
 }
 
 // Success icon

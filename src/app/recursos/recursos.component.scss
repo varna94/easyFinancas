@@ -23,6 +23,26 @@
     color: #ff0000;
 }
 
+.card-recursos {
+    padding: 24px;
+}
+
+.header-card-recursos {
+    display: flex;
+    justify-content: flex-end;
+}
+
+.btn-with-icon {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.align-icon-btn {
+    margin-left: 10px;
+}
+
 // Success icon
 .sa {
     margin-left: auto;

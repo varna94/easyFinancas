@@ -16,7 +16,7 @@ export class ContaComponent implements OnInit {
   public lsDespesas: Despesa[] = [];
   public uidUserLS: any;
   public totalDespesas: Number[] = [];
-  public valoTotalDesp: Number;
+  public valoTotalDesp: any;
   public listTotalRecursos: Number[] = [];
   listRecursos: Array<[string, any]> = [];
   constructor(public apService: ApiService) { }
@@ -74,6 +74,7 @@ export class ContaComponent implements OnInit {
       }
       const reducer = (accumulator: any, currentValue: any) => accumulator + currentValue;
       this.valoTotalDesp = this.totalDespesas.reduce(reducer);
+      // this.valoTotalDesp = String(this.valoTotalDesp);
       // console.log(this.totalDespesas.reduce(reducer));
       // console.log(this.lsDespesas);
       // console.log(this.totalDespesas);
