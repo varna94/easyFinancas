@@ -5,7 +5,7 @@
         </button>
     </div>
     <h1>Recursos</h1>
-    <div class="container">
+    <div class="">
         <table class="table">
             <thead>
                 <tr>
@@ -107,8 +107,10 @@
             </div>
             <div class="modal-body">
                 <form [formGroup]="formAdicionarRecursos">
+
                     <label for="conta-saldo">Valor:</label>
-                    <input type="text" id="conta-saldo" class="form-control" formControlName="saldo">
+                    <input type="text" currencyMask id="conta-saldo" class="form-control" formControlName="saldo">
+
                     <div class="row">
 
                         <div class="mb-3 col ">

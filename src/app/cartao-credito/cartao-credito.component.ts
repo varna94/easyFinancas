@@ -51,7 +51,7 @@ export class CartaoCreditoComponent implements OnInit {
       nome: [''],
       bandeira: [''],
       banco: [''],
-      limite: [''],
+      limite: ['', Validators.compose([Validators.required])],
       dataFechamentoFatura: [''],
       dataVencimentoFatura: [''],
       descricao: ['']

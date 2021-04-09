@@ -32,7 +32,7 @@
             <div class="modal-body">
                 <form [formGroup]="formadicionarDespesaCC">
                     <label for="conta-saldo">Valor:</label>
-                    <input type="text" id="conta-saldo" class="form-control" formControlName="valor">
+                    <input type="text" currencyMask id="conta-saldo" class="form-control" formControlName="valor">
                     <div class="row">
                         <div class="mb-3 col ">
                             <label for="conta-tipo " class="col-form-label ">Categoria:</label>
@@ -107,7 +107,7 @@
                     <div class="row">
                         <div class="mb-3 col ">
                             <label for="conta-name " class="col-form-label">Limite:</label>
-                            <input type="text " class="form-control " id="conta-name " formControlName="limite" maxlength="15">
+                            <input type="text" currencyMask class="form-control" id="conta-name " formControlName="limite" maxlength="15">
                         </div>
                         <div class="mb-3 col dropdown">
                             <label for="conta-name " class="col-form-label">Bandeira:</label>

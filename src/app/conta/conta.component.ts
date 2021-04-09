@@ -1,3 +1,4 @@
+import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
 import { Conta, Despesa } from './../shared/services/dashboard';
 import { listaContasBanco, listaDespesas } from './../dashboard/dashboard.component';
@@ -11,7 +12,7 @@ import * as firebase from 'firebase';
   styleUrls: ['./conta.component.scss']
 })
 export class ContaComponent implements OnInit {
-
+  formadicionarConta: FormGroup;
   public lsContas: Array<[string, any]> = [];
   public lsDespesas: Despesa[] = [];
   public uidUserLS: any;
@@ -19,7 +20,15 @@ export class ContaComponent implements OnInit {
   public valoTotalDesp: any;
   public listTotalRecursos: Number[] = [];
   listRecursos: Array<[string, any]> = [];
-  constructor(public apService: ApiService) { }
+  constructor(public apService: ApiService, private formConta: FormBuilder, public service: ApiService) {
+    this.formadicionarConta = this.formConta.group({
+      nome: [],
+      saldo: [],
+      descricao: [],
+      banco: [],
+      tipo: [],
+    });
+  }
 
   ngOnInit(): void {
     this.uidUserLS = JSON.parse(localStorage.getItem("user") || '{}');
@@ -37,7 +46,45 @@ export class ContaComponent implements OnInit {
     });
     this.getRecursosConta(this.lsContas);
     this.getDespesasConta(this.lsContas);
+    this.criarFormConta();
 
+  }
+  criarFormConta() {
+    this.formadicionarConta = this.formConta.group({
+      nome: ['', Validators.compose([Validators.required])],
+      saldo: ['', Validators.compose([Validators.required])],
+      descricao: ['', Validators.compose([Validators.required])],
+      banco: ['', Validators.compose([Validators.required])],
+      tipo: ['', Validators.compose([Validators.required])],
+    });
+  }
+  criarConta() {
+    var user = firebase.default.auth().currentUser;
+    // console.log(user)
+    if (user?.uid) {
+      const conta: Conta = {
+        nome: this.formadicionarConta.get('nome')?.value,
+        uid: user?.uid,
+        banco: this.formadicionarConta.get('banco')?.value,
+        saldo: '',
+        tipo: this.formadicionarConta.get('tipo')?.value,
+        descricao: this.formadicionarConta.get('descricao')?.value,
+      }
+      console.log(conta);
+      // return this.serviceDb.AddContas(conta, 'contas');
+      this.service.AddContas(conta, 'contas').subscribe(
+        value => {
+          this.lsContas = [];
+          this.ngOnInit();
+          console.log("sucess")
+        },
+        err => console.log('error')
+      );
+      return 'success';
+    } else {
+      alert("usuario n logaod");
+      return false;
+    }
   }
   getRecursosConta(contas: any) {
     var user = firebase.default.auth().currentUser;

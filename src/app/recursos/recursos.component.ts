@@ -1,3 +1,4 @@
+
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Recurso, Conta } from './../shared/services/dashboard';
 import { ApiService } from './../../api.service';
@@ -5,6 +6,8 @@ import { Component, OnInit } from '@angular/core';
 import * as firebase from 'firebase';
 import { Pipe, PipeTransform } from '@angular/core'
 import { ValueConverter } from '@angular/compiler/src/render3/view/template';
+import { MatCurrencyFormatModule } from 'mat-currency-format';
+
 @Component({
   selector: 'app-recursos',
   templateUrl: './recursos.component.html',
@@ -42,6 +45,7 @@ export class RecursosComponent implements OnInit {
     this.contaInfo();
     this.criarFormRecursos();
   }
+
   criarFormRecursos() {
     this.formAdicionarRecursos = this.formRecurso.group({
       saldo: ['', Validators.compose([Validators.required])],

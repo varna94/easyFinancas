@@ -34,6 +34,8 @@ import { HttpClientModule } from '@angular/common/http';
 import { CartaoCreditoComponent } from './cartao-credito/cartao-credito.component';
 import { RecursosComponent } from './recursos/recursos.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+// import { CurrencyMaskModule } from "ng2-currency-mask";
+import { CurrencyMaskConfig, CurrencyMaskModule, CURRENCY_MASK_CONFIG } from 'ng2-currency-mask';
 
 registerLocaleData(ptBr);
 
@@ -48,9 +50,18 @@ const appRoutes: Routes = [
   { path: 'spinner', component: SpinnerComponent },
 ];
 
+export const CustomCurrencyMaskConfig: CurrencyMaskConfig = {
+  align: "left",
+  allowNegative: false,
+  decimal: ",",
+  precision: 2,
+  prefix: "R$ ",
+  suffix: "",
+  thousands: "."
+};
 @NgModule({
   declarations: [AppComponent, LoginComponent, CadastroComponent, DashboardComponent, BoardComponent, InicioComponent, ModalFeedbacksComponent, RecuperarSenhaComponent, ConfirmaEmailComponent, SpinnerComponent, ContaComponent, DespesaComponent, CartaoCreditoComponent, RecursosComponent],
-  providers: [AuthService, ModalFeedbacksComponent, DespesaComponent, RecursosComponent, DashboardComponent,
+  providers: [AuthService, ModalFeedbacksComponent, DespesaComponent, RecursosComponent, DashboardComponent, { provide: CURRENCY_MASK_CONFIG, useValue: CustomCurrencyMaskConfig },
     {
       provide: LOCALE_ID,
       useValue: "pt"
@@ -58,6 +69,6 @@ const appRoutes: Routes = [
   bootstrap: [AppComponent],
   imports: [BrowserModule, RouterModule.forRoot(appRoutes, { paramsInheritanceStrategy: 'always' }), ReactiveFormsModule,
     AngularFireModule.initializeApp(environment.firebase), AngularFireAuthModule, AngularFireAuthModule, HttpClientModule,
-    AngularFirestoreModule, MatProgressSpinnerModule, BrowserAnimationsModule],
+    AngularFirestoreModule, MatProgressSpinnerModule, BrowserAnimationsModule, CurrencyMaskModule],
 })
 export class AppModule { }
