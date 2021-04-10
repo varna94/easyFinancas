@@ -45,13 +45,7 @@ export class DashboardComponent implements OnInit {
   contaRef: Conta;
 
   constructor(public authService: AuthService, private formDasboard: FormBuilder, public afs: AngularFirestore, private router: Router, public serviceDb: ApiService, public dep: DespesaComponent, public cmpRecurso: RecursosComponent) {
-    this.formadicionarConta = this.formDasboard.group({
-      nome: [],
-      saldo: [],
-      descricao: [],
-      banco: [],
-      tipo: [],
-    });
+
     this.formAdicionarRecursos = this.formDasboard.group({
       saldo: [],
       conta: [],
@@ -72,7 +66,7 @@ export class DashboardComponent implements OnInit {
     let user = firebase.default.auth().currentUser;
     console.log(user?.uid);
     if (this.authService.isLoggedIn || user?.uid || this.uidUserLS.uid) {
-      this.criarFormConta();
+
       this.usersInfo();
       this.contaInfo();
       // this.buscarDespesas();
@@ -85,15 +79,7 @@ export class DashboardComponent implements OnInit {
     }
 
   }
-  criarFormConta() {
-    this.formadicionarConta = this.formDasboard.group({
-      nome: ['', Validators.compose([Validators.required])],
-      saldo: ['', Validators.compose([Validators.required])],
-      descricao: ['', Validators.compose([Validators.required])],
-      banco: ['', Validators.compose([Validators.required])],
-      tipo: ['', Validators.compose([Validators.required])],
-    });
-  }
+
   criarFormRecursos() {
     this.formAdicionarRecursos = this.formDasboard.group({
       saldo: ['', Validators.compose([Validators.required])],
@@ -106,33 +92,6 @@ export class DashboardComponent implements OnInit {
       periodo: [''],
       dataRecebimento: [null, Validators.compose([Validators.required])],
     });
-  }
-  criarConta() {
-    var user = firebase.default.auth().currentUser;
-    // console.log(user)
-    if (user?.uid) {
-      const conta: Conta = {
-        nome: this.formadicionarConta.get('nome')?.value,
-        uid: user?.uid,
-        banco: this.formadicionarConta.get('banco')?.value,
-        saldo: this.formadicionarConta.get('saldo')?.value,
-        tipo: this.formadicionarConta.get('tipo')?.value,
-        descricao: this.formadicionarConta.get('descricao')?.value,
-      }
-      console.log(conta);
-      // return this.serviceDb.AddContas(conta, 'contas');
-      this.serviceDb.AddContas(conta, 'contas').subscribe(
-        value => {
-          this.dep.ngOnInit();
-          console.log("sucess")
-        },
-        err => console.log('error')
-      );
-      return 'success';
-    } else {
-      alert("usuario n logaod");
-      return false;
-    }
   }
 
   usersInfo = () => {

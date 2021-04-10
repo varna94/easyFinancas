@@ -24,6 +24,7 @@ export class ContaComponent implements OnInit {
     this.formadicionarConta = this.formConta.group({
       nome: [],
       saldo: [],
+      totalDespesas: [],
       descricao: [],
       banco: [],
       tipo: [],
@@ -54,6 +55,7 @@ export class ContaComponent implements OnInit {
       nome: ['', Validators.compose([Validators.required])],
       saldo: ['', Validators.compose([Validators.required])],
       descricao: ['', Validators.compose([Validators.required])],
+      totalDespesas: ['', Validators.compose([Validators.required])],
       banco: ['', Validators.compose([Validators.required])],
       tipo: ['', Validators.compose([Validators.required])],
     });
@@ -66,6 +68,7 @@ export class ContaComponent implements OnInit {
         nome: this.formadicionarConta.get('nome')?.value,
         uid: user?.uid,
         banco: this.formadicionarConta.get('banco')?.value,
+        totalDespesas: 0,
         saldo: '',
         tipo: this.formadicionarConta.get('tipo')?.value,
         descricao: this.formadicionarConta.get('descricao')?.value,
@@ -88,12 +91,15 @@ export class ContaComponent implements OnInit {
   }
   getRecursosConta(contas: any) {
     var user = firebase.default.auth().currentUser;
+    // this.valoTotalDesp = this.totalDespesas.reduce(reducer);
     const recursos = this.apService.Getrecursos().then(recurso => {
       for (let i = 0; i < recurso.length; i++) {
         for (let j = 0; j < contas.length; j++) {
           if (recurso[i].contaId === contas[j]._id) {
             this.listRecursos.push(recurso[i]);
             this.listTotalRecursos.push(recurso[i].saldo);
+            contas[j].saldo = Number(contas[j].saldo) + Number(recurso[i].saldo);
+            console.log(contas);
             // this.serviceDb.push(conta[i]);
 
           }
@@ -106,23 +112,21 @@ export class ContaComponent implements OnInit {
     return recursos;
   }
   getDespesasConta(contas: any) {
-    // console.log('entrou get despesa');
-    // console.log(contas);
     const desp = this.apService.GetDespesas().then(desp => {
       // this.despesas = data;
       for (let i = 0; i < desp.length; i++) {
-        // console.log(desp[i]);
         for (let j = 0; j < contas.length; j++) {
           if (desp[i].contaId === contas[j]._id) {
             this.lsDespesas.push(desp[i]);
             this.totalDespesas.push(Number(desp[i].valor));
+            contas[j].totalDespesas = Number(contas[j].totalDespesas) ? Number(contas[j].totalDespesas) + Number(desp[i].valor) : Number(desp[i].valor);
+            console.log(contas);
           }
         }
       }
-      const reducer = (accumulator: any, currentValue: any) => accumulator + currentValue;
-      this.valoTotalDesp = this.totalDespesas.reduce(reducer);
-      // this.valoTotalDesp = String(this.valoTotalDesp);
-      // console.log(this.totalDespesas.reduce(reducer));
+      // const reducer = (accumulator: any, currentValue: any) => accumulator + currentValue;
+      // this.valoTotalDesp = this.totalDespesas.reduce(reducer);
+
       // console.log(this.lsDespesas);
       // console.log(this.totalDespesas);
       return desp;

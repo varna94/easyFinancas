@@ -5,6 +5,7 @@ export interface Conta {
   nome: string;
   banco: string;
   saldo: string;
+  totalDespesas: Number;
   tipo: string;
   descricao: string;
 }
