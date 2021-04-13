@@ -29,12 +29,12 @@ import { ContaComponent } from './conta/conta.component';
 import { registerLocaleData } from '@angular/common';
 import ptBr from '@angular/common/locales/pt';
 import { DespesaComponent } from './despesa/despesa.component';
-
 import { HttpClientModule } from '@angular/common/http';
 import { CartaoCreditoComponent } from './cartao-credito/cartao-credito.component';
 import { RecursosComponent } from './recursos/recursos.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 // import { CurrencyMaskModule } from "ng2-currency-mask";
+import * as express from "express";
 import { CurrencyMaskConfig, CurrencyMaskModule, CURRENCY_MASK_CONFIG } from 'ng2-currency-mask';
 
 registerLocaleData(ptBr);

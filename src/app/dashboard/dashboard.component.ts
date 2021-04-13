@@ -1,3 +1,5 @@
+import { HttpService } from './../../http.service';
+import { HttpClient } from '@angular/common/http';
 import { RecursosComponent } from './../recursos/recursos.component';
 import { DespesaComponent } from './../despesa/despesa.component';
 import { ApiService } from './../../api.service';
@@ -11,6 +13,7 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from "../shared/services/auth.service";
 import { AngularFirestore, AngularFirestoreDocument } from '@angular/fire/firestore';
+import { HttpClientModule } from '@angular/common/http';
 import { FirebaseApp } from '@angular/fire';
 export let listaContasBanco: Conta[] = [];
 export let listaDespesas: any;
@@ -43,8 +46,9 @@ export class DashboardComponent implements OnInit {
   exibirRecursos: boolean;
   userRef: User;
   contaRef: Conta;
-
-  constructor(public authService: AuthService, private formDasboard: FormBuilder, public afs: AngularFirestore, private router: Router, public serviceDb: ApiService, public dep: DespesaComponent, public cmpRecurso: RecursosComponent) {
+  loading = false;
+  userlogado: any;
+  constructor(public authService: AuthService, private formDasboard: FormBuilder, public afs: AngularFirestore, private router: Router, public serviceDb: ApiService, public dep: DespesaComponent, public cmpRecurso: RecursosComponent, public http: HttpService) {
 
     this.formAdicionarRecursos = this.formDasboard.group({
       saldo: [],
@@ -64,6 +68,7 @@ export class DashboardComponent implements OnInit {
     console.log(this.uidUserLS);
     console.log(this.authService.isLoggedIn);
     let user = firebase.default.auth().currentUser;
+    this.userlogado = this.uidUserLS.uid;
     console.log(user?.uid);
     if (this.authService.isLoggedIn || user?.uid || this.uidUserLS.uid) {
 
@@ -129,6 +134,31 @@ export class DashboardComponent implements OnInit {
       }
       return conta;
     });
+  }
+  enviarEmail() {
+    console.log(this.userlogado);
+    this.loading = true;
+    // this.buttionText = "Submiting...";
+    let user = {
+      name: "teste",
+      email: "teste.email.easyFinan@mailinator.com"
+    }
+    this.http.sendEmail("http://localhost:3000/sendmail", user, this.userlogado).subscribe(
+      data => {
+        let res: any = data;
+        console.log(
+          `👏 > 👏 > 👏 > 👏 ${user.name} is successfully register and mail has been sent and the message id is ${res.messageId} ${this.userlogado}`
+        );
+      },
+      err => {
+        console.log(err);
+        this.loading = false;
+        // this.buttionText = "Submit";
+      }, () => {
+        this.loading = false;
+        // this.buttionText = "Submit";
+      }
+    );
   }
 
   showContas() {
