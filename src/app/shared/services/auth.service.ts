@@ -227,7 +227,8 @@ export class AuthService {
       email: user.email,
       displayName: user.displayName,
       photoURL: user.photoURL,
-      emailVerified: user.emailVerified
+      emailVerified: user.emailVerified,
+      idPai: urlPaiInfo
     }
     return userRef.set(userData, {
       merge: true
