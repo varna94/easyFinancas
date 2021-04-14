@@ -16,7 +16,7 @@ export class HttpService {
     return this.http.post(url, { name: "Subrat" });
   }
 
-  sendEmail(url: any, data: any, id: any) {
+  sendEmail(url: any, data: any) {
     return this.http.post(url, data);
   }
 }

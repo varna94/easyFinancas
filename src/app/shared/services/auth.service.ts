@@ -1,3 +1,4 @@
+import { urlPaiInfo } from './../../cadastro/cadastro.component';
 
 // import { infoFeedback } from './../../app.component';
 import { ModalFeedbacksComponent } from './../../modal-feedbacks/modal-feedbacks.component';
@@ -16,6 +17,7 @@ export let confEmailVazio: boolean;
 export let nomeVazio: boolean;
 export let emailVazioRec: boolean;
 import * as firebase from 'firebase';
+
 import { error } from 'protractor';
 @Injectable({
   providedIn: 'root'
@@ -95,6 +97,7 @@ export class AuthService {
           displayName: nome,
           photoURL: result.user.photoURL,
           emailVerified: result.user.emailVerified,
+          idPai: urlPaiInfo
         }
         // result.user.displayName = nome;
         console.log(result);

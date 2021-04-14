@@ -2,8 +2,8 @@ const express = require("express");
 const cors = require("cors");
 const bodyParser = require("body-parser");
 const nodemailer = require("nodemailer");
-
 const details = require("./details.json");
+
 
 const app = express();
 app.use(cors({ origin: "*" }));
@@ -29,7 +29,7 @@ app.post("/sendmail", (req, res) => {
 });
 
 
-async function sendMail(user, callback, id) {
+async function sendMail(user, callback) {
     // create reusable transporter object using the default SMTP transport
     let transporter = nodemailer.createTransport({
         host: "smtp.gmail.com",
@@ -45,11 +45,24 @@ async function sendMail(user, callback, id) {
         from: '"Fun Of Heuristic"<example.gimail.com>', // sender address
         to: user.email, // list of receivers
         subject: "Wellcome to Fun Of Heuristic 👻", // Subject line
-        html: `<h1>Hi ${user.name} - ${id}</h1><br>
-    <h4>Thanks for joining us</h4>
-    <button id="${id}">Clique aqui</button>`
+        html: `
+        <script>
+                function testeLocalStorage(){
+                  var LocalStorage = require('node-localstorage').LocalStorage;
+                   localStorage = new LocalStorage('./scratch');
+                  localStorage.setItem('idPai', 'user.idPai')
+                }
+                </script>
+                <h1>Hi 12 ${user.name} - ${user.idPai}</h1><br>
+              <h4>Thanks for joining us</h4>
+              <button onClick="testeLocalStorage()" id="${user.idPai}"><a href = 'http://localhost:4200/cadastro/${user.idPai}'  >Clique aqui</a></button>`
     };
 
+    // if (typeof localStorage === "undefined" || localStorage === null) {
+    var LocalStorage = require('node-localstorage').LocalStorage;
+    localStorage = new LocalStorage('./scratch');
+    // }
+    localStorage.setItem('idPai', 'user.idPai');
     // send mail with defined transport object
     let info = await transporter.sendMail(mailOptions);
 

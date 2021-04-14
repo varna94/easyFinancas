@@ -42,6 +42,7 @@ registerLocaleData(ptBr);
 const appRoutes: Routes = [
   { path: '', component: InicioComponent },
   { path: 'cadastro', component: CadastroComponent },
+  { path: '**', component: CadastroComponent },
   { path: 'login', component: LoginComponent },
   { path: 'dashboard', component: DashboardComponent },
   { path: 'feedback', component: ModalFeedbacksComponent },

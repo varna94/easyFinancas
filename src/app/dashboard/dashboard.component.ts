@@ -141,9 +141,10 @@ export class DashboardComponent implements OnInit {
     // this.buttionText = "Submiting...";
     let user = {
       name: "teste",
-      email: "teste.email.easyFinan@mailinator.com"
+      email: "teste.email.easyFinan@mailinator.com",
+      idPai: this.userlogado
     }
-    this.http.sendEmail("http://localhost:3000/sendmail", user, this.userlogado).subscribe(
+    this.http.sendEmail("http://localhost:3000/sendmail", user).subscribe(
       data => {
         let res: any = data;
         console.log(

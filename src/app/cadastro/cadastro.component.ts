@@ -4,7 +4,7 @@ import { FormControl, Validators, FormBuilder, FormGroup, ValidatorFn, Validatio
 import { Router } from '@angular/router';
 import { Validacoes } from '../validacoes';
 import { AuthService } from "../shared/services/auth.service";
-
+export let urlPaiInfo: any;
 @Component({
   selector: 'app-cadastro',
   templateUrl: './cadastro.component.html',
@@ -19,6 +19,7 @@ export class CadastroComponent implements OnInit {
   nomeVazio: boolean;
   senhaVaziaCad: boolean;
   listaCadastros: string[] = [];
+  url: any;
 
   public t = [];
   public listaCadastro: string[] = [];
@@ -33,6 +34,17 @@ export class CadastroComponent implements OnInit {
     });
   }
   ngOnInit(): void {
+    this.url = window.location.href;
+    var urlPartes = this.url.split('/');
+    if (urlPartes.length > 4) {
+      console.log(urlPartes);
+      console.log(urlPartes.length - 1);
+      console.log(urlPartes.length);
+      urlPaiInfo = urlPartes.splice(urlPartes.length - 1, urlPartes.length);
+
+      console.log(urlPaiInfo);
+      console.log(this.url);
+    }
     this.nomeVazio = nomeVazio;
     this.emailVazioCad = emailVazioCad;
     this.senhaVaziaCad = senhaVaziaCad;
