@@ -15,7 +15,7 @@
             <span id="error-login" class="span-error " *ngIf="!email?.pristine && !email?.valid">Email inválido!</span >
               <!-- confirme email -->
             <label for="email-confirm">Confirme seu email:</label>
-            <input type="email" name=""  placeholder="exemplo@email.com"  id="email-confirm" (blur)="verifyConfEmail($event)" placeholder="exemplo@email.com" id="email" formControlName='confEmail'
+            <input type="email" name=""  placeholder="exemplo@email.com"  id="email-confirm" (blur)="verifyConfEmail($event)" id="email" formControlName='confEmail'
             [ngClass]="{'input-blank': confEmail?.pristine && confEmailVazio || (!confEmail?.pristine && email?.value !== confEmail?.value ), 'input-valid': !confEmail?.pristine && email?.value === confEmail?.value}"/>
             <span id="error-login" class="span-error " *ngIf="confEmail?.pristine && confEmailVazio || (!confEmail?.pristine && email?.value !== confEmail?.value)">Os email estão diferentes!</span >
               <!-- senha -->

@@ -32,6 +32,7 @@ import { rootCertificates } from 'tls';
 export class DashboardComponent implements OnInit {
   formadicionarConta: FormGroup;
   formAdicionarRecursos: FormGroup;
+  formAdicionarDep: FormGroup;
   users: User;
   usersFilter: any;
   uidUserLS: any;
@@ -48,6 +49,10 @@ export class DashboardComponent implements OnInit {
   contaRef: Conta;
   loading = false;
   userlogado: any;
+  successSendEmail: boolean = false;
+  errorSendEmail: boolean = false;
+  emailVazio: boolean = false;
+
   constructor(public authService: AuthService, private formDasboard: FormBuilder, public afs: AngularFirestore, private router: Router, public serviceDb: ApiService, public dep: DespesaComponent, public cmpRecurso: RecursosComponent, public http: HttpService) {
 
     this.formAdicionarRecursos = this.formDasboard.group({
@@ -61,6 +66,11 @@ export class DashboardComponent implements OnInit {
       periodo: [],
       dataRecebimento: [],
     });
+
+    this.formAdicionarDep = this.formDasboard.group({
+      nome: [],
+      email: []
+    });
   }
 
   ngOnInit(): void {
@@ -73,7 +83,7 @@ export class DashboardComponent implements OnInit {
     if (this.authService.isLoggedIn || user?.uid || this.uidUserLS.uid) {
 
       this.usersInfo();
-      this.contaInfo();
+      // this.contaInfo();
       // this.buscarDespesas();
 
       console.log('despesas mongoDB');
@@ -82,7 +92,14 @@ export class DashboardComponent implements OnInit {
       console.log('usuario n logado');
       this.router.navigate(['']);
     }
+    this.criarFormAddDep();
+  }
 
+  criarFormAddDep() {
+    this.formAdicionarDep = this.formDasboard.group({
+      nome: ['', Validators.compose([Validators.required, Validators.pattern("/[A-Z][a-z]* [A-Z][a-z]*/")])],
+      email: ['', Validators.compose([Validators.required, Validators.pattern("^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$")])]
+    });
   }
 
   criarFormRecursos() {
@@ -105,8 +122,8 @@ export class DashboardComponent implements OnInit {
       this.usersFilter = res;
       this.filterUser(this.usersFilter);
     });
-
   }
+
   filterUser(uid: any) {
     let retorno;
     for (let index = 0; index < uid.length; index++) {
@@ -121,47 +138,61 @@ export class DashboardComponent implements OnInit {
     return this.users;
   }
 
-  contaInfo() {
-    const conta = this.serviceDb.GetContas().then(conta => {
-      // this.despesas = data;
-      for (let i = 0; i < conta.length; i++) {
-        if (conta[i].uid === this.uidUserLS.uid) {
-          this.bancoConta.push(conta[i]._id);
-          this.listaCB.push(conta[i]);
-          // this.serviceDb.push(conta[i]);
-          console.log(this.bancoConta);
-        }
-      }
-      return conta;
-    });
-  }
-  enviarEmail() {
+  enviarEmail(nome: any, email: any) {
+    // let nome = this.formAdicionarDep.get('nome')?.value;
+    // let email = this.formAdicionarDep.get('email')?.value;
+
+    console.log(nome);
+    console.log(email);
     console.log(this.userlogado);
     this.loading = true;
     // this.buttionText = "Submiting...";
     let user = {
-      name: "teste",
-      email: "teste.email.easyFinan@mailinator.com",
+      name: nome,
+      email: email,
       idPai: this.userlogado
     }
     this.http.sendEmail("http://localhost:3000/sendmail", user).subscribe(
       data => {
+        this.successSendEmail = true;
         let res: any = data;
         console.log(
           `👏 > 👏 > 👏 > 👏 ${user.name} is successfully register and mail has been sent and the message id is ${res.messageId} ${this.userlogado}`
         );
       },
       err => {
-        console.log(err);
+        this.successSendEmail = false;
+        this.errorSendEmail = true;
         this.loading = false;
+        console.log(err);
         // this.buttionText = "Submit";
       }, () => {
+        this.successSendEmail = true;
+        this.errorSendEmail = false;
         this.loading = false;
         // this.buttionText = "Submit";
       }
     );
   }
+  verifyEmail(email: any) {
+    if (email.currentTarget.value === '') {
+      this.emailVazio = true;
+    } else {
+      this.emailVazio = false;
+    }
 
+  }
+  get nome() {
+    return this.formAdicionarDep.get('nome');
+  }
+  get email() {
+    return this.formAdicionarDep.get('email');
+  }
+  resetInfo() {
+    this.successSendEmail = false;
+    this.errorSendEmail = false;
+    this.loading = false;
+  }
   showContas() {
     this.exibirContas = true;
     this.exibirDespesas = false;

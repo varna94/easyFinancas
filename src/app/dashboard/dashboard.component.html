@@ -6,7 +6,7 @@
                     <h1>Easy</h1>
                     <p class="fin">Finanças</p>
                 </div>
-                <button (click)="enviarEmail()">ENVIAR EMAIL</button>
+                <!-- <button (click)="enviarEmail()">ENVIAR EMAIL</button> -->
                 <!-- Example single danger button -->
                 <div class="btn-adicionar">
                     <button type="button" class="btn btn-danger dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">Adicionar</button>
@@ -30,7 +30,15 @@
                 <nav class="navbar navbar-light bg-light">
                     <div class="container-fluid info-User">
                         <div class="nome-user">
-                            {{users?.displayName}} <img src="/assets/images/user.png" alt="" width="50" class=" img-user d-inline-block align-top">
+                            {{users?.displayName}}
+                            <!-- <button id="btnGroupDrop1" type="button" class="dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false"> -->
+                            <img src="/assets/images/user.png" alt="" id="btnGroupDrop1" width="50" class=" img-user d-inline-block align-top dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                            <!-- </button> -->
+                            <ul class="dropdown-menu" aria-labelledby="btnGroupDrop1">
+                                <li><a class="dropdown-item btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalEmail">Compartilhar finanças</a></li>
+                                <li><a class="dropdown-item" href="#">Dropdown link</a></li>
+                            </ul>
+
                         </div>
                     </div>
                 </nav>
@@ -51,89 +59,83 @@
     </div>
 </div>
 
-
-<!-- MODAL CADASTRO RECURSO -->
-<!-- <div id="modal" class="modal fade modal-fullscreen-md-down" id="modalRecurso" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<!-- Modal Email -->
+<div class="modal fade" id="modalEmail" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Novo recurso</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                <h2 *ngIf="!loading && !successSendEmail && !errorSendEmail" class="modal-title" id="exampleModalLabel">Compartilhar finanças</h2>
+                <h2 *ngIf="loading && !successSendEmail && !errorSendEmail" class="modal-title title-error" id="exampleModalLabel">Aguarde...</h2>
+                <h2 *ngIf="errorSendEmail" class="modal-title title-error" id="exampleModalLabel">Erro ao enviar o email!</h2>
+                <h2 *ngIf="successSendEmail" class="modal-title title-success" id="exampleModalLabel">Email enviado!</h2>
+
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" (click)="resetInfo()"></button>
             </div>
-            <div class="modal-body">
-                <form [formGroup]="formAdicionarRecursos">
-                    <label for="conta-saldo">Valor:</label>
-                    <input type="text" id="conta-saldo" class="form-control" formControlName="saldo">
-                    <div class="row">
+            <div *ngIf="!loading && !successSendEmail && !errorSendEmail">
+                <div class="modal-body">
+                    Você pode adicionar até 1 pessoa para compartilhar as finanças. Essa pessoa poderá <b>adicionar</b> e <b>remover </b><i>recursos, despesas, contas e cartões de créditos</i>. Assim como também realizar as transações de pagamento e etc.
+                </div>
 
-                        <div class="mb-3 col ">
-                            <label for="conta-name " class="col-form-label">Conta:</label>
-                            <select type="select " class="form-control form-select " id="conta-banco " formControlName="conta">
-                              <option selected>Selecione</option>
-                              <option *ngFor="let ls of listaCB" value="{{ls.nome}} - {{ls.banco}}">{{ls.nome}} - {{ls.banco}}</option>
-                            </select>
-                        </div>
-                        <div class="mb-3 col ">
-                            <label for="conta-instituicao " class="col-form-label ">Data recebimento:</label>
-                            <input type="date" class="form-control " id="conta-name " formControlName="dataRecebimento">
-                        </div>
-                    </div>
-                    <div class="row ">
-                        <div class="mb-3 col ">
-                            <label for="conta-tipo " class="col-form-label ">Recebido?</label>
-                            <input class="form-check-input mt-3 margin-right " type="checkbox" value="" id="flexCheckDefault" formControlName="recebido">
-                        </div>
-                        <div class="mb-3 col ">
-                            <label for="conta-tipo " class="col-form-label ">Receita fixa?</label>
-                            <input class="form-check-input mt-3 margin-right " type="checkbox" value="" id="flexCheckDefault" formControlName="receitaFixa">
-                        </div>
-                    </div>
-                    <div class="row ">
-                        <div class="mb-3 col ">
-                            <label for="conta-tipo " class="col-form-label ">Repetir:</label>
-                            <input class="form-control mt-3 margin-right " type="number" placeholder="1" value="" id="" formControlName="repetir">
-                        </div>
-                        <div class="mb-3 col ">
-                            <label for="message-text " class="col-form-label ">Período:</label>
-                            <select type="select " class="form-control form-select " id="periodo" formControlName="periodo">
-                              <option selected>Selecione</option>
-                              <option value="Dias">Dias</option>
-                              <option value="Dias">Semanas</option>
-                              <option value="Mes">Meses</option>
-                              <option value="Trimestre">Trimestre</option>
-                              <option value="Semestre">Semestre</option>
-                              <option value="Anual">Anual</option>
-                            </select>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="mb-3 col">
-                            <label for="recursoTipo" class="col-form-label ">Tipo:</label>
-                            <select type="select " class="form-control form-select " id="recursoTipo" formControlName="tipo">
-                              <option selected>Selecione</option>
-                              <option value="Salário">Salário</option>
-                              <option value="Prêmio">Prêmio</option>
-                              <option value="Presente">Presente</option>
-                              <option value="Investimento">Investimento</option>
-                            </select>
-                        </div>
-                        <div class="mb-3 col">
-                            <label for="message-text" class="col-form-label ">Descrição:</label>
-                            <textarea class="form-control " id="message-text " formControlName="descricao"></textarea>
-                        </div>
-                    </div>
+                <div class="modal-body">
+                    <p>Adicione o email da pessoa com quem deseja compartilhar suas finanças. Ela receberá um link para cadastro.</p>
+                    <form [formGroup]="formAdicionarDep" class="form-cadastro" id="form-cadastro">
 
-                </form>
-                <div class="conta-opcoes ">
-                    <a class="conta-opc-despesa " href=" ">Despesas</a>
-                    <a class="conta-opc-receita " href=" ">Receitas</a>
-                    <a class="conta-opc-transacao " href=" ">Transações</a>
+                        <label class="form-label" for="nomeDep">Nome:</label>
+                        <input type="text" name="" id="nomeDep" #nomeDep placeholder="João Silva" class="form-control" formControlName="nome">
+
+                        <label class="form-label" for="emailDep">Email:</label>
+                        <input type="email" id="emailDep" class="form-control" (blur)="verifyEmail($event)" #emailDep placeholder="exemplo@email.com" aria-label="Username" aria-describedby="addon-wrapping" formControlName="email" [ngClass]="{'input-blank': email?.pristine && emailVazio || (!email?.pristine && email?.invalid), 'input-valid': !emailVazio && email?.pristine && email?.valid}">
+                        <span id="error-login" class="span-error " *ngIf="emailVazio && email?.pristine">Digite seu email.</span >
+                        <span id="error-login" class="span-error " *ngIf="!email?.pristine && !email?.valid">Email inválido!</span >
+
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
+                    <button type="button" class="btn btn-primary" (click)="enviarEmail(nomeDep?.value, emailDep?.value)">Enviar</button>
                 </div>
             </div>
-            <div class="modal-footer ">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-                <button type="button" class="btn btn-primary" data-bs-dismiss="modal" (click)="criarRecursos()">Salvar</button>
+
+            <div *ngIf="loading && !successSendEmail && !errorSendEmail" class="modal-body">
+                <div class="loader"></div>
+
             </div>
+
+            <div *ngIf="successSendEmail">
+                <div class="modal-body">
+                    <div class="sa">
+                        <div class="sa-success">
+                            <div class="sa-success-tip"></div>
+                            <div class="sa-success-long"></div>
+                            <div class="sa-success-placeholder"></div>
+                            <div class="sa-success-fix"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" (click)="resetInfo()">Fechar</button>
+                </div>
+            </div>
+
+            <div *ngIf="errorSendEmail">
+                <div class="modal-body">
+                    <p>Erro ao enviar o email, verifique as informações enviadas ou tente novamente mais tarde.</p>
+                    <div class="sa">
+                        <div class="sa-error">
+                            <div class="sa-error-x">
+                                <div class="sa-error-left"></div>
+                                <div class="sa-error-right"></div>
+                            </div>
+                            <div class="sa-error-placeholder"></div>
+                            <div class="sa-error-fix"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
+                </div>
+            </div>
+
         </div>
     </div>
-</div> -->
+</div>

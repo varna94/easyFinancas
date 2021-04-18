@@ -53,16 +53,11 @@ async function sendMail(user, callback) {
                   localStorage.setItem('idPai', 'user.idPai')
                 }
                 </script>
-                <h1>Hi 12 ${user.name} - ${user.idPai}</h1><br>
+                <h1>Hi 12 ${user.name}</h1><br>
               <h4>Thanks for joining us</h4>
               <button onClick="testeLocalStorage()" id="${user.idPai}"><a href = 'http://localhost:4200/cadastro/${user.idPai}'  >Clique aqui</a></button>`
     };
 
-    // if (typeof localStorage === "undefined" || localStorage === null) {
-    var LocalStorage = require('node-localstorage').LocalStorage;
-    localStorage = new LocalStorage('./scratch');
-    // }
-    localStorage.setItem('idPai', 'user.idPai');
     // send mail with defined transport object
     let info = await transporter.sendMail(mailOptions);
 

@@ -85,6 +85,7 @@ export class AuthService {
   // Sign up with email/password
   SignUp(email: any, password: any, nome: any) {
     var dt;
+    var authRef = firebase.default.auth().currentUser;
     this.router.navigate(['spinner']);
     this.afAuth.createUserWithEmailAndPassword(email, password)
       .then((result: any) => {
@@ -97,7 +98,7 @@ export class AuthService {
           displayName: nome,
           photoURL: result.user.photoURL,
           emailVerified: result.user.emailVerified,
-          idPai: urlPaiInfo
+          idPai: urlPaiInfo ? urlPaiInfo : null
         }
         // result.user.displayName = nome;
         console.log(result);
@@ -113,6 +114,8 @@ export class AuthService {
         this.router.navigate(['cadastro']);
         console.log(error.message);
       })
+
+
 
   }
 
