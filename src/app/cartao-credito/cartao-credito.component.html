@@ -126,7 +126,7 @@
                             <label for="conta-tipo " class="col-form-label ">Conta:</label>
                             <select type="select " class="form-control form-select " id="conta-tipo " formControlName="banco">
                                 <option selected value="carteira">Carteira</option>
-                                <option>Contas+</option>
+                                <option *ngFor="let ls of listaCB" value="{{$any(ls).nome}}-{{$any(ls)._id}}">{{$any(ls).nome}} - {{$any(ls).banco}}</option>
                               </select>
                         </div>
                         <div class="mb-3 col ">

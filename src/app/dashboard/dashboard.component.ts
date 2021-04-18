@@ -52,6 +52,8 @@ export class DashboardComponent implements OnInit {
   successSendEmail: boolean = false;
   errorSendEmail: boolean = false;
   emailVazio: boolean = false;
+  nomeVazio: boolean = false;
+  nomeInvalido: boolean;
 
   constructor(public authService: AuthService, private formDasboard: FormBuilder, public afs: AngularFirestore, private router: Router, public serviceDb: ApiService, public dep: DespesaComponent, public cmpRecurso: RecursosComponent, public http: HttpService) {
 
@@ -180,7 +182,28 @@ export class DashboardComponent implements OnInit {
     } else {
       this.emailVazio = false;
     }
+  }
+  verifyName(name: any) {
+    if (name.currentTarget.value === '') {
 
+      this.nomeVazio = true;
+    } else {
+      this.nomeVazio = false;
+    }
+
+    if(!this.nomeVazio && name.currentTarget.value.split(' ').length <= 1){
+      this.nomeInvalido = true;
+    }else{
+      this.nomeInvalido = false;
+    }
+  }
+  verifyEmailKd(){
+    this.emailVazio = false;
+  }
+
+  verifyNomeKd(){
+    this.nomeVazio = false;
+    this.nomeInvalido = false;
   }
   get nome() {
     return this.formAdicionarDep.get('nome');
@@ -192,6 +215,14 @@ export class DashboardComponent implements OnInit {
     this.successSendEmail = false;
     this.errorSendEmail = false;
     this.loading = false;
+    this.nomeVazio = false;
+    this.emailVazio = false;
+    this.nomeInvalido = false;
+
+    this.formAdicionarDep = this.formDasboard.group({
+      nome: ['', Validators.compose([Validators.required, Validators.pattern("/[A-Z][a-z]* [A-Z][a-z]*/")])],
+      email: ['', Validators.compose([Validators.required, Validators.pattern("^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$")])]
+    });
   }
   showContas() {
     this.exibirContas = true;

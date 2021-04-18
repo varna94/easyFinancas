@@ -21,6 +21,8 @@ export class CartaoCreditoComponent implements OnInit {
   bandeira: string;
   idCC: string;
   uidUserLS: any;
+  public bancoConta: string[] = [];
+  public listaCB: Array<[string, any]> = [];
   constructor(public service: ApiService, private formCC: FormBuilder) {
     this.formAdicionarCartao = this.formCC.group({
       nome: [],
@@ -45,6 +47,7 @@ export class CartaoCreditoComponent implements OnInit {
     this.uidUserLS = JSON.parse(localStorage.getItem("user") || '{}');
     this.getCartoes();
     this.criarFormDespesa();
+    this.getContaInfo();
   }
   crirFormCartao() {
     this.formAdicionarCartao = this.formCC.group({
@@ -70,7 +73,20 @@ export class CartaoCreditoComponent implements OnInit {
       id: ['']
     });
   }
-
+  getContaInfo(){
+    const conta = this.service.GetContas().then(conta => {
+      // this.despesas = data;
+      for (let i = 0; i < conta.length; i++) {
+        if (conta[i].uid === this.uidUserLS.uid) {
+          this.bancoConta.push(conta[i]._id);
+          this.listaCB.push(conta[i]);
+          // this.serviceDb.push(conta[i]);
+          // console.log(this.bancoConta);
+        }
+      }
+      return conta;
+    });
+  }
   criarCartao() {
     var user = firebase.default.auth().currentUser;
     this.listCartoes = [];

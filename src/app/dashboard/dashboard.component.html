@@ -8,15 +8,15 @@
                 </div>
                 <!-- <button (click)="enviarEmail()">ENVIAR EMAIL</button> -->
                 <!-- Example single danger button -->
-                <div class="btn-adicionar">
+                <!-- <div class="btn-adicionar">
                     <button type="button" class="btn btn-danger dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">Adicionar</button>
                     <ul class="dropdown-menu">
                         <li><a class="dropdown-item" data-bs-toggle="modal" data-bs-target="#modalConta" data-bs-whatever="@mdo">Conta</a></li>
                         <li><a class="dropdown-item" data-bs-toggle="modal" data-bs-target="#modalDespesa" data-bs-whatever="@mdo">Despesa</a></li>
                         <li><a class="dropdown-item" data-bs-toggle="modal" data-bs-target="#modalRecurso" data-bs-whatever="@mdo">Recurso</a></li>
                     </ul>
-                </div>
-                <button style="margin-top: 15px;" (click)="authService.SignOut()">Sair</button>
+                </div> -->
+                <!-- <button style="margin-top: 15px;" (click)="authService.SignOut()">Sair</button> -->
                 <div id="listaOpcoes" class="lista-opcoes">
                     <li (click)="showDashboard()">Dashboard</li>
                     <li (click)="showRecursos()">Recursos</li>
@@ -36,7 +36,7 @@
                             <!-- </button> -->
                             <ul class="dropdown-menu" aria-labelledby="btnGroupDrop1">
                                 <li><a class="dropdown-item btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalEmail">Compartilhar finanças</a></li>
-                                <li><a class="dropdown-item" href="#">Dropdown link</a></li>
+                                <li><a class="dropdown-item" (click)="authService.SignOut()">Sair</a></li>
                             </ul>
 
                         </div>
@@ -79,19 +79,24 @@
                 <div class="modal-body">
                     <p>Adicione o email da pessoa com quem deseja compartilhar suas finanças. Ela receberá um link para cadastro.</p>
                     <form [formGroup]="formAdicionarDep" class="form-cadastro" id="form-cadastro">
-
-                        <label class="form-label" for="nomeDep">Nome:</label>
-                        <input type="text" name="" id="nomeDep" #nomeDep placeholder="João Silva" class="form-control" formControlName="nome">
-
-                        <label class="form-label" for="emailDep">Email:</label>
-                        <input type="email" id="emailDep" class="form-control" (blur)="verifyEmail($event)" #emailDep placeholder="exemplo@email.com" aria-label="Username" aria-describedby="addon-wrapping" formControlName="email" [ngClass]="{'input-blank': email?.pristine && emailVazio || (!email?.pristine && email?.invalid), 'input-valid': !emailVazio && email?.pristine && email?.valid}">
-                        <span id="error-login" class="span-error " *ngIf="emailVazio && email?.pristine">Digite seu email.</span >
-                        <span id="error-login" class="span-error " *ngIf="!email?.pristine && !email?.valid">Email inválido!</span >
-
+                        <!-- NOME -->
+                        <div>
+                            <label class="form-label" for="nomeDep">Nome:</label>
+                            <input type="text" name="" id="nomeDep" #nomeDep placeholder="João Silva" class="form-control" formControlName="nome" (keyup)="verifyNomeKd()" (blur)="verifyName($event)" [ngClass]="{'input-blank':( nomeVazio && !nome?.valid) || nomeInvalido , 'input-valid': !nome?.pristine && nome?.valid }">
+                            <span id="error-login" class="span-error " *ngIf="nomeInvalido">Digite nome e sobrenome!</span >
+                            <span id="error-login" class="span-error " *ngIf="(nomeVazio && !nome?.valid) ">Não esqueça de digitar um nome!</span>
+                        </div>
+                        <!-- EMAIL -->
+                        <div class="align-inputs-email">
+                            <label class="form-label" for="emailDep">Email:</label>
+                            <input type="email" id="emailDep" class="form-control" (keyup)="verifyEmailKd()" (blur)="verifyEmail($event)" #emailDep placeholder="exemplo@email.com" aria-label="Username" aria-describedby="addon-wrapping" formControlName="email" [ngClass]="{'input-blank': email?.pristine && emailVazio || (!email?.pristine && email?.invalid), 'input-valid': !emailVazio && email?.pristine && email?.valid}">
+                            <span id="error-login" class="span-error " *ngIf="emailVazio && email?.pristine">Digite seu email.</span >
+                            <span id="error-login" class="span-error " *ngIf="!email?.pristine && !email?.valid">Email inválido!</span >
+                        </div>
                     </form>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"  (click)="resetInfo()">Fechar</button>
                     <button type="button" class="btn btn-primary" (click)="enviarEmail(nomeDep?.value, emailDep?.value)">Enviar</button>
                 </div>
             </div>
@@ -132,7 +137,7 @@
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" (click)="resetInfo()">Fechar</button>
                 </div>
             </div>
 

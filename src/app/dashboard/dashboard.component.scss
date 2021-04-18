@@ -5,6 +5,18 @@ h1 {
     color: cadetblue;
 }
 
+.input-blank {
+    border: solid 1px red;
+}
+
+.input-valid {
+    border: 1px solid #ced4da;
+}
+
+.align-inputs-email {
+    margin-top: 15px;
+}
+
 .lista-opcoes {
     li {
         cursor: pointer;
@@ -258,14 +270,6 @@ h1 {
     margin-top: 3px;
     font-size: 12px;
     color: red;
-}
-
-.input-blank {
-    border: solid 1px red;
-}
-
-.input-valid {
-    border: solid 1px cadetblue;
 }
 
 // Success icon
