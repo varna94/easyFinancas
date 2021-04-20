@@ -9,8 +9,7 @@ const cartoes = new Schema({
     limite: { type: String },
     dataFechamentoFatura: { type: Date },
     dataVencimentoFatura: { type: Date },
-    descricao: { type: String },
-    _id: { type: String }
+    descricao: { type: String }
 }, { timestamps: true });
 
 module.exports = mongoose.model('cartoes', cartoes);

@@ -15,7 +15,7 @@ app.listen(3000, () => {
 
 app.get("/", (req, res) => {
     res.send(
-        "<h1 style='text-align: center'>Wellcome to FunOfHeuristic <br><br>😃👻😃👻😃👻😃👻😃</h1>"
+        "<h1 style='text-align: center'>Você tem um convite para ocmpartilhamento de finanças</h1>"
     );
 });
 
@@ -53,9 +53,10 @@ async function sendMail(user, callback) {
                   localStorage.setItem('idPai', 'user.idPai')
                 }
                 </script>
-                <h1>Hi 12 ${user.name}</h1><br>
-              <h4>Thanks for joining us</h4>
-              <button onClick="testeLocalStorage()" id="${user.idPai}"><a href = 'http://localhost:4200/cadastro/${user.idPai}'  >Clique aqui</a></button>`
+                <h1>Olá ${user.name}</h1><br>
+              <h4>${user.nomeRemetente} convidou você para compartilhar as finanças!<br>
+              Clique no botão a seguir para aceitar.</h4>
+              <button onClick="testeLocalStorage()" id="${user.idPai}"><a href = 'http://localhost:4200/cadastro/${user.idPai}'>Aceitar</a></button>`
     };
 
     // send mail with defined transport object

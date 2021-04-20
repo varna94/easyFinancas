@@ -11,7 +11,7 @@
                     <img class="img-bandeira-cartao" src="/assets/images/bandeiraCartoes/{{$any(cc).bandeira}}.png" alt="">
                     <h3 class="card-title">{{$any(cc).nome}}</h3>
                     <!-- <p>{{$any(cc)._id}}</p> -->
-                    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                    <p class="card-text">Informações sobre o cartão aqui.</p>
                     <a (click)="abrirModalAddDespesaCC($any(cc).bandeira,$any(cc)._id)" data-bs-toggle="modal" data-bs-target="#modalCartao" data-bs-whatever="@mdo" class="card-link">Adicionar despesa</a>
                     <a (click)="exibirFatura($any(cc).nome,$any(cc).bandeira,$any(cc)._id)" class="card-link " data-bs-toggle="modal" data-bs-target="#modalFatura">Ver despesa</a>
                     <!-- <a href="#" class="card-link">Another link</a> -->

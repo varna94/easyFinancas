@@ -152,7 +152,8 @@ export class DashboardComponent implements OnInit {
     let user = {
       name: nome,
       email: email,
-      idPai: this.userlogado
+      idPai: this.userlogado,
+      nomeRemetente: this.users?.displayName
     }
     this.http.sendEmail("http://localhost:3000/sendmail", user).subscribe(
       data => {

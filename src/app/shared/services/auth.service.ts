@@ -60,6 +60,7 @@ export class AuthService {
         });
         this.SetUserData(result.user);
       }).catch((error: any) => {
+        console.log(error);
         if (error.code === "auth/user-not-found") {
           infoFeedback = {
             tipo: 'Erro',
@@ -97,8 +98,7 @@ export class AuthService {
           email: result.user.email,
           displayName: nome,
           photoURL: result.user.photoURL,
-          emailVerified: result.user.emailVerified,
-          idPai: urlPaiInfo ? urlPaiInfo : null
+          emailVerified: result.user.emailVerified
         }
         // result.user.displayName = nome;
         console.log(result);
@@ -114,9 +114,6 @@ export class AuthService {
         this.router.navigate(['cadastro']);
         console.log(error.message);
       })
-
-
-
   }
 
   createUserDB(data: any) {
@@ -230,8 +227,7 @@ export class AuthService {
       email: user.email,
       displayName: user.displayName,
       photoURL: user.photoURL,
-      emailVerified: user.emailVerified,
-      idPai: urlPaiInfo
+      emailVerified: user.emailVerified
     }
     return userRef.set(userData, {
       merge: true
@@ -242,24 +238,6 @@ export class AuthService {
   getContaInfo() {
     // console.log(this.afs.collection("User").snapshotChanges());
     return this.afs.collection("User").stateChanges();
-  }
-
-  getContaBancos() {
-    // actions: any;
-    // let actions;
-    // console.log(this.afs.collection("conta").snapshotChanges().pipe(
-    //   map(actions => actions.map(a => {
-    //     const data = a.payload.doc.data() as Title;
-    //     const id = a.payload.doc.id;
-    //     return { id, ...data }
-    //   })),
-    //   tap(data => console.log('data', data))
-    // ););
-    return this.afs.collection("conta").snapshotChanges();
-  }
-  getDespesas() {
-    // console.log(this.afs.collection("despesa").snapshotChanges());
-    return this.afs.collection("despesa").snapshotChanges();
   }
 
   // Sign out
