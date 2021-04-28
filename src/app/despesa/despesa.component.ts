@@ -21,6 +21,7 @@ export class DespesaComponent implements OnInit {
   idDelete: string;
   errorDelete: boolean = false;
   successDelete: boolean = false;
+  updateDespInfo :any;
   public bancoConta: string[] = [];
   public listaCB: Array<[string, any]> = [];
   constructor(public apService: ApiService, private formDasboard: FormBuilder) {
@@ -132,6 +133,7 @@ export class DespesaComponent implements OnInit {
       val => {
         this.successDelete = true;
         this.despesas = [];
+        this.listaCB = [];
         this.ngOnInit();
         console.log('success - ' + val);
       },
@@ -139,6 +141,59 @@ export class DespesaComponent implements OnInit {
       err => {
         this.errorDelete = true;
         console.log('error - ' + err);
+      }
+    );
+  }
+  updateDespesa(idDespesa: any){
+    var user = firebase.default.auth().currentUser;
+
+    const despesa: Despesa = {
+      dataVencimento: this.formadicionarDespesa.get('dataVencimento')?.value,
+      valor: this.formadicionarDespesa.get('valor')?.value,
+      uid: user?.uid,
+      descricao: this.formadicionarDespesa.get('descricao')?.value,
+      fixa: this.formadicionarDespesa.get('fixa')?.value,
+      status: this.formadicionarDespesa.get('status')?.value,
+      conta: this.formadicionarDespesa.get('conta')?.value.split('-')[0],
+      contaId: this.formadicionarDespesa.get('conta')?.value.split('-')[1],
+      categoria: this.formadicionarDespesa.get('categoria')?.value,
+      periodo: this.formadicionarDespesa.get('periodo')?.value,
+      repetir: this.formadicionarDespesa.get('repetir')?.value
+    }
+
+    this.apService.UpdateDespesas(idDespesa,despesa).subscribe(
+      val => {
+        this.despesas = [];
+        this.listaCB = [];
+        this.ngOnInit();
+        console.log(val);
+      },
+      err => {
+
+      }
+    )
+  }
+  editDespesa(idDespesa: any){
+    this.updateDespInfo = idDespesa;
+    this.apService.GetDespesa(idDespesa).subscribe(
+      val => {
+        console.log(val);
+        console.log(val.dataVencimento.split('T')[0]);
+        this.formadicionarDespesa = this.formDasboard.group({
+          valor: [val.valor, Validators.compose([Validators.required])],
+          categoria: [val.categoria, Validators.compose([Validators.required])],
+          descricao: [val.descricao, Validators.compose([Validators.required])],
+          fixa: [val.fixa, Validators.compose([Validators.required])],
+          conta: [val.conta, Validators.compose([Validators.required])],
+          contaId: [''],
+          status: [val.status, Validators.compose([Validators.required])],
+          dataVencimento: [val.dataVencimento.split('T')[0], Validators.compose([Validators.required])],
+          repetir: [val.repetir],
+          periodo: [val.periodo],
+        });
+      },
+      err => {
+
       }
     );
   }

@@ -1,6 +1,6 @@
 <div class="tableDespesas">
     <div class="header-card-despesa">
-        <button type="button" class="btn btn-outline-success btn-with-icon" data-bs-toggle="modal" data-bs-target="#modalDespesa" data-bs-whatever="@mdo">Adicionar
+        <button type="button" class="btn btn-outline-success btn-with-icon" data-bs-toggle="modal" data-bs-target="#modalDespesa" data-bs-whatever="@mdo" (click)="criarFormDespesa()">Adicionar
       <span class="material-icons align-icon-btn">add_circle_outline</span>
     </button>
     </div>
@@ -26,7 +26,7 @@
                 <td>{{$any(d).status}}</td>
                 <td>{{$any(d).dataVencimento | date: 'dd/MM/yyyy'}}</td>
                 <td>
-                    <span class="material-icons"> mode_edit</span>
+                    <span class="material-icons" data-bs-toggle="modal" data-bs-target="#modalDespesaEdit" (click)="editDespesa($any(d)._id)"> mode_edit</span>
                     <span class="material-icons material-icons-delete" data-bs-toggle="modal" data-bs-target="#ConfirmarExclusãoDespesa" (click)="deleteInfo($any(d)._id,$any(d).valor,$any(d).conta)">delete</span>
                 </td>
             </tr>
@@ -98,6 +98,74 @@
             <div class="modal-footer ">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
                 <button type="button" class="btn btn-primary" data-bs-dismiss="modal" (click)="criarDespesa()">Salvar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!-- MODAL EDIÇÂO DESPESA -->
+<div id="modal" class="modal fade modal-fullscreen-md-down" id="modalDespesaEdit" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Nova despesa</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form [formGroup]="formadicionarDespesa">
+                    <label for="conta-saldo">Valor:</label>
+                    <input type="text" currencyMask id="conta-saldo" class="form-control" formControlName="valor">
+                    <div class="row">
+                        <div class="mb-3 col ">
+                            <label for="conta-name " class="col-form-label">Descrição:</label>
+                            <textarea type="text " class="form-control " id="conta-name " formControlName="descricao"></textarea>
+                        </div>
+                        <div class="mb-3 col ">
+                            <label for="conta-name " class="col-form-label">Data de vencimento:</label>
+                            <input type="date" class="form-control " id="conta-name " formControlName="dataVencimento">
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="mb-3 col ">
+                            <label class="form-check-label col-form-label" for="flexCheckDefault">Fixa:</label>
+                            <input class="form-check-input mt-3 margin-right " type="checkbox" value="" id="flexCheckDefault" formControlName="fixa">
+                        </div>
+                        <div class="mb-3 col ">
+                            <label for="conta-instituicao " class="col-form-label ">Status:</label>
+                            <select type="select " class="form-control form-select " id="conta-instituicao " formControlName="status">
+                              <option selected>Selecione</option>
+                              <option selected>Paga</option>
+                              <option selected>Pendente</option>
+                              <option selected>Vencida</option>
+
+                            </select>
+                        </div>
+                    </div>
+                    <div class="row ">
+                        <div class="mb-3 col ">
+                            <label for="conta-banco " class="col-form-label ">Conta:</label>
+                            <select type="select " class="form-control form-select" id="conta-banco" formControlName="conta">
+                              <option selected>Selecione</option>
+                              <option *ngFor="let ls of listaCB" value="{{$any(ls).nome}}-{{$any(ls)._id}}">{{$any(ls).nome}} - {{$any(ls).banco}}</option>
+                            </select>
+                        </div>
+                        <div class="mb-3 col ">
+                            <label for="conta-tipo " class="col-form-label ">Categoria:</label>
+                            <select type="select " class="form-control form-select " id="conta-tipo " formControlName="categoria">
+                              <option selected>Selecione</option>
+                              <option>Alimentação</option>
+                              <option>Saúde</option>
+                              <option>Educação</option>
+                              <option>Transporte</option>
+                            </select>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer ">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                <button type="button" class="btn btn-primary" data-bs-dismiss="modal" (click)="updateDespesa(updateDespInfo)">Atualizar</button>
             </div>
         </div>
     </div>

@@ -33,6 +33,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { CartaoCreditoComponent } from './cartao-credito/cartao-credito.component';
 import { RecursosComponent } from './recursos/recursos.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { DatePipe } from '@angular/common';
 // import { CurrencyMaskModule } from "ng2-currency-mask";
 import * as express from "express";
 import { CurrencyMaskConfig, CurrencyMaskModule, CURRENCY_MASK_CONFIG } from 'ng2-currency-mask';
@@ -62,7 +63,7 @@ export const CustomCurrencyMaskConfig: CurrencyMaskConfig = {
 };
 @NgModule({
   declarations: [AppComponent, LoginComponent, CadastroComponent, DashboardComponent, BoardComponent, InicioComponent, ModalFeedbacksComponent, RecuperarSenhaComponent, ConfirmaEmailComponent, SpinnerComponent, ContaComponent, DespesaComponent, CartaoCreditoComponent, RecursosComponent],
-  providers: [AuthService, ModalFeedbacksComponent, DespesaComponent, RecursosComponent, DashboardComponent, { provide: CURRENCY_MASK_CONFIG, useValue: CustomCurrencyMaskConfig },
+  providers: [AuthService, ModalFeedbacksComponent, DespesaComponent, RecursosComponent, DashboardComponent, { provide: CURRENCY_MASK_CONFIG, useValue: CustomCurrencyMaskConfig }, DatePipe,
     {
       provide: LOCALE_ID,
       useValue: "pt"
