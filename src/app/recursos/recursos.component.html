@@ -27,7 +27,7 @@
                     <td>{{$any(recurso).dataRecebimento | date: 'dd/MM/yyyy'}}</td>
                     <td>{{$any(recurso).descricao}}</td>
                     <td>
-                        <span class="material-icons"> mode_edit</span>
+                        <span class="material-icons" data-bs-toggle="modal" data-bs-target="#modalEditRecurso" (click)="editRecurso($any(recurso)._id)"> mode_edit</span>
                         <span class="material-icons material-icons-delete" data-bs-toggle="modal" data-bs-target="#ConfirmarExclusão" (click)="deleteInfo($any(recurso)._id,$any(recurso).saldo,$any(recurso).conta)">delete</span>
                     </td>
                 </tr>
@@ -91,6 +91,89 @@
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" (click)="zerarVariaveis()">Fechar</button>
                 <button *ngIf="!successDelete && !errorDelete" type="button" class="btn btn-danger" (click)="deleteRecurso(idDelete)">Deletar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- MODAL EDICAO RECURSO -->
+<div id="modal" class="modal fade modal-fullscreen-md-down" id="modalEditRecurso" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Novo recurso</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form [formGroup]="formAdicionarRecursos">
+
+                    <label for="conta-saldo">Valor:</label>
+                    <input type="text" currencyMask id="conta-saldo" class="form-control" formControlName="saldo">
+
+                    <div class="row">
+
+                        <div class="mb-3 col ">
+                            <label for="conta-name " class="col-form-label">Conta:</label>
+                            <select type="select " class="form-control form-select " id="conta-banco " formControlName="conta">
+                          <option selected>Selecione</option>
+                          <option *ngFor="let ls of listaCB" value="{{$any(ls).nome}}-{{$any(ls)._id}}">{{$any(ls).nome}} - {{$any(ls).banco}}</option>
+                        </select>
+                        </div>
+                        <div class="mb-3 col ">
+                            <label for="conta-instituicao " class="col-form-label ">Data recebimento:</label>
+                            <input type="date" class="form-control " id="conta-name " formControlName="dataRecebimento">
+                        </div>
+                    </div>
+                    <div class="row ">
+                        <div class="mb-3 col ">
+                            <label for="conta-tipo " class="col-form-label ">Recebido?</label>
+                            <input class="form-check-input mt-3 margin-right " type="checkbox" value="" id="flexCheckDefault" formControlName="recebido">
+                        </div>
+                        <div class="mb-3 col ">
+                            <label for="conta-tipo " class="col-form-label ">Receita fixa?</label>
+                            <input class="form-check-input mt-3 margin-right " type="checkbox" value="" id="flexCheckDefault" formControlName="receitaFixa">
+                        </div>
+                    </div>
+                    <div class="row ">
+                        <div class="mb-3 col ">
+                            <label for="conta-tipo " class="col-form-label ">Repetir:</label>
+                            <input class="form-control mt-3 margin-right " type="number" placeholder="1" value="" id="" formControlName="repetir">
+                        </div>
+                        <div class="mb-3 col ">
+                            <label for="message-text " class="col-form-label ">Período:</label>
+                            <select type="select " class="form-control form-select " id="periodo" formControlName="periodo">
+                          <option selected>Selecione</option>
+                          <option value="Dias">Dias</option>
+                          <option value="Dias">Semanas</option>
+                          <option value="Mes">Meses</option>
+                          <option value="Trimestre">Trimestre</option>
+                          <option value="Semestre">Semestre</option>
+                          <option value="Anual">Anual</option>
+                        </select>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="mb-3 col">
+                            <label for="recursoTipo" class="col-form-label ">Tipo:</label>
+                            <select type="select " class="form-control form-select " id="recursoTipo" formControlName="tipo">
+                          <option selected>Selecione</option>
+                          <option value="Salário">Salário</option>
+                          <option value="Prêmio">Prêmio</option>
+                          <option value="Presente">Presente</option>
+                          <option value="Investimento">Investimento</option>
+                        </select>
+                        </div>
+                        <div class="mb-3 col">
+                            <label for="message-text" class="col-form-label ">Descrição:</label>
+                            <textarea class="form-control " id="message-text " formControlName="descricao"></textarea>
+                        </div>
+                    </div>
+
+                </form>
+            </div>
+            <div class="modal-footer ">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                <button type="button" class="btn btn-primary" data-bs-dismiss="modal" (click)="updateRecursos(updateRecursoInfo)">Atualizar</button>
             </div>
         </div>
     </div>

@@ -21,6 +21,7 @@ export class RecursosComponent implements OnInit {
   errorDelete: boolean = false;
   successDelete: boolean = false;
   uidUserLS: any;
+  updateRecursoInfo: any;
   listRecursos: Array<[string, any]> = [];
   public listaCB: Array<[string, any]> = [];
 
@@ -90,6 +91,62 @@ export class RecursosComponent implements OnInit {
     this.conta = conta;
     this.saldo = saldo;
   }
+  editRecurso(idRecurso : any){
+    this.updateRecursoInfo = idRecurso;
+
+    this.service.GetRescurso(idRecurso).subscribe(
+      val =>{
+        console.log(val);
+        this.formAdicionarRecursos = this.formRecurso.group({
+          saldo: [val.saldo, Validators.compose([Validators.required])],
+          conta: [val.conta, Validators.compose([Validators.required])],
+          contaId: [''],
+          descricao: [val.descricao],
+          recebido: [val.recibido, Validators.compose([Validators.required])],
+          tipo: [val.tipo, Validators.compose([Validators.required])],
+          receitaFixa: [val.fixa, Validators.compose([Validators.required])],
+          repetir: [val.repetir],
+          periodo: [val.periodo],
+          dataRecebimento: [val.dataRecebimento.split('T')[0], Validators.compose([Validators.required])],
+        });
+      },
+      err => {
+
+      }
+
+    )
+  }
+
+  updateRecursos(idRecurso : any){
+    var user = firebase.default.auth().currentUser;
+
+    const recurso: Recurso = {
+      uid: user?.uid,
+      saldo: this.formAdicionarRecursos.get('saldo')?.value,
+      conta: this.formAdicionarRecursos.get('conta')?.value.split('-')[0],
+      contaId: this.formAdicionarRecursos.get('conta')?.value.split('-')[1],
+      descricao: this.formAdicionarRecursos.get('descricao')?.value,
+      recebido: this.formAdicionarRecursos.get('recebido')?.value,
+      tipo: this.formAdicionarRecursos.get('tipo')?.value,
+      receitaFixa: this.formAdicionarRecursos.get('receitaFixa')?.value,
+      repetir: this.formAdicionarRecursos.get('repetir')?.value,
+      periodo: this.formAdicionarRecursos.get('periodo')?.value,
+      dataRecebimento: this.formAdicionarRecursos.get('dataRecebimento')?.value
+    }
+
+    this.service.Updaterecursos(idRecurso,recurso).subscribe(
+      val => {
+        this.listRecursos = [];
+        this.listaCB = [];
+        this.ngOnInit();
+      },
+      err => {
+
+      }
+    )
+
+  }
+
   deleteRecurso(idDel: string) {
     // idDel = '123';
     console.log('entrou delete!');
