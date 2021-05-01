@@ -90,6 +90,25 @@ export class ApiService {
         catchError(error => this.errorMgmt(error))
       )
   }
+  GetConta(id: any): Observable<any> {
+    let API_URL = `${this.endpoint}/contas/${id}`;
+    return this.http.get(API_URL, { headers: this.headers })
+      .pipe(
+        map((res) => {
+          return res || {}
+        }),
+        catchError(this.errorMgmt)
+      )
+  }
+
+  UpdateConta(id: any, data: any): Observable<any> {
+    let API_URL = `${this.endpoint}/contas/${id}`;
+    return this.http.put(API_URL, data, { headers: this.headers })
+      .pipe(
+        catchError(this.errorMgmt)
+      )
+  }
+
   GetContas(): Promise<any> {
     let API_URL = `${this.endpoint}/contas`;
     console.log(API_URL)
@@ -104,6 +123,13 @@ export class ApiService {
           console.log(error);
         }
     })
+  }
+  DeleteConta(id: any): Observable<any> {
+    var API_URL = `${this.endpoint}/contas/${id}`;
+    return this.http.delete(API_URL)
+      .pipe(
+        catchError(this.errorMgmt)
+      )
   }
   // RECURSOS
   // POST, GET, UPDATE, DELETE recursos

@@ -18,7 +18,14 @@ export class ContaComponent implements OnInit {
   public uidUserLS: any;
   public totalDespesas: Number[] = [];
   public valoTotalDesp: any;
+  public updateContaInfo: any;
+  contaBanco : any;
+  contaNome : any;
+  DeleteId : any;
   public listTotalRecursos: Number[] = [];
+  idDelete: string;
+  errorDelete: boolean = false;
+  successDelete: boolean = false;
   listRecursos: Array<[string, any]> = [];
   constructor(public apService: ApiService, private formConta: FormBuilder, public service: ApiService) {
     this.formadicionarConta = this.formConta.group({
@@ -34,6 +41,7 @@ export class ContaComponent implements OnInit {
   ngOnInit(): void {
     this.uidUserLS = JSON.parse(localStorage.getItem("user") || '{}');
     console.log('init');
+    this.lsContas = [];
     const conta = this.apService.GetContas().then(conta => {
       // this.despesas = data;
       for (let i = 0; i < conta.length; i++) {
@@ -111,6 +119,68 @@ export class ContaComponent implements OnInit {
     console.log(this.listRecursos);
     return recursos;
   }
+  editConta(idConta: any){
+    this.updateContaInfo = idConta;
+    this.apService.GetConta(idConta).subscribe(
+      val => {
+        this.formadicionarConta = this.formConta.group({
+          nome: [val.nome, Validators.compose([Validators.required])],
+          saldo: [val.saldo, Validators.compose([Validators.required])],
+          descricao: [val.descricao, Validators.compose([Validators.required])],
+          totalDespesas: [val.totalDespesas, Validators.compose([Validators.required])],
+          banco: [val.banco, Validators.compose([Validators.required])],
+          tipo: [val.tipo, Validators.compose([Validators.required])],
+        });
+      },
+      err => {
+        console.log(err);
+      }
+    );
+
+  }
+  updateConta(idConta: any){
+    var user = firebase.default.auth().currentUser;
+
+    const conta: Conta = {
+      nome: this.formadicionarConta.get('nome')?.value,
+      uid: user?.uid,
+      banco: this.formadicionarConta.get('banco')?.value,
+      totalDespesas: 0,
+      saldo: '',
+      tipo: this.formadicionarConta.get('tipo')?.value,
+      descricao: this.formadicionarConta.get('descricao')?.value,
+    }
+
+    this.apService.UpdateConta(idConta,conta).subscribe(
+      val=>{
+        this.lsContas = [];
+        this.ngOnInit();
+      },
+      err => {
+
+      }
+    )
+
+  }
+
+  deleteContaInfo(idConta: any,contaNome: any, contaBanco:any){
+    this.DeleteId = idConta;
+    this.contaNome = contaNome;
+    this.contaBanco = contaBanco;
+
+  }
+  deleteConta(idConta: any){
+    this.apService.DeleteConta(idConta).subscribe(
+      val =>{
+        this.successDelete = true;
+        this.lsContas = [];
+        this.ngOnInit();
+      },
+      err =>{
+        this.errorDelete = true;
+      }
+    )
+  }
   getDespesasConta(contas: any) {
     const desp = this.apService.GetDespesas().then(desp => {
       // this.despesas = data;
@@ -131,5 +201,11 @@ export class ContaComponent implements OnInit {
       // console.log(this.totalDespesas);
       return desp;
     });
+
+
+  }
+  zerarVariaveis() {
+    this.successDelete = false;
+    this.errorDelete = false;
   }
 }

@@ -8,8 +8,23 @@
         <div *ngFor="let cc of listCartoes" class="col card-cc">
             <div class="card ">
                 <div class="card-body">
-                    <img class="img-bandeira-cartao" src="/assets/images/bandeiraCartoes/{{$any(cc).bandeira}}.png" alt="">
-                    <h3 class="card-title">{{$any(cc).nome}}</h3>
+                    <div class="header-card-conta">
+                        <div class="header--1">
+                            <img class="img-bandeira-cartao" src="/assets/images/bandeiraCartoes/{{$any(cc).bandeira}}.png" alt="">
+                            <h3 class="card-title">{{$any(cc).nome}}</h3>
+                        </div>
+                        <div>
+                            <div class="dropdown align-dropdown">
+                                <a class=" dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false">
+                                    <span class="material-icons"> more_vert </span></a>
+
+                                <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                                    <li><a class="dropdown-item" data-bs-toggle="modal" data-bs-target="#modalEditConta">Editar</a></li>
+                                    <li><a class="dropdown-item" data-bs-toggle="modal" data-bs-target="#ConfirmarExclusãoDespesa">Excluir</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
                     <!-- <p>{{$any(cc)._id}}</p> -->
                     <p class="card-text">Informações sobre o cartão aqui.</p>
                     <a (click)="abrirModalAddDespesaCC($any(cc).bandeira,$any(cc)._id)" data-bs-toggle="modal" data-bs-target="#modalCartao" data-bs-whatever="@mdo" class="card-link">Adicionar despesa</a>
