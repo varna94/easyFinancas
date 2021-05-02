@@ -26,7 +26,7 @@
 
                         <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
                             <li><a class="dropdown-item" data-bs-toggle="modal" data-bs-target="#modalEditConta" (click)="editConta($any(conta)._id)">Editar</a></li>
-                            <li><a class="dropdown-item" data-bs-toggle="modal" data-bs-target="#ConfirmarExclusãoDespesa" (click)="deleteContaInfo($any(conta)._id,$any(conta).nome,$any(conta).banco)">Excluir</a></li>
+                            <li><a class="dropdown-item" data-bs-toggle="modal" data-bs-target="#ConfirmarExclusãoDespesa" (click)="deleteContaInfo($any(conta)._id,$any(conta).nome,$any(conta).banco,$any(conta).saldo)">Excluir</a></li>
                         </ul>
                     </div>
                 </div>
@@ -159,7 +159,7 @@
     </div>
 </div>
 
-
+<!-- Modal delete conta -->
 <div class="modal fade" id="ConfirmarExclusãoDespesa" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -176,6 +176,7 @@
                             <tr>
                                 <th scope="col">Nome da conta</th>
                                 <th scope="col">Banco</th>
+                                <th scope="col">Saldo</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -183,6 +184,7 @@
                             <tr>
                                 <td scope="row">{{contaNome}}</td>
                                 <td>{{contaBanco}}</td>
+                                <td>{{saldoConta | currency: 'BRL'}}</td>
                             </tr>
                         </tbody>
                     </table>

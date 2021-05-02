@@ -22,6 +22,7 @@ export class ContaComponent implements OnInit {
   contaBanco : any;
   contaNome : any;
   DeleteId : any;
+  saldoConta: any;
   public listTotalRecursos: Number[] = [];
   idDelete: string;
   errorDelete: boolean = false;
@@ -163,10 +164,11 @@ export class ContaComponent implements OnInit {
 
   }
 
-  deleteContaInfo(idConta: any,contaNome: any, contaBanco:any){
+  deleteContaInfo(idConta: any,contaNome: any, contaBanco:any, saldoConta: any){
     this.DeleteId = idConta;
     this.contaNome = contaNome;
     this.contaBanco = contaBanco;
+    this.saldoConta = saldoConta;
 
   }
   deleteConta(idConta: any){

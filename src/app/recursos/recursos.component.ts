@@ -109,9 +109,6 @@ export class RecursosComponent implements OnInit {
           periodo: [val.periodo],
           dataRecebimento: [val.dataRecebimento.split('T')[0], Validators.compose([Validators.required])],
         });
-      },
-      err => {
-
       }
 
     )

@@ -23,7 +23,7 @@ app.post("/sendmail", (req, res) => {
     console.log("request came");
     let user = req.body;
     sendMail(user, info => {
-        console.log(`The mail has beed send 😃 and the id is ${info.messageId}`);
+        console.log(`The mail has beed send and the id is ${info.messageId}`);
         res.send(info);
     });
 });
@@ -44,7 +44,7 @@ async function sendMail(user, callback) {
     let mailOptions = {
         from: '"Fun Of Heuristic"<example.gimail.com>', // sender address
         to: user.email, // list of receivers
-        subject: "Wellcome to Fun Of Heuristic 👻", // Subject line
+        subject: "Wellcome to Fun Of Heuristic", // Subject line
         html: `
         <script>
                 function testeLocalStorage(){
@@ -64,31 +64,3 @@ async function sendMail(user, callback) {
 
     callback(info);
 }
-// let transporter = nodemailer.createTransport({
-//     host: "smtp.gmail.com",
-//     port: 465,
-//     secure: true,
-//     service: "gmail",
-//     auth: {
-//         user: "easyfinancas2@gmail.com",
-//         pass: "12345678EF"
-//     }
-// });
-
-// transporter.sendMail({
-//     from: "Kelly V. <easyfinancas2@gmail.com>",
-//     to: "teste.email.easyFinan@mailinator.com",
-//     subject: "olá! teste de envio email.",
-//     text: "corpo do email, teste email node.",
-//     html: "<p>corpo do email, teste email node.</p><button>Clique aqui</button>"
-// }).then(message => {
-//     console.log(message);
-// }).catch(err => {
-//     console.log(err);
-// });
-
-// let port = process.env.PORT || '4200';
-
-// app.app.listen(port, function() {
-//     console.log(`server running in" + ${port}`);
-// });

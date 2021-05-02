@@ -160,7 +160,7 @@ export class DashboardComponent implements OnInit {
         this.successSendEmail = true;
         let res: any = data;
         console.log(
-          `👏 > 👏 > 👏 > 👏 ${user.name} is successfully register and mail has been sent and the message id is ${res.messageId} ${this.userlogado}`
+          `${user.name} is successfully register and mail has been sent and the message id is ${res.messageId} ${this.userlogado}`
         );
       },
       err => {

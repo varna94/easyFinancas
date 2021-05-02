@@ -1,3 +1,4 @@
+import { Subscriber } from 'rxjs';
 import { Cartao, DespesaCC } from './../shared/services/dashboard';
 import { ApiService } from './../../api.service';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
@@ -21,6 +22,13 @@ export class CartaoCreditoComponent implements OnInit {
   bandeira: string;
   idCC: string;
   uidUserLS: any;
+  deleteCc: any;
+  errorDelete: boolean = false;
+  successDelete: boolean = false;
+  idDeleteCC: any;
+  nomeCc: any;
+  bandeiraCc: any;
+  limiteCc: any;
   public bancoConta: string[] = [];
   public listaCB: Array<[string, any]> = [];
   constructor(public service: ApiService, private formCC: FormBuilder) {
@@ -48,6 +56,7 @@ export class CartaoCreditoComponent implements OnInit {
     this.getCartoes();
     this.criarFormDespesa();
     this.getContaInfo();
+    this.crirFormCartao();
   }
   crirFormCartao() {
     this.formAdicionarCartao = this.formCC.group({
@@ -104,6 +113,8 @@ export class CartaoCreditoComponent implements OnInit {
 
       this.service.AddCartoes(cartao, 'cartoes').subscribe(
         value => {
+          this.listCartoes = [];
+          this.listaCB = [];
           this.ngOnInit();
           console.log('success cartao!');
         },
@@ -146,6 +157,8 @@ export class CartaoCreditoComponent implements OnInit {
       }
       this.service.AddDespesasCartao(despesaCartao).subscribe(
         value => {
+          this.listCartoes = [];
+          this.listaCB = [];
           this.ngOnInit();
           console.log('success');
         },
@@ -156,6 +169,73 @@ export class CartaoCreditoComponent implements OnInit {
       alert("usuario n logado");
       return false;
     }
+  }
+  editCartao(idCartao:any){
+    this.deleteCc = idCartao;
+    this.service.GetCartao(idCartao).subscribe(
+      val => {
+        this.formAdicionarCartao = this.formCC.group({
+          nome: [val.nome],
+          bandeira: [val.bandeira],
+          banco: [val.banco],
+          limite: [val.limite, Validators.compose([Validators.required])],
+          dataFechamentoFatura: [val.dataFechamentoFatura.split('T')[0]],
+          dataVencimentoFatura: [val.dataVencimentoFatura.split('T')[0]],
+          descricao: [val.descricao]
+        });
+      },
+      err => {
+
+      }
+
+    )
+  }
+  updateCartao(idCartao:any) {
+    var user = firebase.default.auth().currentUser;
+
+    const cartao: Cartao = {
+      nome: this.formAdicionarCartao.get('nome')?.value,
+      uid: user?.uid,
+      banco: this.formAdicionarCartao.get('banco')?.value,
+      bandeira: this.formAdicionarCartao.get('bandeira')?.value,
+      limite: this.formAdicionarCartao.get('limite')?.value,
+      dataFechamentoFatura: this.formAdicionarCartao.get('dataFechamentoFatura')?.value,
+      dataVencimentoFatura: this.formAdicionarCartao.get('dataVencimentoFatura')?.value,
+      descricao: this.formAdicionarCartao.get('descricao')?.value,
+    }
+
+    this.service.UpdateCartoes(idCartao,cartao).subscribe(
+      val => {
+        this.listCartoes = [];
+        this.listaCB = [];
+        this.ngOnInit();
+
+      }
+    )
+  }
+  excluiCartaoInfo(idCartao:any, nomeCc: any,bandeiraCc:any,limiteCc:any){
+    console.log(nomeCc);
+    console.log(bandeiraCc);
+
+    this.idDeleteCC = idCartao;
+    this.nomeCc = nomeCc;
+    this.bandeiraCc = bandeiraCc;
+    this.limiteCc = limiteCc;
+
+  }
+
+  excluirCartao(idCartao:any){
+    this.service.DeleteCartoes(idCartao).subscribe(
+      val =>{
+        this.successDelete = true;
+        this.listCartoes = [];
+        this.listaCB = [];
+        this.ngOnInit();
+      },
+      err =>{
+        this.errorDelete = true;
+      }
+    )
   }
   abrirModalAddDespesaCC(bandeira: string, id: string) {
     console.log(`bandeira ${bandeira}`);
@@ -185,5 +265,9 @@ export class CartaoCreditoComponent implements OnInit {
       }
       // return cartoes;
     });
+  }
+  zerarVariaveis() {
+    this.successDelete = false;
+    this.errorDelete = false;
   }
 }
