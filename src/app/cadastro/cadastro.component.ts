@@ -19,6 +19,7 @@ export class CadastroComponent implements OnInit {
   nomeVazio: boolean;
   senhaVaziaCad: boolean;
   listaCadastros: string[] = [];
+  idPai: string;
   url: any;
 
   public t = [];
@@ -40,9 +41,9 @@ export class CadastroComponent implements OnInit {
       console.log(urlPartes);
       console.log(urlPartes.length - 1);
       console.log(urlPartes.length);
-      urlPaiInfo = urlPartes.splice(urlPartes.length - 1, urlPartes.length);
+      this.idPai = urlPartes[urlPartes.length -1];//.splice(urlPartes.length - 1, urlPartes.length);
 
-      console.log(urlPaiInfo);
+      console.log(this.idPai);
       console.log(this.url);
     }
     this.nomeVazio = nomeVazio;

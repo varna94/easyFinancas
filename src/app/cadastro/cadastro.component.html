@@ -26,7 +26,7 @@
             <!-- botoes -->
             <div class="align-buttons">
                 <button (click)="voltar()" class="voltar-cadastro">Voltar</button>
-                <button (click)="authService.SignUp(email?.value,senha?.value,nomeCadastro.value)" class="salvar-cadastro">Salvar</button>
+                <button (click)="authService.SignUp(email?.value,senha?.value,nomeCadastro.value, idPai)" class="salvar-cadastro">Salvar</button>
             </div>
         </form>
         <div class="outras-opcoes-login">

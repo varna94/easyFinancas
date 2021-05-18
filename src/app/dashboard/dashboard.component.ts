@@ -82,6 +82,12 @@ export class DashboardComponent implements OnInit {
     let user = firebase.default.auth().currentUser;
     this.userlogado = this.uidUserLS.uid;
     console.log(user?.uid);
+    let teste = this.testeGet().subscribe(res => {
+      console.log(res);
+    });
+
+    console.log(teste);
+        // console.log(teste.valueChanges({uid:'x9tTtNtGcYEPpVSARmFI'}));
     if (this.authService.isLoggedIn || user?.uid || this.uidUserLS.uid) {
 
       this.usersInfo();
@@ -97,12 +103,17 @@ export class DashboardComponent implements OnInit {
     this.criarFormAddDep();
   }
 
+  testeGet(){
+   return this.afs.collection('User').doc('x9tTtNtGcYEPpVSARmFI').get();
+  }
+
   criarFormAddDep() {
     this.formAdicionarDep = this.formDasboard.group({
       nome: ['', Validators.compose([Validators.required, Validators.pattern("/[A-Z][a-z]* [A-Z][a-z]*/")])],
       email: ['', Validators.compose([Validators.required, Validators.pattern("^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$")])]
     });
   }
+
 
   criarFormRecursos() {
     this.formAdicionarRecursos = this.formDasboard.group({

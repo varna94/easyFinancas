@@ -8,6 +8,7 @@ import { AngularFireAuth } from "@angular/fire/auth";
 import { AngularFirestore, AngularFirestoreDocument } from '@angular/fire/firestore';
 import { Router } from "@angular/router";
 import { Location } from '@angular/common';
+
 export let infoFeedback: { [key: string]: any };
 export let senhaVazia: boolean;
 export let emailVazio: boolean;
@@ -79,12 +80,14 @@ export class AuthService {
 
         }
 
+
+
         // window.alert(error.message)
       })
   }
 
   // Sign up with email/password
-  SignUp(email: any, password: any, nome: any) {
+  SignUp(email: any, password: any, nome: any, depId: string) {
     var dt;
     var authRef = firebase.default.auth().currentUser;
     this.router.navigate(['spinner']);
@@ -98,7 +101,8 @@ export class AuthService {
           email: result.user.email,
           displayName: nome,
           photoURL: result.user.photoURL,
-          emailVerified: result.user.emailVerified
+          emailVerified: result.user.emailVerified,
+          idPai: depId ? depId : ''
         }
         // result.user.displayName = nome;
         console.log(result);
@@ -227,7 +231,8 @@ export class AuthService {
       email: user.email,
       displayName: user.displayName,
       photoURL: user.photoURL,
-      emailVerified: user.emailVerified
+      emailVerified: user.emailVerified,
+      idPai: user.idPai
     }
     return userRef.set(userData, {
       merge: true
