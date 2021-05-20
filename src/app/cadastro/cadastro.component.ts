@@ -1,3 +1,5 @@
+import { AngularFirestore } from '@angular/fire/firestore';
+import { AngularFireAuth } from '@angular/fire/auth';
 import { emailVazioCad, nomeVazio, confEmailVazio, senhaVaziaCad } from './../shared/services/auth.service';
 import { Component, OnInit } from '@angular/core';
 import { FormControl, Validators, FormBuilder, FormGroup, ValidatorFn, ValidationErrors, FormArray, ControlContainer } from '@angular/forms';
@@ -5,6 +7,12 @@ import { Router } from '@angular/router';
 import { Validacoes } from '../validacoes';
 import { AuthService } from "../shared/services/auth.service";
 export let urlPaiInfo: any;
+import * as firebase from 'firebase';
+
+// import { DATABASE_URL } from 'angularfire2';
+// import { firestore } from 'firebase-admin';
+// firebase.default.initializeApp();
+// const db = firebase.default.firestore();
 @Component({
   selector: 'app-cadastro',
   templateUrl: './cadastro.component.html',
@@ -25,7 +33,7 @@ export class CadastroComponent implements OnInit {
   public t = [];
   public listaCadastro: string[] = [];
 
-  constructor(private router: Router, private fg: FormBuilder, public authService: AuthService) {
+  constructor(private router: Router, private fg: FormBuilder, public authService: AuthService, public afs: AngularFirestore) {
 
     this.formCadastro = this.fg.group({
       nome: [],
@@ -46,12 +54,31 @@ export class CadastroComponent implements OnInit {
       console.log(this.idPai);
       console.log(this.url);
     }
+
+    this.getUserPai(this.idPai);
+
     this.nomeVazio = nomeVazio;
     this.emailVazioCad = emailVazioCad;
     this.senhaVaziaCad = senhaVaziaCad;
     this.confEmailVazio = confEmailVazio;
     this.criarFormCadastro();
   };
+
+  getUserPai(id :any){
+    let reg = this.afs.collection("User").ref.where("uid", "==", id).get();
+    console.log(reg);
+    this.afs.collection("User").ref.where("uid", "==", id)
+    .get()
+    .then((querySnapshot) => {
+        querySnapshot.forEach((doc) => {
+            // doc.data() is never undefined for query doc snapshots
+            console.log(doc.data());
+        });
+    })
+    .catch((error) => {
+        console.log("Error getting documents: ", error);
+    });
+  }
 
   criarFormCadastro() {
     this.formCadastro = this.fg.group({

@@ -38,6 +38,10 @@ import { DatePipe } from '@angular/common';
 import * as express from "express";
 import { CurrencyMaskConfig, CurrencyMaskModule, CURRENCY_MASK_CONFIG } from 'ng2-currency-mask';
 
+import * as firebase from 'firebase';
+import { firestore } from 'firebase-admin';
+firebase.default.initializeApp(environment.firebase);
+
 registerLocaleData(ptBr);
 
 const appRoutes: Routes = [

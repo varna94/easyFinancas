@@ -87,7 +87,7 @@ export class AuthService {
   }
 
   // Sign up with email/password
-  SignUp(email: any, password: any, nome: any, depId: string) {
+  SignUp(email: any, password: any, nome: any, depId: string , chilId: string) {
     var dt;
     var authRef = firebase.default.auth().currentUser;
     this.router.navigate(['spinner']);
@@ -102,11 +102,15 @@ export class AuthService {
           displayName: nome,
           photoURL: result.user.photoURL,
           emailVerified: result.user.emailVerified,
-          idPai: depId ? depId : ''
+          idPai: depId ? depId : '',
+          idFilho: chilId ? chilId: ''
         }
         // result.user.displayName = nome;
         console.log(result);
         console.log(result.user);
+
+        this.updatePai(depId,result.user.uid);
+
         this.SendVerificationMail();
         this.SetUserData(result.user);
         this.createUserDB(user);
@@ -118,6 +122,26 @@ export class AuthService {
         this.router.navigate(['cadastro']);
         console.log(error.message);
       })
+  }
+
+  updatePai(idPai : any,uidFilho : any){
+    let reg = this.afs.collection("User").ref.where("uid", "==", idPai).get();
+
+    this.afs.collection("User").ref.where("uid", "==", idPai)
+    .get()
+    .then((querySnapshot) => {
+        querySnapshot.forEach((doc) => {
+            let user = doc.data();
+            // user.update("idFilho",uidFilho);
+            // doc..udata() is never undefined for query doc snapshots
+            console.log(user);
+            console.log(doc.data());
+
+        });
+    })
+    .catch((error) => {
+        console.log("Error getting documents: ", error);
+    });
   }
 
   createUserDB(data: any) {
@@ -232,7 +256,8 @@ export class AuthService {
       displayName: user.displayName,
       photoURL: user.photoURL,
       emailVerified: user.emailVerified,
-      idPai: user.idPai
+      idPai: user.idPai,
+      idFilho:user.idFilho
     }
     return userRef.set(userData, {
       merge: true

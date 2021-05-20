@@ -6,4 +6,5 @@ export interface User {
   photoURL: string;
   emailVerified: boolean;
   idPai: string;
+  idFilho: string;
 }

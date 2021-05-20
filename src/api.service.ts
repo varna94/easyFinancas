@@ -30,7 +30,7 @@ export class ApiService {
     return new Promise(resolve => {
       this.http.get(API_URL).pipe(
         take(1)).subscribe((data: any) => {
-          console.log(data);
+          // console.log(data);
           resolve(data);
         })
     })

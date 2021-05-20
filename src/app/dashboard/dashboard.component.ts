@@ -15,6 +15,8 @@ import { AuthService } from "../shared/services/auth.service";
 import { AngularFirestore, AngularFirestoreDocument } from '@angular/fire/firestore';
 import { HttpClientModule } from '@angular/common/http';
 import { FirebaseApp } from '@angular/fire';
+
+
 export let listaContasBanco: Conta[] = [];
 export let listaDespesas: any;
 import * as firebase from 'firebase';
@@ -82,12 +84,9 @@ export class DashboardComponent implements OnInit {
     let user = firebase.default.auth().currentUser;
     this.userlogado = this.uidUserLS.uid;
     console.log(user?.uid);
-    let teste = this.testeGet().subscribe(res => {
-      console.log(res);
-    });
+let tt = this.getRecord();
+    console.log(tt);
 
-    console.log(teste);
-        // console.log(teste.valueChanges({uid:'x9tTtNtGcYEPpVSARmFI'}));
     if (this.authService.isLoggedIn || user?.uid || this.uidUserLS.uid) {
 
       this.usersInfo();
@@ -103,8 +102,24 @@ export class DashboardComponent implements OnInit {
     this.criarFormAddDep();
   }
 
-  testeGet(){
-   return this.afs.collection('User').doc('x9tTtNtGcYEPpVSARmFI').get();
+  getRecord(){
+    var docRef = this.afs.collection("User").doc('x9tTtNtGcYEPpVSARmFI');
+
+     docRef.get().toPromise().then(( doc:any) => {
+      console.log(doc.data);
+      Array.from(doc).forEach((el:any) => {
+        return el;
+      });
+        // if (doc.exists) {
+        //     console.log("Document data:", doc.data());
+        // } else {
+        //     // doc.data() will be undefined in this case
+        //     console.log("No such document!");
+        // }
+    }).catch((error:any) => {
+        console.log("Error getting document:", error);
+    });
+
   }
 
   criarFormAddDep() {
@@ -113,7 +128,6 @@ export class DashboardComponent implements OnInit {
       email: ['', Validators.compose([Validators.required, Validators.pattern("^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$")])]
     });
   }
-
 
   criarFormRecursos() {
     this.formAdicionarRecursos = this.formDasboard.group({
@@ -197,7 +211,6 @@ export class DashboardComponent implements OnInit {
   }
   verifyName(name: any) {
     if (name.currentTarget.value === '') {
-
       this.nomeVazio = true;
     } else {
       this.nomeVazio = false;
