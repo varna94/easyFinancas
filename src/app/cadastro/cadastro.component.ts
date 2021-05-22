@@ -1,3 +1,4 @@
+import { User } from './../shared/services/user';
 import { AngularFirestore } from '@angular/fire/firestore';
 import { AngularFireAuth } from '@angular/fire/auth';
 import { emailVazioCad, nomeVazio, confEmailVazio, senhaVaziaCad } from './../shared/services/auth.service';
@@ -8,6 +9,7 @@ import { Validacoes } from '../validacoes';
 import { AuthService } from "../shared/services/auth.service";
 export let urlPaiInfo: any;
 import * as firebase from 'firebase';
+import { AngularFireDatabase } from '@angular/fire/database';
 
 // import { DATABASE_URL } from 'angularfire2';
 // import { firestore } from 'firebase-admin';
@@ -29,11 +31,12 @@ export class CadastroComponent implements OnInit {
   listaCadastros: string[] = [];
   idPai: string;
   url: any;
+ userUp: User;
 
   public t = [];
   public listaCadastro: string[] = [];
 
-  constructor(private router: Router, private fg: FormBuilder, public authService: AuthService, public afs: AngularFirestore) {
+  constructor(private router: Router, private fg: FormBuilder, public authService: AuthService, public afs: AngularFirestore, public db: AngularFireDatabase) {
 
     this.formCadastro = this.fg.group({
       nome: [],
@@ -65,19 +68,45 @@ export class CadastroComponent implements OnInit {
   };
 
   getUserPai(id :any){
+    let user;
     let reg = this.afs.collection("User").ref.where("uid", "==", id).get();
     console.log(reg);
     this.afs.collection("User").ref.where("uid", "==", id)
     .get()
     .then((querySnapshot) => {
         querySnapshot.forEach((doc) => {
+          user = doc.data() as User;
             // doc.data() is never undefined for query doc snapshots
-            console.log(doc.data());
+          this.userUp = {
+            displayName : user.displayName,
+            uid: user.uid,
+            email: user.email,
+            photoURL: user.photoURL,
+            emailVerified: user.emailVerified,
+            idFilho: user.idFilho,
+            idPai: user.idPai
+          }
+
+
+          console.log(this.userUp);
+          console.log(doc.data());
+
         });
     })
     .catch((error) => {
         console.log("Error getting documents: ", error);
     });
+  }
+
+  update(contato: User, key: string) {
+    this.db.list('contato').update(key, contato)
+    .then((sucess: any) =>{
+      console.log('Deu certo!');
+      console.log(sucess);
+    })
+      .catch((error: any) => {
+        console.error(error);
+      });
   }
 
   criarFormCadastro() {

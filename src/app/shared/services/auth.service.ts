@@ -8,7 +8,7 @@ import { AngularFireAuth } from "@angular/fire/auth";
 import { AngularFirestore, AngularFirestoreDocument } from '@angular/fire/firestore';
 import { Router } from "@angular/router";
 import { Location } from '@angular/common';
-
+import { AngularFireDatabase } from '@angular/fire/database';
 export let infoFeedback: { [key: string]: any };
 export let senhaVazia: boolean;
 export let emailVazio: boolean;
@@ -29,6 +29,7 @@ export class AuthService {
   // emailVazio: boolean;
   // senhaVazia: boolean;
   examp: any;
+  userUp: User;
   constructor(
     public afs: AngularFirestore,   // Inject Firestore service
     public afAuth: AngularFireAuth, // Inject Firebase auth service
@@ -36,6 +37,7 @@ export class AuthService {
     public ngZone: NgZone, // NgZone service to remove outside scope warning
     public feedback: ModalFeedbacksComponent,
     private _location: Location,
+    public db: AngularFireDatabase
   ) {
     /* Saving user data in localstorage when
     logged in and setting up null when logged out */
@@ -77,11 +79,7 @@ export class AuthService {
 
           this.router.navigate(['login']);
           // this._location.back();
-
         }
-
-
-
         // window.alert(error.message)
       })
   }
@@ -102,18 +100,20 @@ export class AuthService {
           displayName: nome,
           photoURL: result.user.photoURL,
           emailVerified: result.user.emailVerified,
-          idPai: depId ? depId : '',
-          idFilho: chilId ? chilId: ''
+          idPai: depId ? depId : ' ',
+          idFilho: chilId ? chilId: ' '
         }
         // result.user.displayName = nome;
         console.log(result);
         console.log(result.user);
-
-        this.updatePai(depId,result.user.uid);
+        if(depId){
+          this.updatePai(depId,result.user.uid);
+        }
 
         this.SendVerificationMail();
         this.SetUserData(result.user);
         this.createUserDB(user);
+
       }).catch((error: any) => {
         emailVazioCad = true;
         senhaVaziaCad = true;
@@ -126,16 +126,27 @@ export class AuthService {
 
   updatePai(idPai : any,uidFilho : any){
     let reg = this.afs.collection("User").ref.where("uid", "==", idPai).get();
-
+    let user;
     this.afs.collection("User").ref.where("uid", "==", idPai)
     .get()
     .then((querySnapshot) => {
         querySnapshot.forEach((doc) => {
-            let user = doc.data();
-            // user.update("idFilho",uidFilho);
-            // doc..udata() is never undefined for query doc snapshots
-            console.log(user);
-            console.log(doc.data());
+          user = doc.data() as User;
+          // doc.data() is never undefined for query doc snapshots
+        this.userUp = {
+          displayName : user.displayName,
+          uid: user.uid,
+          email: user.email,
+          photoURL: user.photoURL,
+          emailVerified: user.emailVerified,
+          idFilho: uidFilho,
+          idPai: user.idPai
+        }
+
+        this.update(this.userUp,idPai);
+
+        console.log(this.userUp);
+        console.log(doc.data());
 
         });
     })
@@ -154,12 +165,20 @@ export class AuthService {
         .then(res => {
           console.log(res);
           console.log('suceso')
+
         }, err => rejeitar())
         .catch((error: any) => {
           console.log(error);
         });
       console.log(data);
     });
+  }
+
+  update(user: User, key: string) {
+    this.db.list('contato').update(key, user)
+      .catch((error: any) => {
+        console.error(error);
+      });
   }
   // Send email verfificaiton when new user sign up
   SendVerificationMail() {
@@ -256,8 +275,8 @@ export class AuthService {
       displayName: user.displayName,
       photoURL: user.photoURL,
       emailVerified: user.emailVerified,
-      idPai: user.idPai,
-      idFilho:user.idFilho
+      idPai: user.idPai ? user.idPai : '',
+      idFilho: user.idFilho ? user.idFilho : ''
     }
     return userRef.set(userData, {
       merge: true
