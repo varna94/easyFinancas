@@ -15,7 +15,7 @@ app.listen(3000, () => {
 
 app.get("/", (req, res) => {
     res.send(
-        "<h1 style='text-align: center'>Você tem um convite para ocmpartilhamento de finanças</h1>"
+        "<h1 style='text-align: center'>Você tem um convite para compartilhamento de finanças</h1>"
     );
 });
 

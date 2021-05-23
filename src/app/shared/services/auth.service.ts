@@ -101,8 +101,7 @@ export class AuthService {
           displayName: nome,
           photoURL: result.user.photoURL,
           emailVerified: result.user.emailVerified,
-          idPai: depId ? depId : ' ',
-          idFilho: chilId ? chilId: ' '
+          idPai: depId ? depId : ' '
         }
         // result.user.displayName = nome;
         console.log(result);
@@ -253,8 +252,7 @@ export class AuthService {
       displayName: user.displayName,
       photoURL: user.photoURL,
       emailVerified: user.emailVerified,
-      idPai: user.idPai ? user.idPai : '',
-      idFilho: user.idFilho ? user.idFilho : ''
+      idPai: user.idPai ? user.idPai : ''
     }
     return userRef.set(userData, {
       merge: true

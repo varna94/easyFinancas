@@ -49,15 +49,8 @@ export class CadastroComponent implements OnInit {
     this.url = window.location.href;
     var urlPartes = this.url.split('/');
     if (urlPartes.length > 4) {
-      console.log(urlPartes);
-      console.log(urlPartes.length - 1);
-      console.log(urlPartes.length);
       this.idPai = urlPartes[urlPartes.length -1];//.splice(urlPartes.length - 1, urlPartes.length);
-
-      console.log(this.idPai);
-      console.log(this.url);
     }
-
 
     this.nomeVazio = nomeVazio;
     this.emailVazioCad = emailVazioCad;

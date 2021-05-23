@@ -171,9 +171,7 @@ export class DashboardComponent implements OnInit {
 
         usersLogado = uid[index].payload.doc?.data();
         this.users = usersLogado;
-        console.log(usersLogado);
 
-        // console.log(this.users);
       }
 
     }
