@@ -58,7 +58,6 @@ export class CadastroComponent implements OnInit {
       console.log(this.url);
     }
 
-    this.getUserPai(this.idPai);
 
     this.nomeVazio = nomeVazio;
     this.emailVazioCad = emailVazioCad;
@@ -66,48 +65,6 @@ export class CadastroComponent implements OnInit {
     this.confEmailVazio = confEmailVazio;
     this.criarFormCadastro();
   };
-
-  getUserPai(id :any){
-    let user;
-    let reg = this.afs.collection("User").ref.where("uid", "==", id).get();
-    console.log(reg);
-    this.afs.collection("User").ref.where("uid", "==", id)
-    .get()
-    .then((querySnapshot) => {
-        querySnapshot.forEach((doc) => {
-          user = doc.data() as User;
-            // doc.data() is never undefined for query doc snapshots
-          this.userUp = {
-            displayName : user.displayName,
-            uid: user.uid,
-            email: user.email,
-            photoURL: user.photoURL,
-            emailVerified: user.emailVerified,
-            idFilho: user.idFilho,
-            idPai: user.idPai
-          }
-
-
-          console.log(this.userUp);
-          console.log(doc.data());
-
-        });
-    })
-    .catch((error) => {
-        console.log("Error getting documents: ", error);
-    });
-  }
-
-  update(contato: User, key: string) {
-    this.db.list('contato').update(key, contato)
-    .then((sucess: any) =>{
-      console.log('Deu certo!');
-      console.log(sucess);
-    })
-      .catch((error: any) => {
-        console.error(error);
-      });
-  }
 
   criarFormCadastro() {
     this.formCadastro = this.fg.group({

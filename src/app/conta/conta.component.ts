@@ -1,7 +1,7 @@
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
 import { Conta, Despesa } from './../shared/services/dashboard';
-import { listaContasBanco, listaDespesas } from './../dashboard/dashboard.component';
+import { listaContasBanco, listaDespesas, usersLogado } from './../dashboard/dashboard.component';
 import { Component, OnInit } from '@angular/core';
 import { ApiService } from './../../api.service';
 import * as firebase from 'firebase';
@@ -19,6 +19,7 @@ export class ContaComponent implements OnInit {
   public totalDespesas: Number[] = [];
   public valoTotalDesp: any;
   public updateContaInfo: any;
+
   contaBanco : any;
   contaNome : any;
   DeleteId : any;
@@ -28,7 +29,7 @@ export class ContaComponent implements OnInit {
   errorDelete: boolean = false;
   successDelete: boolean = false;
   listRecursos: Array<[string, any]> = [];
-  constructor(public apService: ApiService, private formConta: FormBuilder, public service: ApiService) {
+  constructor(public apService: ApiService, private formConta: FormBuilder, public service: ApiService ) {
     this.formadicionarConta = this.formConta.group({
       nome: [],
       saldo: [],
@@ -46,10 +47,18 @@ export class ContaComponent implements OnInit {
     const conta = this.apService.GetContas().then(conta => {
       // this.despesas = data;
       for (let i = 0; i < conta.length; i++) {
-        if (conta[i].uid === this.uidUserLS.uid) {
+        if(usersLogado.idPai && usersLogado.idPai !== ' '){
+          if (conta[i].uid === usersLogado.idPai ) {
 
-          this.lsContas.push(conta[i]);
-          // console.log(this.lsContas);
+            this.lsContas.push(conta[i]);
+            // console.log(this.lsContas);
+          }
+        }else{
+          if (conta[i].uid === this.uidUserLS.uid) {
+
+            this.lsContas.push(conta[i]);
+            // console.log(this.lsContas);
+          }
         }
       }
       return conta;
@@ -75,7 +84,7 @@ export class ContaComponent implements OnInit {
     if (user?.uid) {
       const conta: Conta = {
         nome: this.formadicionarConta.get('nome')?.value,
-        uid: user?.uid,
+        uid: usersLogado.idPai ? usersLogado.idPai : user?.uid,
         banco: this.formadicionarConta.get('banco')?.value,
         totalDespesas: 0,
         saldo: '',
@@ -104,6 +113,7 @@ export class ContaComponent implements OnInit {
     const recursos = this.apService.Getrecursos().then(recurso => {
       for (let i = 0; i < recurso.length; i++) {
         for (let j = 0; j < contas.length; j++) {
+
           if (recurso[i].contaId === contas[j]._id) {
             this.listRecursos.push(recurso[i]);
             this.listTotalRecursos.push(recurso[i].saldo);
@@ -144,7 +154,7 @@ export class ContaComponent implements OnInit {
 
     const conta: Conta = {
       nome: this.formadicionarConta.get('nome')?.value,
-      uid: user?.uid,
+      uid: usersLogado.idPai ? usersLogado.idPai : user?.uid,
       banco: this.formadicionarConta.get('banco')?.value,
       totalDespesas: 0,
       saldo: '',

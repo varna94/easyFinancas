@@ -19,6 +19,7 @@ import { FirebaseApp } from '@angular/fire';
 
 export let listaContasBanco: Conta[] = [];
 export let listaDespesas: any;
+export let usersLogado: User;
 import * as firebase from 'firebase';
 import { CommonModule } from '@angular/common';
 import { rootCertificates } from 'tls';
@@ -35,8 +36,8 @@ export class DashboardComponent implements OnInit {
   formadicionarConta: FormGroup;
   formAdicionarRecursos: FormGroup;
   formAdicionarDep: FormGroup;
-  users: User;
   usersFilter: any;
+  users: User;
   uidUserLS: any;
   contasBanco: any;
   despesas: any;
@@ -56,7 +57,8 @@ export class DashboardComponent implements OnInit {
   emailVazio: boolean = false;
   nomeVazio: boolean = false;
   nomeInvalido: boolean;
-
+  isDep: boolean =false;
+  relacionamentos : any;
   constructor(public authService: AuthService, private formDasboard: FormBuilder, public afs: AngularFirestore, private router: Router, public serviceDb: ApiService, public dep: DespesaComponent, public cmpRecurso: RecursosComponent, public http: HttpService) {
 
     this.formAdicionarRecursos = this.formDasboard.group({
@@ -84,15 +86,10 @@ export class DashboardComponent implements OnInit {
     let user = firebase.default.auth().currentUser;
     this.userlogado = this.uidUserLS.uid;
     console.log(user?.uid);
-let tt = this.getRecord();
-    console.log(tt);
-
     if (this.authService.isLoggedIn || user?.uid || this.uidUserLS.uid) {
 
       this.usersInfo();
-      // this.contaInfo();
-      // this.buscarDespesas();
-
+      this.getRelacionamentos();
       console.log('despesas mongoDB');
       console.log(this.serviceDb.GetDespesas());
     } else {
@@ -102,24 +99,21 @@ let tt = this.getRecord();
     this.criarFormAddDep();
   }
 
-  getRecord(){
-    var docRef = this.afs.collection("User").doc('x9tTtNtGcYEPpVSARmFI');
-
-     docRef.get().toPromise().then(( doc:any) => {
-      console.log(doc.data);
-      Array.from(doc).forEach((el:any) => {
-        return el;
-      });
-        // if (doc.exists) {
-        //     console.log("Document data:", doc.data());
-        // } else {
-        //     // doc.data() will be undefined in this case
-        //     console.log("No such document!");
-        // }
-    }).catch((error:any) => {
-        console.log("Error getting document:", error);
+  getRelacionamentos(){
+    this.authService.getRelacionamento().subscribe(res => {
+      this.filterRelacionamento(res);
     });
+  }
 
+  filterRelacionamento(uid: any) {
+    let retorno;
+    for (let index = 0; index < uid.length; index++) {
+      if (uid[index].payload.doc?.data().idPai === this.uidUserLS.uid) {
+        this.relacionamentos = uid[index].payload.doc?.data();
+        console.log(uid[index].payload.doc?.data());
+      }
+    }
+    return null;
   }
 
   criarFormAddDep() {
@@ -156,13 +150,19 @@ let tt = this.getRecord();
     for (let index = 0; index < uid.length; index++) {
       if (uid[index].payload.doc?.data().uid === this.uidUserLS.uid) {
 
-        this.users = uid[index].payload.doc?.data();
-        console.log(uid[index].payload.doc.id);
+        usersLogado = uid[index].payload.doc?.data();
+        this.users = usersLogado;
+        console.log(usersLogado);
+
         // console.log(this.users);
       }
 
     }
-    return this.users;
+    if(usersLogado.idPai && usersLogado.idPai !== ' '){
+      this.isDep = true;
+      console.log(this.isDep);
+    }
+    return usersLogado;
   }
 
   enviarEmail(nome: any, email: any) {
@@ -178,7 +178,7 @@ let tt = this.getRecord();
       name: nome,
       email: email,
       idPai: this.userlogado,
-      nomeRemetente: this.users?.displayName
+      nomeRemetente: usersLogado?.displayName
     }
     this.http.sendEmail("http://localhost:3000/sendmail", user).subscribe(
       data => {

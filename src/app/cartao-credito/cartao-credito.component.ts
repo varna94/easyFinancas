@@ -1,3 +1,4 @@
+import { usersLogado } from './../dashboard/dashboard.component';
 import { Subscriber } from 'rxjs';
 import { Cartao, DespesaCC } from './../shared/services/dashboard';
 import { ApiService } from './../../api.service';
@@ -86,11 +87,16 @@ export class CartaoCreditoComponent implements OnInit {
     const conta = this.service.GetContas().then(conta => {
       // this.despesas = data;
       for (let i = 0; i < conta.length; i++) {
-        if (conta[i].uid === this.uidUserLS.uid) {
-          this.bancoConta.push(conta[i]._id);
-          this.listaCB.push(conta[i]);
-          // this.serviceDb.push(conta[i]);
-          // console.log(this.bancoConta);
+        if(usersLogado.idPai && usersLogado.idPai !== ' '){
+          if (conta[i].uid === usersLogado.idPai) {
+            this.bancoConta.push(conta[i]._id);
+            this.listaCB.push(conta[i]);
+          }
+        }else{
+          if (conta[i].uid === this.uidUserLS.uid) {
+            this.bancoConta.push(conta[i]._id);
+            this.listaCB.push(conta[i]);
+          }
         }
       }
       return conta;
@@ -102,7 +108,7 @@ export class CartaoCreditoComponent implements OnInit {
     if (user?.uid) {
       const cartao: Cartao = {
         nome: this.formAdicionarCartao.get('nome')?.value,
-        uid: user?.uid,
+        uid: usersLogado.idPai ? usersLogado.idPai : user?.uid,
         banco: this.formAdicionarCartao.get('banco')?.value,
         bandeira: this.formAdicionarCartao.get('bandeira')?.value,
         limite: this.formAdicionarCartao.get('limite')?.value,
@@ -131,10 +137,18 @@ export class CartaoCreditoComponent implements OnInit {
     return this.service.GetCartoes().then(cartao => {
       // this.despesas = data;
       for (let i = 0; i < cartao.length; i++) {
-        if (cartao[i].uid === this.uidUserLS.uid) {
-          this.listCartoes.push(cartao[i]);
-          // this.listCartoes.push('_id', cartao[i._id]);
-          console.log(this.listCartoes);
+        if(usersLogado.idPai && usersLogado.idPai !== ' '){
+          if (cartao[i].uid === usersLogado.idPai) {
+            this.listCartoes.push(cartao[i]);
+            // this.listCartoes.push('_id', cartao[i._id]);
+            console.log(this.listCartoes);
+          }
+        }else{
+          if (cartao[i].uid === this.uidUserLS.uid) {
+            this.listCartoes.push(cartao[i]);
+            // this.listCartoes.push('_id', cartao[i._id]);
+            console.log(this.listCartoes);
+          }
         }
       }
       // return cartoes;
@@ -145,7 +159,7 @@ export class CartaoCreditoComponent implements OnInit {
     this.listCartoes = [];
     if (user?.uid) {
       const despesaCartao: DespesaCC = {
-        uid: user?.uid,
+        uid: usersLogado.idPai ? usersLogado.idPai : user?.uid,
         valor: this.formadicionarDespesaCC.get('valor')?.value,
         descricao: this.formadicionarDespesaCC.get('descricao')?.value,
         fixa: this.formadicionarDespesaCC.get('fixa')?.value,
@@ -195,7 +209,7 @@ export class CartaoCreditoComponent implements OnInit {
 
     const cartao: Cartao = {
       nome: this.formAdicionarCartao.get('nome')?.value,
-      uid: user?.uid,
+      uid: usersLogado.idPai ? usersLogado.idPai : user?.uid,
       banco: this.formAdicionarCartao.get('banco')?.value,
       bandeira: this.formAdicionarCartao.get('bandeira')?.value,
       limite: this.formAdicionarCartao.get('limite')?.value,

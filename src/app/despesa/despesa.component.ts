@@ -1,7 +1,7 @@
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ApiService } from './../../api.service';
 import { Despesa, Conta } from './../shared/services/dashboard';
-import { listaDespesas, DashboardComponent } from './../dashboard/dashboard.component';
+import { listaDespesas, DashboardComponent, usersLogado } from './../dashboard/dashboard.component';
 import { Component, OnInit } from '@angular/core';
 import { json } from 'body-parser';
 import * as firebase from 'firebase';
@@ -44,8 +44,14 @@ export class DespesaComponent implements OnInit {
     const desp = this.apService.GetDespesas().then(data => {
       // this.despesas = data;
       for (let i = 0; i < data.length; i++) {
-        if (data[i].uid === this.uidUserLS.uid) {
-          this.despesas.push(data[i]);
+        if(usersLogado.idPai && usersLogado.idPai !== ' '){
+          if (data[i].uid === usersLogado.idPai ) {
+            this.despesas.push(data[i]);
+          }
+        }else{
+          if (data[i].uid === this.uidUserLS.uid) {
+            this.despesas.push(data[i]);
+          }
         }
       }
       return data;
@@ -60,12 +66,22 @@ export class DespesaComponent implements OnInit {
     const conta = this.apService.GetContas().then(conta => {
       // this.despesas = data;
       for (let i = 0; i < conta.length; i++) {
-        if (conta[i].uid === this.uidUserLS.uid) {
-          this.bancoConta.push(conta[i]._id);
-          this.listaCB.push(conta[i]);
-          // this.serviceDb.push(conta[i]);
-          console.log(this.bancoConta);
+        if(usersLogado.idPai && usersLogado.idPai !== ' '){
+          if (conta[i].uid === usersLogado.idPai) {
+            this.bancoConta.push(conta[i]._id);
+            this.listaCB.push(conta[i]);
+            // this.serviceDb.push(conta[i]);
+            console.log(this.bancoConta);
+          }
+        }else{
+          if (conta[i].uid === this.uidUserLS.uid) {
+            this.bancoConta.push(conta[i]._id);
+            this.listaCB.push(conta[i]);
+            // this.serviceDb.push(conta[i]);
+            console.log(this.bancoConta);
+          }
         }
+
       }
       return conta;
     });
@@ -93,7 +109,7 @@ export class DespesaComponent implements OnInit {
       const despesa: Despesa = {
         dataVencimento: this.formadicionarDespesa.get('dataVencimento')?.value,
         valor: this.formadicionarDespesa.get('valor')?.value,
-        uid: user.uid,
+        uid: usersLogado.idPai ? usersLogado.idPai : user.uid,
         descricao: this.formadicionarDespesa.get('descricao')?.value,
         fixa: this.formadicionarDespesa.get('fixa')?.value,
         status: this.formadicionarDespesa.get('status')?.value,
@@ -150,7 +166,7 @@ export class DespesaComponent implements OnInit {
     const despesa: Despesa = {
       dataVencimento: this.formadicionarDespesa.get('dataVencimento')?.value,
       valor: this.formadicionarDespesa.get('valor')?.value,
-      uid: user?.uid,
+      uid: usersLogado.idPai ? usersLogado.idPai : user?.uid,
       descricao: this.formadicionarDespesa.get('descricao')?.value,
       fixa: this.formadicionarDespesa.get('fixa')?.value,
       status: this.formadicionarDespesa.get('status')?.value,

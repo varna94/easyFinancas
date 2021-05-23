@@ -35,8 +35,12 @@
                             <img src="/assets/images/user.png" alt="" id="btnGroupDrop1" width="50" class=" img-user d-inline-block align-top dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
                             <!-- </button> -->
                             <ul class="dropdown-menu" aria-labelledby="btnGroupDrop1">
-                                <li><a class="dropdown-item btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalEmail">Compartilhar finanças</a></li>
+                                <li><a class="dropdown-item btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalEmail" *ngIf="!isDep">Compartilhar finanças</a></li>
                                 <li><a class="dropdown-item" (click)="authService.SignOut()">Sair</a></li>
+                                <li>
+                                    <hr class="dropdown-divider">
+                                </li>
+                                <li class="dropdown-item">Compartilhamento</li>
                             </ul>
 
                         </div>

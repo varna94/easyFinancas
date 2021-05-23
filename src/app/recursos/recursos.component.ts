@@ -1,3 +1,4 @@
+import { usersLogado } from './../dashboard/dashboard.component';
 
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Recurso, Conta } from './../shared/services/dashboard';
@@ -65,8 +66,14 @@ export class RecursosComponent implements OnInit {
     const conta = this.service.GetContas().then(conta => {
       // this.despesas = data;
       for (let i = 0; i < conta.length; i++) {
-        if (conta[i].uid === this.uidUserLS.uid) {
-          this.listaCB.push(conta[i]);
+        if(usersLogado.idPai && usersLogado.idPai !== ' '){
+          if (conta[i].uid === usersLogado.idPai) {
+            this.listaCB.push(conta[i]);
+          }
+        }else{
+          if (conta[i].uid === this.uidUserLS.uid) {
+            this.listaCB.push(conta[i]);
+          }
         }
       }
       return conta;
@@ -76,10 +83,18 @@ export class RecursosComponent implements OnInit {
     var user = firebase.default.auth().currentUser;
     const recursos = this.service.Getrecursos().then(recurso => {
       for (let i = 0; i < recurso.length; i++) {
-        if (recurso[i].uid === user?.uid) {
-          this.listRecursos.push(recurso[i]);
-          // this.serviceDb.push(conta[i]);
-          console.log(this.listRecursos);
+        if (usersLogado.idPai && usersLogado.idPai !== ' ') {
+          if (recurso[i].uid === usersLogado.idPai) {
+            this.listRecursos.push(recurso[i]);
+            // this.serviceDb.push(conta[i]);
+            console.log(this.listRecursos);
+          }
+        } else {
+          if (recurso[i].uid === user?.uid) {
+            this.listRecursos.push(recurso[i]);
+            // this.serviceDb.push(conta[i]);
+            console.log(this.listRecursos);
+          }
         }
       }
 
@@ -118,7 +133,7 @@ export class RecursosComponent implements OnInit {
     var user = firebase.default.auth().currentUser;
 
     const recurso: Recurso = {
-      uid: user?.uid,
+      uid: usersLogado.idPai ? usersLogado.idPai : user?.uid,
       saldo: this.formAdicionarRecursos.get('saldo')?.value,
       conta: this.formAdicionarRecursos.get('conta')?.value.split('-')[0],
       contaId: this.formAdicionarRecursos.get('conta')?.value.split('-')[1],
@@ -168,7 +183,7 @@ export class RecursosComponent implements OnInit {
     console.log(user)
     if (user?.uid) {
       const recurso: Recurso = {
-        uid: user.uid,
+        uid: usersLogado.idPai ? usersLogado.idPai : user.uid,
         saldo: this.formAdicionarRecursos.get('saldo')?.value,
         conta: this.formAdicionarRecursos.get('conta')?.value.split('-')[0],
         contaId: this.formAdicionarRecursos.get('conta')?.value.split('-')[1],

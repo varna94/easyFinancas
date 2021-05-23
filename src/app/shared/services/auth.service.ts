@@ -1,3 +1,4 @@
+import { firestore } from 'firebase-admin';
 import { urlPaiInfo } from './../../cadastro/cadastro.component';
 
 // import { infoFeedback } from './../../app.component';
@@ -19,7 +20,6 @@ export let nomeVazio: boolean;
 export let emailVazioRec: boolean;
 import * as firebase from 'firebase';
 
-import { error } from 'protractor';
 @Injectable({
   providedIn: 'root'
 })
@@ -88,6 +88,7 @@ export class AuthService {
   SignUp(email: any, password: any, nome: any, depId: string , chilId: string) {
     var dt;
     var authRef = firebase.default.auth().currentUser;
+    console.log('id Pai = '+depId);
     this.router.navigate(['spinner']);
     this.afAuth.createUserWithEmailAndPassword(email, password)
       .then((result: any) => {
@@ -106,13 +107,10 @@ export class AuthService {
         // result.user.displayName = nome;
         console.log(result);
         console.log(result.user);
-        if(depId){
-          this.updatePai(depId,result.user.uid);
-        }
 
         this.SendVerificationMail();
         this.SetUserData(result.user);
-        this.createUserDB(user);
+        this.createUserDB(user,depId,chilId);
 
       }).catch((error: any) => {
         emailVazioCad = true;
@@ -124,40 +122,10 @@ export class AuthService {
       })
   }
 
-  updatePai(idPai : any,uidFilho : any){
-    let reg = this.afs.collection("User").ref.where("uid", "==", idPai).get();
-    let user;
-    this.afs.collection("User").ref.where("uid", "==", idPai)
-    .get()
-    .then((querySnapshot) => {
-        querySnapshot.forEach((doc) => {
-          user = doc.data() as User;
-          // doc.data() is never undefined for query doc snapshots
-        this.userUp = {
-          displayName : user.displayName,
-          uid: user.uid,
-          email: user.email,
-          photoURL: user.photoURL,
-          emailVerified: user.emailVerified,
-          idFilho: uidFilho,
-          idPai: user.idPai
-        }
-
-        this.update(this.userUp,idPai);
-
-        console.log(this.userUp);
-        console.log(doc.data());
-
-        });
-    })
-    .catch((error) => {
-        console.log("Error getting documents: ", error);
-    });
-  }
-
-  createUserDB(data: any) {
+  createUserDB(data: any, idPai: string, idFilho: string) {
     console.log(data);
-
+    console.log('id Pai = '+idPai);
+    let userFilho = data as User;
     return new Promise<any>((resolver, rejeitar) => {
       this.afs
         .collection("User")
@@ -166,6 +134,13 @@ export class AuthService {
           console.log(res);
           console.log('suceso')
 
+          if(idPai){
+            let rel = {
+              idPai : idPai,
+              idFilho : userFilho.uid
+            }
+            this.createDep(rel);
+          }
         }, err => rejeitar())
         .catch((error: any) => {
           console.log(error);
@@ -174,12 +149,16 @@ export class AuthService {
     });
   }
 
-  update(user: User, key: string) {
-    this.db.list('contato').update(key, user)
-      .catch((error: any) => {
-        console.error(error);
-      });
+  createDep(rel :any){
+    this.afs.collection('relacionamento').add(rel)
+    .then( res => {
+      console.log( 'Sucesso!');
+    },
+    err => {
+      console.log(err);
+    })
   }
+
   // Send email verfificaiton when new user sign up
   SendVerificationMail() {
     return this.afAuth.currentUser.then(u => u?.sendEmailVerification()).then(() => {
@@ -217,7 +196,6 @@ export class AuthService {
           console.log(error);
           this.router.navigate(['recuperarSenha']);
         }
-
 
       })
   }
@@ -289,6 +267,9 @@ export class AuthService {
     return this.afs.collection("User").stateChanges();
   }
 
+  getRelacionamento(){
+    return this.afs.collection("relacionamento").stateChanges();
+  }
   // Sign out
   SignOut() {
     return this.afAuth.signOut().then(() => {
