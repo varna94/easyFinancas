@@ -37,10 +37,17 @@
                             <ul class="dropdown-menu" aria-labelledby="btnGroupDrop1">
                                 <li><a class="dropdown-item btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalEmail" *ngIf="!isDep">Compartilhar finanças</a></li>
                                 <li><a class="dropdown-item" (click)="authService.SignOut()">Sair</a></li>
-                                <li>
-                                    <hr class="dropdown-divider">
-                                </li>
-                                <li class="dropdown-item">Compartilhamento</li>
+
+                                <div *ngIf="infoChild">
+                                    <li>
+                                        <hr class="dropdown-divider">
+                                    </li>
+                                    <li class="info-child">Compartilhamento</li>
+                                    <li class=" info-child">
+                                        <p class="display-name-child"><b>{{infoChild.displayName}}</b></p>
+                                    </li>
+                                    <li class=" info-child email-child">{{infoChild.email}}</li>
+                                </div>
                             </ul>
 
                         </div>

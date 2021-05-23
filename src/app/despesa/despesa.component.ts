@@ -109,7 +109,7 @@ export class DespesaComponent implements OnInit {
       const despesa: Despesa = {
         dataVencimento: this.formadicionarDespesa.get('dataVencimento')?.value,
         valor: this.formadicionarDespesa.get('valor')?.value,
-        uid: usersLogado.idPai ? usersLogado.idPai : user.uid,
+        uid: usersLogado.idPai && usersLogado.idPai !== ' ' ? usersLogado.idPai : user.uid,
         descricao: this.formadicionarDespesa.get('descricao')?.value,
         fixa: this.formadicionarDespesa.get('fixa')?.value,
         status: this.formadicionarDespesa.get('status')?.value,
@@ -166,7 +166,7 @@ export class DespesaComponent implements OnInit {
     const despesa: Despesa = {
       dataVencimento: this.formadicionarDespesa.get('dataVencimento')?.value,
       valor: this.formadicionarDespesa.get('valor')?.value,
-      uid: usersLogado.idPai ? usersLogado.idPai : user?.uid,
+      uid: usersLogado.idPai && usersLogado.idPai !== ' ' ? usersLogado.idPai : user?.uid,
       descricao: this.formadicionarDespesa.get('descricao')?.value,
       fixa: this.formadicionarDespesa.get('fixa')?.value,
       status: this.formadicionarDespesa.get('status')?.value,

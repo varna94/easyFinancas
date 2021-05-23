@@ -59,6 +59,7 @@ export class DashboardComponent implements OnInit {
   nomeInvalido: boolean;
   isDep: boolean =false;
   relacionamentos : any;
+  infoChild : any;
   constructor(public authService: AuthService, private formDasboard: FormBuilder, public afs: AngularFirestore, private router: Router, public serviceDb: ApiService, public dep: DespesaComponent, public cmpRecurso: RecursosComponent, public http: HttpService) {
 
     this.formAdicionarRecursos = this.formDasboard.group({
@@ -106,14 +107,32 @@ export class DashboardComponent implements OnInit {
   }
 
   filterRelacionamento(uid: any) {
-    let retorno;
+    let child;
+
     for (let index = 0; index < uid.length; index++) {
       if (uid[index].payload.doc?.data().idPai === this.uidUserLS.uid) {
         this.relacionamentos = uid[index].payload.doc?.data();
         console.log(uid[index].payload.doc?.data());
       }
     }
-    return null;
+    if(this.relacionamentos){
+      this.afs.collection("User").ref.where("uid", "==",  this.relacionamentos.idFilho)
+      .get()
+      .then((querySnapshot) => {
+          querySnapshot.forEach((doc) => {
+            console.log(doc.data());
+            child = doc.data() as User;
+            this.infoChild = {
+              displayName : child.displayName,
+              email : child.email
+            }
+          })
+      })
+      .catch((e) =>{
+        console.log(e);
+      })
+    }
+    return this.relacionamentos;
   }
 
   criarFormAddDep() {

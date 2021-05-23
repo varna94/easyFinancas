@@ -133,7 +133,7 @@ export class RecursosComponent implements OnInit {
     var user = firebase.default.auth().currentUser;
 
     const recurso: Recurso = {
-      uid: usersLogado.idPai ? usersLogado.idPai : user?.uid,
+      uid: usersLogado.idPai && usersLogado.idPai !== ' ' ? usersLogado.idPai : user?.uid,
       saldo: this.formAdicionarRecursos.get('saldo')?.value,
       conta: this.formAdicionarRecursos.get('conta')?.value.split('-')[0],
       contaId: this.formAdicionarRecursos.get('conta')?.value.split('-')[1],
@@ -183,7 +183,7 @@ export class RecursosComponent implements OnInit {
     console.log(user)
     if (user?.uid) {
       const recurso: Recurso = {
-        uid: usersLogado.idPai ? usersLogado.idPai : user.uid,
+        uid: usersLogado.idPai && usersLogado.idPai !== ' ' ? usersLogado.idPai : user.uid,
         saldo: this.formAdicionarRecursos.get('saldo')?.value,
         conta: this.formAdicionarRecursos.get('conta')?.value.split('-')[0],
         contaId: this.formAdicionarRecursos.get('conta')?.value.split('-')[1],

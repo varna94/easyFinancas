@@ -108,7 +108,7 @@ export class CartaoCreditoComponent implements OnInit {
     if (user?.uid) {
       const cartao: Cartao = {
         nome: this.formAdicionarCartao.get('nome')?.value,
-        uid: usersLogado.idPai ? usersLogado.idPai : user?.uid,
+        uid: usersLogado.idPai && usersLogado.idPai !== ' ' ? usersLogado.idPai : user?.uid,
         banco: this.formAdicionarCartao.get('banco')?.value,
         bandeira: this.formAdicionarCartao.get('bandeira')?.value,
         limite: this.formAdicionarCartao.get('limite')?.value,
@@ -159,7 +159,7 @@ export class CartaoCreditoComponent implements OnInit {
     this.listCartoes = [];
     if (user?.uid) {
       const despesaCartao: DespesaCC = {
-        uid: usersLogado.idPai ? usersLogado.idPai : user?.uid,
+        uid: usersLogado.idPai && usersLogado.idPai !== ' ' ? usersLogado.idPai : user?.uid,
         valor: this.formadicionarDespesaCC.get('valor')?.value,
         descricao: this.formadicionarDespesaCC.get('descricao')?.value,
         fixa: this.formadicionarDespesaCC.get('fixa')?.value,
@@ -209,7 +209,7 @@ export class CartaoCreditoComponent implements OnInit {
 
     const cartao: Cartao = {
       nome: this.formAdicionarCartao.get('nome')?.value,
-      uid: usersLogado.idPai ? usersLogado.idPai : user?.uid,
+      uid: usersLogado.idPai && usersLogado.idPai !== ' ' ? usersLogado.idPai : user?.uid,
       banco: this.formAdicionarCartao.get('banco')?.value,
       bandeira: this.formAdicionarCartao.get('bandeira')?.value,
       limite: this.formAdicionarCartao.get('limite')?.value,

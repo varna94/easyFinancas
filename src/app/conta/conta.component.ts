@@ -84,7 +84,7 @@ export class ContaComponent implements OnInit {
     if (user?.uid) {
       const conta: Conta = {
         nome: this.formadicionarConta.get('nome')?.value,
-        uid: usersLogado.idPai ? usersLogado.idPai : user?.uid,
+        uid: usersLogado.idPai && usersLogado.idPai !== ' ' ? usersLogado.idPai : user?.uid,
         banco: this.formadicionarConta.get('banco')?.value,
         totalDespesas: 0,
         saldo: '',
@@ -154,7 +154,7 @@ export class ContaComponent implements OnInit {
 
     const conta: Conta = {
       nome: this.formadicionarConta.get('nome')?.value,
-      uid: usersLogado.idPai ? usersLogado.idPai : user?.uid,
+      uid: usersLogado.idPai && usersLogado.idPai !== ' ' ? usersLogado.idPai : user?.uid,
       banco: this.formadicionarConta.get('banco')?.value,
       totalDespesas: 0,
       saldo: '',
